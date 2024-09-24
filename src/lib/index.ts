@@ -22,3 +22,15 @@ export { HarmonyKind } from './core/harmony.js';
 export { AbcExporter } from './score/export/abc.js';
 
 export { MusicStringImporter } from './score/import/musicString.js';
+
+/** old musicore-engraver exports */
+export { default as Score } from './engraver/Score.svelte';
+
+export { type LayoutSettings } from './types.js';
+export { type EngraverSettings } from './engraver/scoreEngraver.js';
+
+export { LNoteHead } from './layout/LNoteHead.js';
+
+export { BBox } from './utils/bBox.js';
+export { noteEventHandler } from './engraver/events/note.js';
+export { noteAccidentalEventHandler } from './engraver/events/note.js';

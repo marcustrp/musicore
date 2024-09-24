@@ -1,0 +1,16 @@
+<svelte:options namespace="svg" />
+
+<script lang="ts">
+	import type { EClef } from '$lib/layout/LClef.js';
+
+	type MyProps = {
+		clef: EClef;
+	};
+	const { clef }: MyProps = $props();
+</script>
+
+<path
+	transform="rotate(180, {clef.x},{clef.y}) translate({clef.x},{clef.y}) scale(-1,1)"
+	fill="black"
+	d={clef.glyph.d}
+/>
