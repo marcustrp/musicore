@@ -3,7 +3,7 @@ import {
 	type CustomKeyAccidental,
 	Key,
 	type KeyAccidentals,
-	type ClefType
+	type ClefType,
 } from '$lib/index.js';
 import { type LayoutObject } from './LayoutObject.js';
 import { LStaffLine } from './LStaffLine.js';
@@ -32,7 +32,7 @@ export class LKeySignature implements LayoutObject {
 		root: string,
 		mode: KeyMode,
 		accidentals: KeyAccidentals,
-		customAccidentals: CustomKeyAccidental[]
+		customAccidentals: CustomKeyAccidental[],
 	) {
 		this.clef = clef;
 		this.root = root;
@@ -53,12 +53,12 @@ export class LKeySignature implements LayoutObject {
 							9,
 							false,
 							undefined,
-							settings.defaultAccidentalEditorWidth
-						)
+							settings.defaultAccidentalEditorWidth,
+						),
 					);
 				}
 				this.accidentals.push(
-					new LAccidental(settings, customAccidentals[i].position, customAccidentals[i].type)
+					new LAccidental(settings, customAccidentals[i].position, customAccidentals[i].type),
 				);
 			}
 			columnCount = customAccidentals.length;
@@ -76,8 +76,8 @@ export class LKeySignature implements LayoutObject {
 							9,
 							false,
 							undefined,
-							settings.defaultAccidentalEditorWidth
-						)
+							settings.defaultAccidentalEditorWidth,
+						),
 					);
 				}
 				this.accidentals.push(new LAccidental(settings, position, accidentals.type));
@@ -94,8 +94,8 @@ export class LKeySignature implements LayoutObject {
 					9,
 					false,
 					undefined,
-					settings.defaultAccidentalEditorWidth
-				)
+					settings.defaultAccidentalEditorWidth,
+				),
 			);
 		}
 	}
@@ -107,7 +107,7 @@ export class LKeySignature implements LayoutObject {
 			root: this.root,
 			mode: this.mode,
 			accidentals: this.accidentals.map((accidental) => accidental.toObject()),
-			editors: this.editors.map((editor) => editor.toObject(0, settings.defaultKeyAccidential))
+			editors: this.editors.map((editor) => editor.toObject(0, settings.defaultKeyAccidential)),
 		};
 	}
 

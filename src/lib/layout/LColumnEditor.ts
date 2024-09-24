@@ -49,12 +49,15 @@ export class LColumnEditor implements LayoutObject {
 		toPosition: number,
 		drawLedgerLines: boolean,
 		getText?: (position: number) => string,
-		width?: number
+		width?: number,
 	) {
 		this.glyph = glyph;
 		this._fromPosition = fromPosition;
 		this._toPosition = toPosition;
-		this.#width = width ? width : glyph.horizAdvX ? parseInt(glyph.horizAdvX) : 0;
+		this.#width =
+			width ? width
+			: glyph.horizAdvX ? parseInt(glyph.horizAdvX)
+			: 0;
 		this.bBox = new BBox();
 		this._getText = getText;
 		if (drawLedgerLines) this.createLedgerLines(settings);
@@ -76,9 +79,10 @@ export class LColumnEditor implements LayoutObject {
 			dataValue,
 			barIndex: barIndex,
 			text: this.#text,
-			ledgerLines: this.ledgerLines
-				? { above: this.ledgerLines.above?.lines || [], below: this.ledgerLines.below?.lines || [] }
-				: undefined
+			ledgerLines:
+				this.ledgerLines ?
+					{ above: this.ledgerLines.above?.lines || [], below: this.ledgerLines.below?.lines || [] }
+				:	undefined,
 		};
 		console.log('LColumnEditor.toObject', data);
 		return data;
@@ -89,7 +93,7 @@ export class LColumnEditor implements LayoutObject {
 			x: this.items[0].x,
 			y: this.items[0].y - settings.staveSpace / 2,
 			width: this.#width,
-			height: this.items[this.items.length - 1].y - this.items[0].y + settings.staveSpace
+			height: this.items[this.items.length - 1].y - this.items[0].y + settings.staveSpace,
 		});
 	}
 
@@ -101,7 +105,7 @@ export class LColumnEditor implements LayoutObject {
 				x: x,
 				y: staffLines[0].y - settings.staveSpace / 2 + i * (settings.staveSpace / 2),
 				position: i - 1,
-				text: this._getText ? this._getText(i - 1) : undefined
+				text: this._getText ? this._getText(i - 1) : undefined,
 			});
 		}
 
@@ -112,10 +116,10 @@ export class LColumnEditor implements LayoutObject {
 			this.#text = {
 				x: this.items[0].x + this.#width / 2,
 				y:
-					(this.ledgerLines?.below?.y
-						? this.ledgerLines?.below?.y
-						: staffLines[staffLines.length - 1].y) +
-					settings.staveSpace * 3
+					(this.ledgerLines?.below?.y ?
+						this.ledgerLines?.below?.y
+					:	staffLines[staffLines.length - 1].y) +
+					settings.staveSpace * 3,
 			};
 		}
 
@@ -124,9 +128,10 @@ export class LColumnEditor implements LayoutObject {
 		this.bBox.width = this.highlightBBox.width;
 		/** @todo include upper part of top accidental and lower part of low accidental which is outside highlightbox */
 		/** @todo bbox height when this.#text is set is only an approximation (can't get text bbox right now...) */
-		this.bBox.height = this.#text
-			? this.#text.y - this.highlightBBox.y + settings.staveSpace
-			: this.highlightBBox.height;
+		this.bBox.height =
+			this.#text ?
+				this.#text.y - this.highlightBBox.y + settings.staveSpace
+			:	this.highlightBBox.height;
 
 		x += this.highlightBBox.width;
 		return x;

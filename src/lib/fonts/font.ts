@@ -54,7 +54,7 @@ export class Font {
 				x: metadata['bBoxSW'][0] * 250,
 				y: metadata['bBoxNE'][1] * -250,
 				width: metadata['bBoxNE'][0] * 250 - metadata['bBoxSW'][0] * 250,
-				height: metadata['bBoxNE'][1] * 250 - metadata['bBoxSW'][1] * 250
+				height: metadata['bBoxNE'][1] * 250 - metadata['bBoxSW'][1] * 250,
 			});
 		}
 		return glyph;

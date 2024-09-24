@@ -4,7 +4,7 @@ import {
 	Score,
 	type ClefType,
 	type KeyAccidental,
-	type NoteAccidentals
+	type NoteAccidentals,
 } from '$lib/index.js';
 
 type BaseEvent = {

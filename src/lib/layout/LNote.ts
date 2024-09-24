@@ -38,16 +38,17 @@ export class LNote extends LRhythmElement {
 			this.createLedgerLines(settings);
 		}
 		if (settings.render?.notes?.editorNote && !note.locked) {
-			const onHover = settings.render.notes.editorNote.showNoteName
-				? (position: number) => this.getNoteName(position, clef)
-				: undefined;
+			const onHover =
+				settings.render.notes.editorNote.showNoteName ?
+					(position: number) => this.getNoteName(position, clef)
+				:	undefined;
 			this.editor = new LColumnEditor(
 				settings,
 				this.notes[0].glyph,
 				settings.render.notes.editorNote.positionFrom,
 				settings.render.notes.editorNote.positionTo,
 				true,
-				onHover
+				onHover,
 			);
 		}
 	}
@@ -56,13 +57,13 @@ export class LNote extends LRhythmElement {
 		const data = LNoteHead.rootAndOctaveFromPosition(position, clef);
 		if (!data) return '';
 		const octaveString =
-			data.octave >= 5
-				? '<tspan font-size="200" style="baseline-shift: super">' + (data.octave - 4) + '</tspan>'
-				: data.octave <= 2
-					? '<tspan font-size="200" style="baseline-shift: sub">' +
-						Math.abs(data.octave - 4) +
-						'</tspan>'
-					: '';
+			data.octave >= 5 ?
+				'<tspan font-size="200" style="baseline-shift: super">' + (data.octave - 4) + '</tspan>'
+			: data.octave <= 2 ?
+				'<tspan font-size="200" style="baseline-shift: sub">' +
+				Math.abs(data.octave - 4) +
+				'</tspan>'
+			:	'';
 		// vertical-align: sub/super
 		return data ? (data.octave <= 3 ? data.root.toUpperCase() : data.root) + octaveString : '';
 	}
@@ -89,10 +90,11 @@ export class LNote extends LRhythmElement {
 			bBox: this.bBox.toObject(),
 			stem: this.stem ? this.stem.toObject() : undefined,
 			notes: this.notes.map((note) => note.toObject(barIndex)),
-			ledgerLines: this.ledgerLines
-				? { above: this.ledgerLines.above?.lines || [], below: this.ledgerLines.below?.lines || [] }
-				: undefined,
-			editor: this.editor ? this.editor.toObject(barIndex) : undefined
+			ledgerLines:
+				this.ledgerLines ?
+					{ above: this.ledgerLines.above?.lines || [], below: this.ledgerLines.below?.lines || [] }
+				:	undefined,
+			editor: this.editor ? this.editor.toObject(barIndex) : undefined,
 		};
 	}
 

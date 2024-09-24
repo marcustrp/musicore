@@ -21,7 +21,7 @@ export class LStaffLines implements LayoutObject {
 			x: this.x,
 			y: this.y,
 			bBox: this.bBox.toObject(),
-			lines: this.lines.map((line) => line.toObject())
+			lines: this.lines.map((line) => line.toObject()),
 		};
 	}
 
@@ -36,7 +36,7 @@ export class LStaffLines implements LayoutObject {
 			this.lines[0].x,
 			this.lines[0].y - this.lines[0].thickness / 2,
 			this.lines[0].length,
-			this.lines[this.lines.length - 1].y - this.lines[0].y + this.lines[0].thickness
+			this.lines[this.lines.length - 1].y - this.lines[0].y + this.lines[0].thickness,
 		);
 	}
 }

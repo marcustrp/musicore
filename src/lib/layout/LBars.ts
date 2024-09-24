@@ -41,7 +41,7 @@ export class LBars implements LayoutObject {
 			x: this.x,
 			y: this.y,
 			bBox: this.bBox.toObject(),
-			bars: this.bars.map((bar) => bar.toObject(settings))
+			bars: this.bars.map((bar) => bar.toObject(settings)),
 		};
 	}
 

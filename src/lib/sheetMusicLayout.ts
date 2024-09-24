@@ -70,7 +70,7 @@ export class SheetMusicLayout {
 	constructor(
 		private score: Score,
 		//data: LayoutData,
-		document: LayoutDocument = new LayoutDocument()
+		document: LayoutDocument = new LayoutDocument(),
 	) {
 		this.font = new Font('bravura');
 		this.document = document;
@@ -95,12 +95,12 @@ export class SheetMusicLayout {
 			score.bars.bars[0].key.root,
 			score.bars.bars[0].key.mode,
 			score.bars.bars[0].key.accidentals,
-			score.bars.bars[0].key.customAccidentals
+			score.bars.bars[0].key.customAccidentals,
 		);
 		const timeSignature = new LTimeSignature(
 			this.font,
 			score.bars.bars[0].timeSignature.count,
-			score.bars.bars[0].timeSignature.unit
+			score.bars.bars[0].timeSignature.unit,
 		);
 		const bars = new LBars(this.#layoutSettings, score);
 
@@ -116,7 +116,7 @@ export class SheetMusicLayout {
 			clef,
 			key,
 			timeSignature,
-			bars
+			bars,
 		};
 	}
 
@@ -137,12 +137,12 @@ export class SheetMusicLayout {
 			staffSize: settings.staffSize!,
 			defaultAccidental: settings.defaultAccidental || '#',
 			defaultKeyAccidential:
-				settings.defaultAccidental === '#' || settings.defaultAccidental === 'b'
-					? settings.defaultAccidental
-					: '#',
+				settings.defaultAccidental === '#' || settings.defaultAccidental === 'b' ?
+					settings.defaultAccidental
+				:	'#',
 			staveSpace: this.staveSpace,
 			font: this.font,
-			scale: this.staffSize / 7
+			scale: this.staffSize / 7,
 		};
 		console.log('LAYOUTSETTINSG', this.#layoutSettings);
 		/** Setup everything each rendering... (for testing, need more optimized way later) */
@@ -162,7 +162,7 @@ export class SheetMusicLayout {
 			x = this._layoutData.timeSignature.layout(
 				this.staveSpace,
 				this._layoutData.staffLines.lines,
-				x
+				x,
 			);
 
 		if (!settings.render || settings.render.bars !== false) {
@@ -170,7 +170,7 @@ export class SheetMusicLayout {
 				this.#layoutSettings,
 				this._layoutData.staffLines.lines,
 				this._layoutData.clef,
-				x
+				x,
 			);
 		} else {
 			x += this.staveSpace; // add some padding if bars are not rendered
@@ -190,21 +190,21 @@ export class SheetMusicLayout {
 		this.engravingData.document = { ...this._layoutData.document, bBox: this.getBBox() };
 		this.engravingData.staffLines = this._layoutData.staffLines.toObject();
 		this.engravingData.clef =
-			settings.render && settings.render.clef === false
-				? undefined
-				: this._layoutData.clef.toObject();
+			settings.render && settings.render.clef === false ?
+				undefined
+			:	this._layoutData.clef.toObject();
 		this.engravingData.keySignature =
-			settings.render && settings.render.keySignature === false
-				? undefined
-				: this._layoutData.key.toObject(this.#layoutSettings);
+			settings.render && settings.render.keySignature === false ?
+				undefined
+			:	this._layoutData.key.toObject(this.#layoutSettings);
 		this.engravingData.timeSignature =
-			settings.render && settings.render.timeSignature === false
-				? undefined
-				: this._layoutData.timeSignature.toObject();
+			settings.render && settings.render.timeSignature === false ?
+				undefined
+			:	this._layoutData.timeSignature.toObject();
 		this.engravingData.bars =
-			settings.render && settings.render.bars === false
-				? undefined
-				: this._layoutData.bars.toObject(this.#layoutSettings);
+			settings.render && settings.render.bars === false ?
+				undefined
+			:	this._layoutData.bars.toObject(this.#layoutSettings);
 
 		return this.engravingData;
 	}

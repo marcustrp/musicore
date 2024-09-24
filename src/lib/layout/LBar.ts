@@ -28,7 +28,7 @@ export class LBar implements LayoutObject {
 		notes: LRhythmElement[],
 		barline: BarlineStyle,
 		startRepeat?: number | string,
-		endRepeat?: number | string
+		endRepeat?: number | string,
 	) {
 		this.notes = notes;
 		this.index = index;
@@ -51,7 +51,9 @@ export class LBar implements LayoutObject {
 			bBox: this.bBox.toObject(),
 			notes: notes,
 			barline:
-				!settings.render || settings.render.barlines !== false ? this.barline.toObject() : undefined
+				!settings.render || settings.render.barlines !== false ?
+					this.barline.toObject()
+				:	undefined,
 		};
 	}
 
@@ -60,7 +62,7 @@ export class LBar implements LayoutObject {
 		barIndex: number,
 		staffLines: LStaffLine[],
 		clef: LClef,
-		x: number
+		x: number,
 	) {
 		// do not add padding if barlines are not rendered, except for first bar
 		this.x = x;

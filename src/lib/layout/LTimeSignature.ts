@@ -16,7 +16,7 @@ export class LTimeSignature implements LayoutObject {
 	constructor(
 		private font: Font,
 		count: number | TimeSignatureSymbol,
-		unit: number
+		unit: number,
 	) {
 		this.count = count;
 		this.unit = unit;
@@ -32,7 +32,7 @@ export class LTimeSignature implements LayoutObject {
 			count: this.count,
 			unit: this.unit,
 			glyphs: this.glyphs,
-			bBox: this.bBox.toObject()
+			bBox: this.bBox.toObject(),
 		};
 	}
 

@@ -7,7 +7,7 @@
 		metNoteHalfUp: 'ECA3',
 		accidentalSharp: 'E262',
 		accidentalFlat: 'E260',
-		accidentalNatural: 'E261'
+		accidentalNatural: 'E261',
 	};
 
 	type Props = {

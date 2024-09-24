@@ -5,7 +5,7 @@ import { Score } from '$lib/index.js';
 import type {
 	KeySignatureAccidentalEvent,
 	NoteAccidentalEvent,
-	NoteEvent
+	NoteEvent,
 } from './events/types.js';
 
 /*

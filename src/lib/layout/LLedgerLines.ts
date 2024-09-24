@@ -15,7 +15,7 @@ export class LLedgerLines implements LayoutObject {
 	private constructor(
 		settings: LayoutSettingsInternal,
 		ledgerPosition: 'above' | 'below',
-		count: number
+		count: number,
 	) {
 		this.ledgerPosition = ledgerPosition;
 
@@ -46,7 +46,7 @@ export class LLedgerLines implements LayoutObject {
 				x: 0,
 				y: 0,
 				length: 0,
-				width: settings.font.metadata.engravingDefaults.legerLineThickness * 250
+				width: settings.font.metadata.engravingDefaults.legerLineThickness * 250,
 			});
 		}
 
@@ -57,9 +57,9 @@ export class LLedgerLines implements LayoutObject {
 		const length = (glyph.horizAdvX ? parseInt(glyph.horizAdvX) : 0) + settings.staveSpace / 2;
 		this.x = x - (length - (glyph.horizAdvX ? parseInt(glyph.horizAdvX) : 0)) / 2;
 		const startY =
-			this.ledgerPosition === 'above'
-				? stafflines[0].y - settings.staveSpace
-				: stafflines[stafflines.length - 1].y + settings.staveSpace;
+			this.ledgerPosition === 'above' ?
+				stafflines[0].y - settings.staveSpace
+			:	stafflines[stafflines.length - 1].y + settings.staveSpace;
 
 		const offset = settings.staveSpace * (this.ledgerPosition === 'above' ? -1 : 1);
 
@@ -73,7 +73,7 @@ export class LLedgerLines implements LayoutObject {
 			this.lines[topIndex].x,
 			this.lines[topIndex].y,
 			this.lines[0].length,
-			this.lines.length * settings.staveSpace
+			this.lines.length * settings.staveSpace,
 		);
 
 		this.y = this.lines[topIndex].y;

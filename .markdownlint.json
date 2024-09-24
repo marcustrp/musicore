@@ -1,8 +1,8 @@
 {
-  "ul-style": {
-    "style": "dash"
-  },
-  "line-length": {
-    "line_length": 120
-  }
+	"ul-style": {
+		"style": "dash"
+	},
+	"line-length": {
+		"line_length": 120
+	}
 }

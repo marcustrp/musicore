@@ -38,7 +38,7 @@ export class LBarline implements LayoutObject {
 		font: Font,
 		barline: BarlineStyle,
 		startRepeat?: number | string,
-		endRepeat?: number | string
+		endRepeat?: number | string,
 	) {
 		this.startRepeat = startRepeat ? this.createRepeatDots(startRepeat) : undefined;
 		this.endRepeat = endRepeat ? this.createRepeatDots(endRepeat) : undefined;
@@ -82,7 +82,7 @@ export class LBarline implements LayoutObject {
 				width: 0,
 				style: style,
 				startAtBarline: startAtBarline,
-				lengthStyle: lengthStyle
+				lengthStyle: lengthStyle,
 			};
 		});
 	}
@@ -94,7 +94,7 @@ export class LBarline implements LayoutObject {
 			bBox: this.bBox.toObject(),
 			startRepeat: this.startRepeat,
 			endRepeat: this.endRepeat,
-			lines: this.lines
+			lines: this.lines,
 		};
 	}
 
@@ -111,7 +111,7 @@ export class LBarline implements LayoutObject {
 				this.startRepeat,
 				settings.staveSpace,
 				staffLines,
-				x
+				x,
 			);
 		this.lines.forEach((line, index) => {
 			if (index === 1) x += settings.font.metadata.engravingDefaults.barlineSeparation * 250;
@@ -131,7 +131,7 @@ export class LBarline implements LayoutObject {
 		repeat: ERepeatDots,
 		staveSpace: number,
 		staffLines: LStaffLine[],
-		x: number
+		x: number,
 	) {
 		repeat.x = x;
 		repeat.y1 = staffLines[1].y + staveSpace / 2;
@@ -145,7 +145,7 @@ export class LBarline implements LayoutObject {
 		line: EBarlineLine,
 		staveSpace: number,
 		staffLines: LStaffLine[],
-		x: number
+		x: number,
 	) {
 		line.x = x;
 

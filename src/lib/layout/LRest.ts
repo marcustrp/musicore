@@ -12,7 +12,7 @@ export class LRest extends LRhythmElement {
 			y: this.y,
 			type: this.type,
 			dots: this.dots,
-			barIndex
+			barIndex,
 		};
 	}
 }

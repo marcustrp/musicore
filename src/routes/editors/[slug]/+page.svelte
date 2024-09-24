@@ -17,7 +17,7 @@
 		chord: false,
 		scale: false,
 		note: false,
-		chordKey: false
+		chordKey: false,
 	});
 	function showAll() {
 		Object.keys(display).forEach((key) => {

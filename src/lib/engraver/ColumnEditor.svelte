@@ -57,7 +57,7 @@
 						index,
 						barIndex: columnEditor.barIndex,
 						position: item.position,
-						data: columnEditor.dataValue
+						data: columnEditor.dataValue,
 					})}
 				fill="black"
 				x={item.x}
@@ -66,9 +66,9 @@
 				height="125"
 			/>
 			<path
-				class="pointer-events-none opacity-0 peer-hover:opacity-50 {hoverIndex === index
-					? 'opacity-50'
-					: 'opacity-0'}"
+				class="pointer-events-none opacity-0 peer-hover:opacity-50 {hoverIndex === index ?
+					'opacity-50'
+				:	'opacity-0'}"
 				transform="rotate(180, {item.x},{item.y}) translate({item.x},{item.y}) scale(-1,1)"
 				fill="black"
 				d={columnEditor.glyph.d}

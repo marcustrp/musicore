@@ -15,10 +15,10 @@ esbuild
 
 				compilerOptions: {
 					customElement: true,
-					discloseVersion: false
-				}
-			})
+					discloseVersion: false,
+				},
+			}),
 		],
-		logLevel: 'info'
+		logLevel: 'info',
 	})
 	.catch(() => process.exit(1));

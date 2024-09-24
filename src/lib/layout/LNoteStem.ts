@@ -68,7 +68,7 @@ export class LNoteStem implements LayoutObject {
 			x: this.x,
 			y: this.y,
 			width: this.width,
-			height: this.length
+			height: this.length,
 		});
 	}
 }

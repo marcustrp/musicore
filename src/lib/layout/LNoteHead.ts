@@ -3,7 +3,7 @@ import {
 	Note,
 	type NoteAccidentals,
 	type NoteName,
-	type NoteType
+	type NoteType,
 } from '$lib/index.js';
 import { type Glyph } from '../fonts/font.js';
 import { type GlyphKey } from '../fonts/glyphKey.js';
@@ -88,7 +88,7 @@ export class LNoteHead implements LayoutObject {
 	setAccidental(
 		settings: LayoutSettingsInternal,
 		type: NoteAccidentals | undefined,
-		clef: ClefType
+		clef: ClefType,
 	) {
 		const position = this.getPosition(clef);
 		if (settings.render?.notes?.editorAccidental) {
@@ -99,7 +99,7 @@ export class LNoteHead implements LayoutObject {
 				this.getPosition(clef),
 				false,
 				undefined,
-				settings.defaultAccidentalEditorWidth
+				settings.defaultAccidentalEditorWidth,
 			);
 		}
 		if (type) {
@@ -157,7 +157,7 @@ export class LNoteHead implements LayoutObject {
 			bBox: this.bBox.toObject(),
 			glyph: this.glyph,
 			editor: this.editor ? this.editor.toObject(barIndex) : undefined,
-			color: this.color
+			color: this.color,
 		};
 	}
 

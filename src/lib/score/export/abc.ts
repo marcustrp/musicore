@@ -7,7 +7,7 @@ import { validateScore } from './abc/validate.js';
  * Function to report a warning or error
  */
 export type ReportFunction = {
-  (message: string): void;
+	(message: string): void;
 };
 
 /**
@@ -18,29 +18,29 @@ export type ReportFunction = {
  * @todo Add support for multiple staves
  */
 export class AbcExporter {
-  abc = '';
-  score!: Score;
-  warnings: string[] = [];
+	abc = '';
+	score!: Score;
+	warnings: string[] = [];
 
-  export(score: Score) {
-    this.score = score;
-    try {
-      validateScore(score, this.addWarning, this.addError);
-      const headerGenerator = new HeaderGenerator(this.addWarning, this.addError);
-      let header = headerGenerator.getHeader(this.score);
-      const bodyGenerator = new BodyGenerator(this.addWarning, this.addError);
-      let body = bodyGenerator.getBody(score);
-      return `${header}\n${body}`;
-    } catch (error) {
-      throw error;
-    }
-  }
+	export(score: Score) {
+		this.score = score;
+		try {
+			validateScore(score, this.addWarning, this.addError);
+			const headerGenerator = new HeaderGenerator(this.addWarning, this.addError);
+			let header = headerGenerator.getHeader(this.score);
+			const bodyGenerator = new BodyGenerator(this.addWarning, this.addError);
+			let body = bodyGenerator.getBody(score);
+			return `${header}\n${body}`;
+		} catch (error) {
+			throw error;
+		}
+	}
 
-  private addError(message: string) {
-    throw new Error(message);
-  }
+	private addError(message: string) {
+		throw new Error(message);
+	}
 
-  private addWarning(message: string) {
-    this.warnings.push(message);
-  }
+	private addWarning(message: string) {
+		this.warnings.push(message);
+	}
 }

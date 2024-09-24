@@ -22,7 +22,7 @@ export class LAccidental implements LayoutObject {
 	constructor(
 		settings: LayoutSettingsInternal,
 		position: number | undefined,
-		type: NoteAccidentals | undefined
+		type: NoteAccidentals | undefined,
 	) {
 		this.type = type;
 		this.position = position;
@@ -52,7 +52,7 @@ export class LAccidental implements LayoutObject {
 			x: this.x,
 			y: this.position === undefined ? undefined : this.y, // position undefined = do not draw (probably an editor is active)
 			glyph: this.glyph,
-			bBox: this.bBox.toObject()
+			bBox: this.bBox.toObject(),
 		};
 	}
 

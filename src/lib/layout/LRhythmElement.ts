@@ -51,7 +51,7 @@ export class LRhythmElement implements LayoutObject {
 		notes: LRhythmElement[],
 		staffLines: LStaffLine[],
 		clef: LClef,
-		x: number
+		x: number,
 	) {
 		notes.forEach((note) => {
 			note.x = x;

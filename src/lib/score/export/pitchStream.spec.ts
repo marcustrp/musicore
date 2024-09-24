@@ -8,76 +8,76 @@ import { ExportSettings, PitchStreamExporter } from './pitchStream';
 let exporter: PitchStreamExporter;
 
 beforeEach(() => {
-  exporter = new PitchStreamExporter();
+	exporter = new PitchStreamExporter();
 });
 
 describe('different types', () => {
-  it('should export scaleNumber stream', () => {
-    const expecedResult = '1235';
-    const score = new Score();
-    const voice = score.parts.addPart().getVoice(0);
-    voice.addNote(new Note('q', 'c'));
-    voice.addNote(new Note('q', 'd'));
-    voice.addNote(new Note('h', 'e'));
-    voice.addNote(new Note('w', 'g'));
-    const result = exporter.export(score);
-    expect(result).toBe(expecedResult);
-  });
-  it('should export noteName stream', () => {
-    const expecedResult = 'def#a';
-    const score = new Score(new Key('d', 'major'));
-    const voice = score.parts.addPart().getVoice(0);
-    voice.addNote(new Note('q', 'd'));
-    voice.addNote(new Note('q', 'e'));
-    voice.addNote(new Note('h', 'f', '#'));
-    voice.addNote(new Note('w', 'a'));
-    const result = exporter.export(score, new ExportSettings('name'));
-    expect(result).toBe(expecedResult);
-  });
-  it('should export natural stream', () => {
-    const expecedResult = 'abce';
-    const score = new Score(new Key('ab', 'major'));
-    const voice = score.parts.addPart().getVoice(0);
-    voice.addNote(new Note('q', 'a', 'b'));
-    voice.addNote(new Note('q', 'b', 'b'));
-    voice.addNote(new Note('h', 'c'));
-    voice.addNote(new Note('w', 'e', 'b'));
-    const result = exporter.export(score, new ExportSettings('natural'));
-    expect(result).toBe(expecedResult);
-  });
-  it('should export natural stream as array', () => {
-    const expecedResult = ['a', 'b', 'c', 'e'];
-    const score = new Score(new Key('ab', 'major'));
-    const voice = score.parts.addPart().getVoice(0);
-    voice.addNote(new Note('q', 'a', 'b'));
-    voice.addNote(new Note('q', 'b', 'b'));
-    voice.addNote(new Note('h', 'c'));
-    voice.addNote(new Note('w', 'e', 'b'));
-    const result = exporter.export(score, new ExportSettings('natural', 0, 0, 'array'));
-    expect(result).toEqual(expecedResult);
-  });
-  describe('diffClosest', () => {
-    let score: Score;
-    beforeAll(() => {
-      score = new Score(new Key('bb', 'major'));
-      const voice = score.parts.addPart().getVoice(0);
-      voice.addNote(new Note('q', 'b', 'b'));
-      voice.addNote(new Note('q', 'c'));
-      voice.addNote(new Note('q', 'b', 'b'));
-      voice.addNote(new Note('q', 'd'));
-      voice.addNote(new Note('q', 'b', 'b'));
-      voice.addNote(new Note('q', 'e', 'b'));
-      voice.addNote(new Note('q', 'b', 'b'));
-      voice.addNote(new Note('q', 'f'));
-      voice.addNote(new Note('q', 'b', 'b'));
-      voice.addNote(new Note('q', 'b', 'b'));
-    });
-    it('should export diffClosest stream', () => {
-      const expecedResult = '1-12-23-3-330';
-      const result = exporter.export(score, new ExportSettings('diffClosest'));
-      expect(result).toBe(expecedResult);
-    });
-    /*it('should export diffClosestPositive stream', () => {
+	it('should export scaleNumber stream', () => {
+		const expecedResult = '1235';
+		const score = new Score();
+		const voice = score.parts.addPart().getVoice(0);
+		voice.addNote(new Note('q', 'c'));
+		voice.addNote(new Note('q', 'd'));
+		voice.addNote(new Note('h', 'e'));
+		voice.addNote(new Note('w', 'g'));
+		const result = exporter.export(score);
+		expect(result).toBe(expecedResult);
+	});
+	it('should export noteName stream', () => {
+		const expecedResult = 'def#a';
+		const score = new Score(new Key('d', 'major'));
+		const voice = score.parts.addPart().getVoice(0);
+		voice.addNote(new Note('q', 'd'));
+		voice.addNote(new Note('q', 'e'));
+		voice.addNote(new Note('h', 'f', '#'));
+		voice.addNote(new Note('w', 'a'));
+		const result = exporter.export(score, new ExportSettings('name'));
+		expect(result).toBe(expecedResult);
+	});
+	it('should export natural stream', () => {
+		const expecedResult = 'abce';
+		const score = new Score(new Key('ab', 'major'));
+		const voice = score.parts.addPart().getVoice(0);
+		voice.addNote(new Note('q', 'a', 'b'));
+		voice.addNote(new Note('q', 'b', 'b'));
+		voice.addNote(new Note('h', 'c'));
+		voice.addNote(new Note('w', 'e', 'b'));
+		const result = exporter.export(score, new ExportSettings('natural'));
+		expect(result).toBe(expecedResult);
+	});
+	it('should export natural stream as array', () => {
+		const expecedResult = ['a', 'b', 'c', 'e'];
+		const score = new Score(new Key('ab', 'major'));
+		const voice = score.parts.addPart().getVoice(0);
+		voice.addNote(new Note('q', 'a', 'b'));
+		voice.addNote(new Note('q', 'b', 'b'));
+		voice.addNote(new Note('h', 'c'));
+		voice.addNote(new Note('w', 'e', 'b'));
+		const result = exporter.export(score, new ExportSettings('natural', 0, 0, 'array'));
+		expect(result).toEqual(expecedResult);
+	});
+	describe('diffClosest', () => {
+		let score: Score;
+		beforeAll(() => {
+			score = new Score(new Key('bb', 'major'));
+			const voice = score.parts.addPart().getVoice(0);
+			voice.addNote(new Note('q', 'b', 'b'));
+			voice.addNote(new Note('q', 'c'));
+			voice.addNote(new Note('q', 'b', 'b'));
+			voice.addNote(new Note('q', 'd'));
+			voice.addNote(new Note('q', 'b', 'b'));
+			voice.addNote(new Note('q', 'e', 'b'));
+			voice.addNote(new Note('q', 'b', 'b'));
+			voice.addNote(new Note('q', 'f'));
+			voice.addNote(new Note('q', 'b', 'b'));
+			voice.addNote(new Note('q', 'b', 'b'));
+		});
+		it('should export diffClosest stream', () => {
+			const expecedResult = '1-12-23-3-330';
+			const result = exporter.export(score, new ExportSettings('diffClosest'));
+			expect(result).toBe(expecedResult);
+		});
+		/*it('should export diffClosestPositive stream', () => {
       const expecedResult = '425160063';
       const result = exporter.export(score, new ExportSettings('diffClosestPositive'));
       expect(result).toBe(expecedResult);
@@ -92,7 +92,7 @@ describe('different types', () => {
       const result = exporter.export(score, new ExportSettings('diffClosestPositive-ignoreRepeating'));
       expect(result).toBe(expecedResult);
     });*/
-  });
+	});
 });
 /*
 describe('rests, chords, ties', () => {

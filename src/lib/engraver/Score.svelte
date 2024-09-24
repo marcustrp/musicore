@@ -132,7 +132,7 @@
 		y={item.bBox.y}
 		height="150"
 		width="150"
-		class="stroke-20 fill-yellow-500 stroke-yellow-500 hover:bg-yellow-300 hover:opacity-70"
+		class="fill-yellow-500 stroke-yellow-500 stroke-20 hover:bg-yellow-300 hover:opacity-70"
 		style="stroke-dasharray: 25; fill-opacity: 20%"
 	/>
 {/snippet}

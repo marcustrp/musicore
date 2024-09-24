@@ -17,7 +17,7 @@ export class LClef implements LayoutObject {
 
 	constructor(
 		private font: Font,
-		type: ClefType
+		type: ClefType,
 	) {
 		this.type = type;
 		switch (type) {

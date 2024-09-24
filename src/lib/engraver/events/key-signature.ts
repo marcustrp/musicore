@@ -5,7 +5,7 @@ export const keySignatureEventHandler = (event: KeySignatureAccidentalEvent): bo
 		event.column,
 		event.position,
 		event.accidental,
-		event.clef
+		event.clef,
 	);
 	return true;
 };
