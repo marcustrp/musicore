@@ -1,13 +1,26 @@
 {
 	"name": "musicore",
 	"version": "0.0.1",
+	"description": "Manipulate music scores, render sheet music, music theory exercises and more.",
+	"keywords": [
+		"music",
+		"score",
+		"sheet music",
+		"music theory",
+		"music exercises",
+		"musicstring"
+	],
+	"homepage": "https://marcus.ax",
+	"licence": "MIT",
+	"author": "Marcus Gustafsson <marcus@marcus.ax> (https://marcus.ax)",
 	"scripts": {
+    "preinstall": "npx only-allow pnpm",
 		"dev": "vite dev",
-		"build": "vite build && npm run package",
+		"build": "vite build && pnpm run package",
 		"preview": "vite preview",
 		"package": "svelte-kit sync && svelte-package && publint",
-		"prepublishOnly": "npm run package",
-		"test": "npm run test:integration && npm run test:unit",
+		"prepublishOnly": "pnpm run package",
+		"test": "pnpm run test:integration && pnpm run test:unit",
 		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
 		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
 		"lint": "prettier --check . && eslint .",
@@ -27,7 +40,7 @@
 		"!dist/**/*.spec.*"
 	],
 	"peerDependencies": {
-		"svelte": "^5.0.0-next.1"
+		"svelte": "^5.0.0-next.258"
 	},
 	"devDependencies": {
 		"@playwright/test": "^1.47.2",
