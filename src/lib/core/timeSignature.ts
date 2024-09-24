@@ -129,7 +129,7 @@ export class TimeSignature {
 	 * @param duration
 	 */
 	setBeamGroupDuration(duration?: Fraction | Fraction[]) {
-		let durations: Fraction[] = [];
+		const durations: Fraction[] = [];
 		if (Array.isArray(duration)) {
 			duration.forEach((d) => durations.push(new Fraction(d)));
 		} else if (duration) {

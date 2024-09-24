@@ -59,7 +59,7 @@ export class PitchStreamExporter {
 	}
 
 	getNames(score: Score, barIndexSequence: number[], settings: ExportSettings) {
-		let pitchStream: string[] = [];
+		const pitchStream: string[] = [];
 		barIndexSequence.forEach((barIndex) => {
 			const notes = score.parts.getPart(settings.part).getVoice(settings.voice).getNotes(barIndex);
 			notes.forEach((note) => {
@@ -70,7 +70,7 @@ export class PitchStreamExporter {
 	}
 
 	getNaturals(score: Score, barIndexSequence: number[], settings: ExportSettings) {
-		let pitchStream: string[] = [];
+		const pitchStream: string[] = [];
 		barIndexSequence.forEach((barIndex) => {
 			const notes = score.parts.getPart(settings.part).getVoice(settings.voice).getNotes(barIndex);
 			notes.forEach((note) => {
@@ -81,9 +81,9 @@ export class PitchStreamExporter {
 	}
 
 	getScaleNumbers(score: Score, barIndexSequence: number[], settings: ExportSettings) {
-		let pitchStream: string[] = [];
-		let scaleRoot = score.bars.bars[0].key.root;
-		let scaleType = score.bars.bars[0].key.mode;
+		const pitchStream: string[] = [];
+		const scaleRoot = score.bars.bars[0].key.root;
+		const scaleType = score.bars.bars[0].key.mode;
 		const scale = new Scale(scaleRoot, scaleType);
 		barIndexSequence.forEach((barIndex) => {
 			const notes = score.parts.getPart(settings.part).getVoice(settings.voice).getNotes(barIndex);
@@ -102,12 +102,12 @@ export class PitchStreamExporter {
 	 * Ignores octave, so a fifth up is regarded as (the smaller) fourth down
 	 */
 	getScaleNumberChangeClosest(score: Score, barIndexSequence: number[], settings: ExportSettings) {
-		let pitchStream: number[] = [];
+		const pitchStream: number[] = [];
 		const nameToNumber: { [key: string]: number } = { c: 0, d: 1, e: 2, f: 3, g: 4, a: 5, b: 6 };
 		let firstIndex = 0;
 		let previous = -1;
 		do {
-			let note = score.parts
+			const note = score.parts
 				.getPart(settings.part)
 				.getVoice(settings.voice)
 				.getNoteByIndex(firstIndex);

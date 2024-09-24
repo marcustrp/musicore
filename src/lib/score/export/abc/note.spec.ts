@@ -9,10 +9,10 @@ import FunctionAnalysis from '../../../core/functionAnalysis';
 
 let generator: NoteGenerator;
 let warnings: string[];
-let addWarning = (message: string) => {
+const addWarning = (message: string) => {
 	warnings.push(message);
 };
-let throwError = (message: string) => {
+const throwError = (message: string) => {
 	throw new Error(message);
 };
 

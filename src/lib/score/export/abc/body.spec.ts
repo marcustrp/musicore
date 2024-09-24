@@ -7,10 +7,10 @@ import { BodyGenerator } from './body';
 let score: Score;
 let generator: BodyGenerator;
 let warnings: string[];
-let addWarning = (message: string) => {
+const addWarning = (message: string) => {
 	warnings.push(message);
 };
-let throwError = (message: string) => {
+const throwError = (message: string) => {
 	throw new Error(message);
 };
 

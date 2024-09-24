@@ -7,10 +7,10 @@ import { Score } from '../../score';
 import { validateScore } from './validate';
 
 let warnings: string[];
-let addWarning = (message: string) => {
+const addWarning = (message: string) => {
 	warnings.push(message);
 };
-let throwError = (message: string) => {
+const throwError = (message: string) => {
 	throw new Error(message);
 };
 let score: Score;

@@ -210,7 +210,7 @@ export class Note extends RhythmElement {
 		const processedParts = Note.processScaleNumber(scaleNumberParts, scale, useScaleMode);
 		scaleNumber = ((processedParts.accidental || '') +
 			processedParts.number.toString()) as ScaleNumber;
-		let systemName = Note.noteNumberToNameInScale(scale.rootName, scaleNumber);
+		const systemName = Note.noteNumberToNameInScale(scale.rootName, scaleNumber);
 		if (!systemName) throw new Error('Invalid scaleNumber: ' + scaleNumber);
 		let octave = scaleRootOctave + Math.floor((scaleNumberParts.number - 1) / 7);
 		if (scale.root.number > Note.nameToNoteIndex(systemName)) {
@@ -241,7 +241,7 @@ export class Note extends RhythmElement {
 		scale: Scale,
 		useScaleMode: boolean,
 	) {
-		let scaleNumberMod = scaleNumberParts.number % 7 === 0 ? 7 : scaleNumberParts.number % 7;
+		const scaleNumberMod = scaleNumberParts.number % 7 === 0 ? 7 : scaleNumberParts.number % 7;
 		let accidental: string | undefined;
 		if (useScaleMode && !scaleNumberParts.accidental) {
 			// use default numbers from scale, like 3 is b3 in minor, so m3 is required for normal (major) 3
@@ -268,7 +268,7 @@ export class Note extends RhythmElement {
 	 */
 	static systemNameAddAccidentals(systemName: string, accidental: string) {
 		// split accidentals and note root name
-		let nameParts = /([a-g])([b#x]{0,2})/gm.exec(systemName);
+		const nameParts = /([a-g])([b#x]{0,2})/gm.exec(systemName);
 		if (!nameParts || 'b#x'.indexOf(accidental.substr(0, 1)) < 0) {
 			throw new Error(
 				'Note.systemNameAddAccidentals: invalid parameters ' + systemName + ' and ' + accidental,
@@ -610,8 +610,8 @@ export class Note extends RhythmElement {
 	static noteNumberToNameInScale(scaleRoot: string, noteNumber: string) {
 		const noteNumberParts = Note.getNumberParts(noteNumber);
 		if (!noteNumberParts) return '';
-		let diatonicNoteIndex = Note.noteNumberToNoteIndex(noteNumberParts.number.toString());
-		let diatonicNoteName = Note.noteIndexToNameInScale(scaleRoot, diatonicNoteIndex);
+		const diatonicNoteIndex = Note.noteNumberToNoteIndex(noteNumberParts.number.toString());
+		const diatonicNoteName = Note.noteIndexToNameInScale(scaleRoot, diatonicNoteIndex);
 		if (!diatonicNoteName) return undefined;
 		if (noteNumberParts.accidental) {
 			return Note.systemNameAddAccidentals(diatonicNoteName, noteNumberParts.accidental);

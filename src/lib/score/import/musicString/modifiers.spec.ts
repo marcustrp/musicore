@@ -3,7 +3,7 @@ import { ModifierParser } from './modifiers';
 
 describe('parse', () => {
 	it('should parse octave shift down', () => {
-		let errors = [];
+		const errors = [];
 		const musicString = '-';
 		const parser = new ModifierParser(errors);
 		const result = parser.parse(musicString);
@@ -11,7 +11,7 @@ describe('parse', () => {
 		expect(result).toEqual({ type: 'octave-shift', data: -1 });
 	});
 	it('should parse octave shift up', () => {
-		let errors = [];
+		const errors = [];
 		const musicString = '+';
 		const parser = new ModifierParser(errors);
 		const result = parser.parse(musicString);

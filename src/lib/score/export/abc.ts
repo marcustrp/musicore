@@ -27,9 +27,9 @@ export class AbcExporter {
 		try {
 			validateScore(score, this.addWarning, this.addError);
 			const headerGenerator = new HeaderGenerator(this.addWarning, this.addError);
-			let header = headerGenerator.getHeader(this.score);
+			const header = headerGenerator.getHeader(this.score);
 			const bodyGenerator = new BodyGenerator(this.addWarning, this.addError);
-			let body = bodyGenerator.getBody(score);
+			const body = bodyGenerator.getBody(score);
 			return `${header}\n${body}`;
 		} catch (error) {
 			throw error;

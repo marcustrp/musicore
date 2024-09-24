@@ -285,7 +285,7 @@ export class NoteGenerator {
 	private getNoteLength(note: RhythmElement, defaultLength: Fraction) {
 		// get note duration, ignoring if it's part of a tuplet, and divide by default length
 		const frac = note.getDuration(true).div(defaultLength);
-		let abc = (frac.n === 1 ? '' : frac.n) + '/' + (frac.d === 1 ? '' : frac.d);
+		const abc = (frac.n === 1 ? '' : frac.n) + '/' + (frac.d === 1 ? '' : frac.d);
 		// remove trailing slash, if any
 		if (abc.charAt(abc.length - 1) === '/') return abc.slice(0, abc.length - 1);
 		return abc;

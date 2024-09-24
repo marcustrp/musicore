@@ -47,7 +47,7 @@ export const accidentalToStep: { [key in NoteAccidentals]: number } = {
 
 // used to get base notename form number (0-7)
 // also used in calculation of scale note names
-let naturalNoteNames = [
+const naturalNoteNames = [
 	{ name: 'c', stepsFromPrevious: 1 },
 	{ name: 'd', stepsFromPrevious: 2 },
 	{ name: 'e', stepsFromPrevious: 2 },
@@ -63,8 +63,8 @@ let naturalNoteNames = [
 export { naturalNoteNames };
 
 // see export for documentation
-let nameToNoteIndex: { [key: string]: number } = {};
-let noteNumberToNoteIndex: { [key: string]: number } = {};
+const nameToNoteIndex: { [key: string]: number } = {};
+const noteNumberToNoteIndex: { [key: string]: number } = {};
 let curStep = 0;
 // loop through natural notes
 for (var i = 0; i < 7; i++) {
@@ -100,10 +100,10 @@ export { noteNumberToNoteIndex };
 /*
 	Create names for all notes in an octave (12) for 36 root notes (scales)
 */
-let noteIndexToNameInScale: { [key: string]: { [key: number]: { text: string; html: string } } } =
+const noteIndexToNameInScale: { [key: string]: { [key: number]: { text: string; html: string } } } =
 	{};
 //let noteIndexToNameInScaleGerman = new Object();
-let stepsToNumber = [1, 1, 2, 3, 3, 4, 4, 5, 6, 6, 7, 7];
+const stepsToNumber = [1, 1, 2, 3, 3, 4, 4, 5, 6, 6, 7, 7];
 
 curStep = 0;
 let scaleStep = 0;
@@ -116,10 +116,10 @@ for (var i = 0; i < 7; i++) {
 		lastScaleNumber = 1;
 		scaleStep = 0;
 		// set scale object name, like c# or eb
-		let scaleName = naturalNoteNames[i].name + getAccidental(curStep, false);
+		const scaleName = naturalNoteNames[i].name + getAccidental(curStep, false);
 		noteIndexToNameInScale[scaleName] = {};
 		//noteIndexToNameInScaleGerman[scaleName] = new Object();
-		for (var k = 0; k < stepsToNumber.length; k++) {
+		for (let k = 0; k < stepsToNumber.length; k++) {
 			if (lastScaleNumber != stepsToNumber[k]) {
 				lastScaleNumber = stepsToNumber[k];
 				scaleStep += naturalNoteNames[(i + lastScaleNumber - 1) % 7].stepsFromPrevious;

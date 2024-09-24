@@ -5,7 +5,7 @@ import { Score } from '../../score.js';
 export class BodyExporter {
 	export(score: Score) {
 		let musicstring = '';
-		let scale = new Scale(score.bars.bars[0].key.root, score.bars.bars[0].key.mode);
+		const scale = new Scale(score.bars.bars[0].key.root, score.bars.bars[0].key.mode);
 		score.bars.bars.forEach((bar, barIndex) => {
 			Object.entries(bar.notes).forEach(([id, part], pIndex) => {
 				Object.entries(part).forEach(([id, notes], vIndex) => {

@@ -13,7 +13,7 @@ beforeEach(() => {
 
 describe('export()', () => {
 	it('should export simple tune', () => {
-		let abc = `%abc-2.2
+		const abc = `%abc-2.2
 I:abc-charset utf-8
 I:abc-creator musicore-0.0.1
 X:1
@@ -31,7 +31,7 @@ D2 E2 | D4 |]`;
 		expect(result).toBe(abc);
 	});
 	it('should export simple in common time', () => {
-		let abc = `%abc-2.2
+		const abc = `%abc-2.2
 I:abc-charset utf-8
 I:abc-creator musicore-0.0.1
 X:1
@@ -49,7 +49,7 @@ D2 E2 | D4 |]`;
 		expect(result).toBe(abc);
 	});
 	it('should export simple in cut time', () => {
-		let abc = `%abc-2.2
+		const abc = `%abc-2.2
 I:abc-charset utf-8
 I:abc-creator musicore-0.0.1
 X:1
@@ -67,7 +67,7 @@ D2 E2 | D4 |]`;
 		expect(result).toBe(abc);
 	});
 	it('should export tune with repeat and endings', () => {
-		let abc = `%abc-2.2
+		const abc = `%abc-2.2
 I:abc-charset utf-8
 I:abc-creator musicore-0.0.1
 X:1
@@ -90,7 +90,7 @@ D2 E2 |[1 F4 :|][2 D4 |]`;
 		expect(result).toBe(abc);
 	});
 	it('should export tune with line break', () => {
-		let abc = `%abc-2.2
+		const abc = `%abc-2.2
 I:abc-charset utf-8
 I:abc-creator musicore-0.0.1
 X:1

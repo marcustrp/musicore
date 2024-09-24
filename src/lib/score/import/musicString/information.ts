@@ -89,7 +89,7 @@ export class InformationParser {
 		if (input.slice(0, 1) !== '@') return;
 		input = input.slice(1);
 		//let match: InformationData | undefined;
-		let item: InformationItem = {};
+		const item: InformationItem = {};
 		let ignore = false;
 		while (input) {
 			const type = input.slice(0, 1);
@@ -213,14 +213,14 @@ export class InformationParser {
 	private getKey(input: string) {
 		const match = /^K([a-gA-G])(?:([#b])?([a-z]{2})?)?/g.exec(input);
 		if (match && match.length > 0) {
-			let keyData = this.getMode(
+			const keyData = this.getMode(
 				match[3] ? match[3]
 				: /[A-Z]/.test(match[1]) ? 'ma'
 				: 'mi',
 			);
-			let key = new Key((match[1] + (match[2] ? match[2] : '')).toLocaleLowerCase(), keyData.key);
-			let scale = new Scale(key.root, keyData.scale);
-			let inputScale = new Scale(key.root, keyData.inputScale);
+			const key = new Key((match[1] + (match[2] ? match[2] : '')).toLocaleLowerCase(), keyData.key);
+			const scale = new Scale(key.root, keyData.scale);
+			const inputScale = new Scale(key.root, keyData.inputScale);
 			const data: KeyData = { key, scale, inputScale: inputScale };
 			const result: InformationData<KeyData> = { length: match[0].length, data };
 			return result;
@@ -232,8 +232,8 @@ export class InformationParser {
 	private getInputScale(input: string, root: string) {
 		const match = /^I([a-z]{2})/g.exec(input);
 		if (match && match.length > 0) {
-			let keyData = this.getMode(match[1]);
-			let inputScale = new Scale(root, keyData.inputScale);
+			const keyData = this.getMode(match[1]);
+			const inputScale = new Scale(root, keyData.inputScale);
 			const result: InformationData<Scale> = { length: match[0].length, data: inputScale };
 			return result;
 		} else {
@@ -297,7 +297,7 @@ export class InformationParser {
 					staffLines,
 				);
 			} else if (match[1]) {
-				let line = +match[2] >= 1 && +match[2] <= 5 ? +match[2] : undefined;
+				const line = +match[2] >= 1 && +match[2] <= 5 ? +match[2] : undefined;
 				let octaveChange: 2 | 1 | -1 | -2 | undefined;
 				if (+match[3] >= 0 && +match[3] <= 5) {
 					if (match[3] === '+15') {

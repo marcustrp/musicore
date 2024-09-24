@@ -8,10 +8,10 @@ import { HeaderGenerator } from './header';
 let score: Score;
 let generator: HeaderGenerator;
 let warnings: string[];
-let addWarning = (message: string) => {
+const addWarning = (message: string) => {
 	warnings.push(message);
 };
-let throwError = (message: string) => {
+const throwError = (message: string) => {
 	throw new Error(message);
 };
 
@@ -159,7 +159,7 @@ describe('getClef()', () => {
 			{ clef: 'none', expect: 'none' },
 		];
 		for (let i = 0; i < clefs.length; i++) {
-			let clef = clefs[i];
+			const clef = clefs[i];
 			it(`should return correctly parse clef '${clef.clef}'`, () => {
 				score = new Score();
 				score.parts.addPart(new Clef(clef.clef, clef.line ? clef.line : undefined));

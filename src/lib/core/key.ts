@@ -149,7 +149,7 @@ export class Key {
 
 	customAccidentalsValid(clef: ClefType) {
 		let isValid = true;
-		let type = (this._customAccidentals![0].type as KeyAccidental) || '#';
+		const type = (this._customAccidentals![0].type as KeyAccidental) || '#';
 		this.customAccidentals.forEach((accidental, index) => {
 			// False if different type is used
 			if (accidental.type !== type) isValid = false;

@@ -177,7 +177,7 @@ export class BodyParser {
    * @returns 
    */
 	match(item: string, bar: Bar) {
-		let myRegexp =
+		const myRegexp =
 			/([\(]*)?(?:([1-9]):(?:([1-9]):)?(?:([1-9]):)?)?(!(?!(?:!|!!)).*!)*(?:\`([^\"]*)\`)?(?:\"([^\"]*)\")?(?:'([^']*)')?(?:´([^']*)´)?(?:\*([^\*]*)\*)?(?:(__|[ldwhqestuv_])|(?:\[((?:(?:[+-]){0,2}(?:(?:bb|b|#|x|m)(?!x))?[1-9rxyi][IL]*){0,32})\](__|[ldwhqestuv_]))|(?:\[((?:(?:[+-\/]){0,2}(?:(?:bb|b|#|x|m)(?!x))?[1-9rxyi][IL]*){0,32})\])|(?:((?:[+-\/]){0,2}(?:(?:bb|b|#|x|m)(?!x))?[1-9rxyi][IL]*)(__|[ldwhqestuv_]))|((?:[+-\/]){0,2}(?:(?:bb|b|#|x|m)(?!x))?[1-9rxyi][IL]*))([\.]*)(=)?([\)]*)?/g;
 		//  /([\(]*)?(?:([1-9]):(?:([1-9]):)?(?:([1-9]):)?)?(!(?!(?:!|!!)).*!)*(?:\`([^\"]*)\`)?(?:\"([^\"]*)\")?(?:'([^']*)')?(?:´([^']*)´)?(?:\*([^\*]*)\*)?(?:(__|[ldwhqestuv_])|(?:\[((?:(?:[+-]){0,2}(?:(?:bb|b|#|x|m)(?!x))?[1-9rxyi]){0,32})\](__|[ldwhqestuv_]))|(?:\[((?:(?:[+-\/]){0,2}(?:(?:bb|b|#|x|m)(?!x))?[1-9rxyi]){0,32})\])|(?:((?:[+-\/]){0,2}(?:(?:bb|b|#|x|m)(?!x))?[1-9rxyi])(__|[ldwhqestuv_]))|((?:[+-\/]){0,2}(?:(?:bb|b|#|x|m)(?!x))?[1-9rxyi]))([\.]*)(=)?([\)]*)?/g;
 		//  /([\(]*)?(?:([1-9]):(?:([1-9]):)?(?:([1-9]):)?)?(!(?!(?:!|!!)).*!)*(?:\`([^\"]*)\`)?(?:\"([^\"]*)\")?(?:'([^']*)')?(?:´([^']*)´)?(?:\*([^\*]*)\*)?(?:(__|[ldwhqestuv_])|(?:\[((?:(?:[+-]){0,2}(?:(?:bb|b|#|x|m)(?!x))?[1-9rxy]){0,32})\](__|[ldwhqestuv_]))|(?:\[((?:(?:[+-]){0,2}(?:(?:bb|b|#|x|m)(?!x))?[1-9rxy]){0,32})\])|(?:((?:[+-]){0,2}(?:(?:bb|b|#|x|m)(?!x))?[1-9rxy])(__|[ldwhqestuv_]))|((?:[+-]){0,2}(?:(?:bb|b|#|x|m)(?!x))?[1-9rxy]))([\.]*)(=)?([\)]*)?/g;
@@ -205,8 +205,8 @@ export class BodyParser {
 
 	matchParse(items: string[], inGroup = false) {
 		// get length. If not set, default to q (quarternote)
-		let type = this.getNoteType(items, inGroup);
-		let typeIsDefault: boolean =
+		const type = this.getNoteType(items, inGroup);
+		const typeIsDefault: boolean =
 			(items[BodyMatch.LENGTH_3] || items[BodyMatch.LENGTH_2] || items[BodyMatch.LENGTH] || '') ===
 			'';
 		// of not set default to 1

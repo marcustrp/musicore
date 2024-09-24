@@ -15,7 +15,7 @@ export class BarGenerator {
 	 * @returns
 	 */
 	getBarAbc(bar: Bar, index: number) {
-		let abc = { start: '', end: '', lineBreak: false };
+		const abc = { start: '', end: '', lineBreak: false };
 		if (index !== 0) {
 			if (bar.directions) abc.end += this.getBarDirections(bar.directions);
 			if (bar.ending && bar.ending.start) abc.start += '[' + bar.ending.number;

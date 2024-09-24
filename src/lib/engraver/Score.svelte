@@ -69,7 +69,7 @@
 	let engravingData = $state(eData);
 
 	type DebugBBox = {
-		path: String;
+		path: string;
 		color: string;
 		bBox: BBox;
 	};

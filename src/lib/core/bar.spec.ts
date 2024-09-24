@@ -7,7 +7,7 @@ import Fraction from 'fraction.js';
 import { DaCapo, Fine } from './data/directions';
 
 describe('Bar', () => {
-	let standardBar: Object;
+	let standardBar: object;
 	beforeEach(() => {
 		standardBar = {
 			barline: 'regular',

@@ -72,8 +72,8 @@ describe('process()', () => {
 
 	describe('repeats', () => {
 		describe('repeat start', () => {
-			let data = ['|:', '||:', '[|:'];
-			let expectedResult: BarItem = { barline: 'heavy-light', repeatStart: 1 };
+			const data = ['|:', '||:', '[|:'];
+			const expectedResult: BarItem = { barline: 'heavy-light', repeatStart: 1 };
 			for (let i = 0; i < data.length; i++) {
 				it('should process single repeat start, ' + data[i], () => {
 					const result = parser.process({ data: data[i] });
@@ -84,8 +84,8 @@ describe('process()', () => {
 			}
 		});
 		describe('repeat end', () => {
-			let data = [':|', ':||', ':|]'];
-			let expectedResult: BarItem = { barline: 'light-heavy', repeatEnd: 1 };
+			const data = [':|', ':||', ':|]'];
+			const expectedResult: BarItem = { barline: 'light-heavy', repeatEnd: 1 };
 			for (let i = 0; i < data.length; i++) {
 				it('should process single repeat end, ' + data[i], () => {
 					const result = parser.process({ data: data[i] });
@@ -96,8 +96,8 @@ describe('process()', () => {
 			}
 		});
 		describe('repeat start and end', () => {
-			let data = ['::', ':|:', ':|:', ':||:', ':|][|:'];
-			let expectedResult: BarItem = { barline: 'heavy-heavy', repeatEnd: 1, repeatStart: 1 };
+			const data = ['::', ':|:', ':|:', ':||:', ':|][|:'];
+			const expectedResult: BarItem = { barline: 'heavy-heavy', repeatEnd: 1, repeatStart: 1 };
 			for (let i = 0; i < data.length; i++) {
 				it('should process single repeat end and start, ' + data[i], () => {
 					const result = parser.process({ data: data[i] });

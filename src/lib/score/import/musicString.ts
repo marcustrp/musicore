@@ -34,12 +34,12 @@ export class MusicStringImporter {
 		const modifierParser = new ModifierParser(this.errors);
 
 		// split by space, but not when space within any type of quote
-		let items = this.splitMusicString(this.musicString);
+		const items = this.splitMusicString(this.musicString);
 		items.forEach((item, index) => {
 			item = item.trim();
 			let info = informationParser.parse(item, index, this.info);
 			if (!this.score) {
-				let itemParsed = info !== undefined;
+				const itemParsed = info !== undefined;
 				if (!info) info = {};
 				const octaveSet = info.octave !== undefined;
 				this.info = informationParser.setDefaults(info);
@@ -91,7 +91,7 @@ export class MusicStringImporter {
 		// haven't figured out a single regex for this yet, so replace
 		// spaces inside quotes with a placeholder, split, and then
 		// replace the placeholder with a space again
-		let temp = musicString.replace(/(['"`])(.*?)\1/g, (match, p1, p2) => {
+		const temp = musicString.replace(/(['"`])(.*?)\1/g, (match, p1, p2) => {
 			return p1 + p2.replace(/\s/g, '§§SPACE§§') + p1;
 		});
 		//let items = this.musicString.split(/\s(?=(?:[^'"`]*(?:['"`])[^'"`]*)*[^'"`]*$)/g);

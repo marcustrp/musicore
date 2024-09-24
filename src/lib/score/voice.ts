@@ -62,7 +62,7 @@ export class Voice {
 		bar?: number,
 		beat?: Fraction,
 	) {
-		let totalDuration = RhythmElement.calculateTripletDuration(notes, numerator, denominator);
+		const totalDuration = RhythmElement.calculateTripletDuration(notes, numerator, denominator);
 		notes.forEach((note, index) => {
 			note.setTriplet(numerator, denominator, totalDuration, index, notes.length);
 			//console.log('setTriplet', note, notes[index]);

@@ -25,10 +25,10 @@ export class BodyGenerator {
 	 *
 	 */
 	getBody(score: Score) {
-		let body: string[] = [''];
+		const body: string[] = [''];
 		let bodyIndex = 0;
-		let scale = new Scale(score.bars.bars[0].key.root, score.bars.bars[0].key.mode);
-		let scaleNotes = scale.getDiatonicNoteNames();
+		const scale = new Scale(score.bars.bars[0].key.root, score.bars.bars[0].key.mode);
+		const scaleNotes = scale.getDiatonicNoteNames();
 		score.bars.bars.forEach((bar, index) => {
 			const barItems = this.barGenerator.getBarAbc(bar, index);
 			if (barItems.start) body[bodyIndex] += barItems.start;

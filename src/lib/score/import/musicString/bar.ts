@@ -41,9 +41,9 @@ export class BarlineParser {
     Identify musicstring bar item
 		*/
 
-		let myRegexp = /^(!(?!(?:!|!!)).*!)*(?:([|\.\|\[:\\]{1,10}[0-9-,]*)$|([\[\]|:\.\\]*))$/g;
+		const myRegexp = /^(!(?!(?:!|!!)).*!)*(?:([|\.\|\[:\\]{1,10}[0-9-,]*)$|([\[\]|:\.\\]*))$/g;
 		//let myRegexp = /^(!(?!(?:!|!!)).*!)*(?:([|\.\|\[:\/]{1,10}[0-9-,]*)$|([\[\]|:\.\/]*))$/g;
-		let items = myRegexp.exec(item);
+		const items = myRegexp.exec(item);
 
 		if (!items) return;
 		if (items[BarMatch.DIRECTIONS] && !items[BarMatch.MATCH1] && !items[BarMatch.MATCH2]) {
@@ -86,7 +86,7 @@ export class BarlineParser {
 			data.repeatStart = 1;
 		} else {
 			for (let i = 0; i < item.length; i++) {
-				let char = item.charAt(i);
+				const char = item.charAt(i);
 				if (!state.inEnding) {
 					switch (char) {
 						case '|':
