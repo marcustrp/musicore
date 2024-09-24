@@ -14,7 +14,7 @@
 	"licence": "MIT",
 	"author": "Marcus Gustafsson <marcus@marcus.ax> (https://marcus.ax)",
 	"scripts": {
-    "preinstall": "npx only-allow pnpm",
+		"preinstall": "npx only-allow pnpm",
 		"dev": "vite dev",
 		"build": "vite build && pnpm run package",
 		"preview": "vite preview",
