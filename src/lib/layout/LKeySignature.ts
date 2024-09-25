@@ -12,7 +12,7 @@ import { type LayoutSettingsInternal } from '../types.js';
 import { LColumnEditor } from './LColumnEditor.js';
 import { type Glyph } from '../fonts/font.js';
 import { BBox } from '../utils/bBox.js';
-export type EKeySignature = ReturnType<LKeySignature['toObject']>;
+export type KeySignatureLayout = ReturnType<LKeySignature['toObject']>;
 
 export class LKeySignature implements LayoutObject {
 	x: number = 0;

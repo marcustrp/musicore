@@ -2,16 +2,16 @@ import { type BarlineStyle } from '$lib/index.js';
 import { Font } from '../fonts/font.js';
 import { LClef } from './LClef.js';
 import { LNote } from './LNote.js';
-import { LRest, type ERest } from './LRest.js';
+import { LRest, type RestLayout } from './LRest.js';
 import { LRhythmElement } from './LRhythmElement.js';
 import { LStaffLine } from './LStaffLine.js';
 import { type LayoutObject } from './LayoutObject.js';
 import { LBarline } from './LBarline.js';
 import { type LayoutSettingsInternal } from '../types.js';
 import { BBox } from '../utils/bBox.js';
-import type { ENote } from './LNote.js';
+import type { NoteLayout } from './LNote.js';
 
-export type EBar = ReturnType<LBar['toObject']>;
+export type BarLayout = ReturnType<LBar['toObject']>;
 
 export class LBar implements LayoutObject {
 	x: number = 0;
@@ -37,7 +37,7 @@ export class LBar implements LayoutObject {
 	}
 
 	toObject(settings: LayoutSettingsInternal) {
-		let notes: (ENote | ERest)[] = [];
+		let notes: (NoteLayout | RestLayout)[] = [];
 		notes = this.notes.map((note) => {
 			if (note instanceof LNote) {
 				return (note as LNote).toObject(this.index);

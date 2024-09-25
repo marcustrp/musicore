@@ -5,7 +5,7 @@ import { type LayoutObject } from './LayoutObject.js';
 import { LStaffLine } from './LStaffLine.js';
 import { BBox } from '../utils/bBox.js';
 
-export type EClef = ReturnType<LClef['toObject']>;
+export type ClefLayout = ReturnType<LClef['toObject']>;
 
 export class LClef implements LayoutObject {
 	x: number = 0;

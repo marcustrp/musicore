@@ -1,10 +1,10 @@
 <svelte:options namespace="svg" />
 
 <script lang="ts">
-	import type { EClef } from '$lib/layout/LClef.js';
+	import type { ClefLayout } from '$lib/layout/LClef.js';
 
 	type MyProps = {
-		clef: EClef;
+		clef: ClefLayout;
 	};
 	const { clef }: MyProps = $props();
 </script>

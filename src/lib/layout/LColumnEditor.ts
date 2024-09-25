@@ -5,13 +5,13 @@ import { LLedgerLines } from './LLedgerLines.js';
 import { LStaffLine } from './LStaffLine.js';
 import { type LayoutObject } from './LayoutObject.js';
 
-export type EColumnEditorItem = {
+export type ColumnEditorItemLayout = {
 	x: number;
 	y: number;
 	position: number;
 	text?: string;
 };
-export type EColumnEditor = ReturnType<LColumnEditor['toObject']>;
+export type ColumnEditorLayout = ReturnType<LColumnEditor['toObject']>;
 
 export class LColumnEditor implements LayoutObject {
 	x = 0;
@@ -23,7 +23,7 @@ export class LColumnEditor implements LayoutObject {
 		y: number;
 	};
 
-	private items: EColumnEditorItem[] = [];
+	private items: ColumnEditorItemLayout[] = [];
 	private _fromPosition: number; // position 0 is on the top line of the staff
 	private _toPosition: number;
 	private _getText?: (position: number) => string;

@@ -13,7 +13,7 @@
 
 <script lang="ts">
 	import { MusicStringImporter, type NoteName } from '$lib/index.js';
-	import Score from '$lib/engraver/Score.svelte';
+	import Score from '$lib/engraver/EScore.svelte';
 	import type { EngraverSettings } from '$lib/engraver/scoreEngraver.js';
 	import type { LayoutSettings } from '$lib/types.js';
 	import { BBox } from '$lib/utils/bBox.js';

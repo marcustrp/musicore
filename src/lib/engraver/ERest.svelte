@@ -1,10 +1,10 @@
 <svelte:options namespace="svg" />
 
 <script lang="ts">
-	import type { ERest } from '$lib/layout/LRest.js';
+	import type { RestLayout } from '$lib/layout/LRest.js';
 
 	type MyProps = {
-		rest: ERest;
+		rest: RestLayout;
 	};
 	const { rest }: MyProps = $props();
 </script>

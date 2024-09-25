@@ -1,10 +1,10 @@
 <svelte:options namespace="svg" />
 
 <script lang="ts">
-	import type { EStaffLine } from '$lib/layout/LStaffLine.js';
+	import type { StaffLineLayout } from '$lib/layout/LStaffLine.js';
 
 	type MyProps = {
-		staffLine: EStaffLine;
+		staffLine: StaffLineLayout;
 	};
 	const { staffLine }: MyProps = $props();
 </script>

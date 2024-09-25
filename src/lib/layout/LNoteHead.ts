@@ -14,7 +14,7 @@ import { LStaffLine } from './LStaffLine.js';
 import { notePosition } from './noteData.js';
 import { LColumnEditor } from './LColumnEditor.js';
 import { BBox } from '../utils/bBox.js';
-import type { ERhythmElementType } from './types.js';
+import type { RhythmElementTypeLayout } from './types.js';
 
 export class LNoteHead implements LayoutObject {
 	x: number = 0;
@@ -144,7 +144,7 @@ export class LNoteHead implements LayoutObject {
 	}
 
 	toObject(barIndex: number) {
-		const objectType: ERhythmElementType = 'note';
+		const objectType: RhythmElementTypeLayout = 'note';
 		return {
 			objectType: objectType,
 			type: this.type,

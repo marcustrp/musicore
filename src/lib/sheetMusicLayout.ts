@@ -1,9 +1,9 @@
 import { Score } from '$lib/index.js';
 import { LStaffLines } from './layout/LStaffLines.js';
-import { LClef, type EClef } from './layout/LClef.js';
-import { LKeySignature, type EKeySignature } from './layout/LKeySignature.js';
-import { LTimeSignature, type ETimeSignature } from './layout/LTimeSignature.js';
-import { LBars, type EBars } from './layout/LBars.js';
+import { LClef, type ClefLayout } from './layout/LClef.js';
+import { LKeySignature, type KeySignatureLayout } from './layout/LKeySignature.js';
+import { LTimeSignature, type TimeSignatureLayout } from './layout/LTimeSignature.js';
+import { LBars, type BarsLayout } from './layout/LBars.js';
 import { LNote } from './layout/LNote.js';
 import { LRest } from './layout/LRest.js';
 import LayoutDocument from './layout/LayoutDocument.js';
@@ -11,7 +11,7 @@ import { Font } from './fonts/font.js';
 import { LAccidental } from './layout/LAccidental.js';
 import { BBox } from './utils/bBox.js';
 import { type LayoutSettings, type LayoutSettingsInternal } from './types.js';
-import type { EStaffLines } from './layout/types.js';
+import type { StaffLinesLayout } from './layout/types.js';
 
 export type LayoutData = {
 	document: { width: number; height: number };
@@ -24,11 +24,11 @@ export type LayoutData = {
 
 export type EngravingData = {
 	document: { width: number; height: number; bBox: BBox };
-	staffLines?: EStaffLines;
-	clef?: EClef;
-	keySignature?: EKeySignature;
-	timeSignature?: ETimeSignature;
-	bars?: EBars;
+	staffLines?: StaffLinesLayout;
+	clef?: ClefLayout;
+	keySignature?: KeySignatureLayout;
+	timeSignature?: TimeSignatureLayout;
+	bars?: BarsLayout;
 };
 
 /*

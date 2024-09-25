@@ -9,11 +9,11 @@
 </script>
 
 <script lang="ts">
-	import type { EColumnEditor } from '$lib/layout/LColumnEditor.js';
+	import type { ColumnEditorLayout } from '$lib/layout/LColumnEditor.js';
 
 	/** Should be merged with ColumnEditor */
 	type MyProps = {
-		columnEditor: EColumnEditor;
+		columnEditor: ColumnEditorLayout;
 		editorIndex: number;
 		event: (arg0: ColumnEditorEvent) => void;
 	};

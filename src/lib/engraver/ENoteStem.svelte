@@ -1,10 +1,10 @@
 <svelte:options namespace="svg" />
 
 <script lang="ts">
-	import type { ENoteStem } from '$lib/layout/LNoteStem.js';
+	import type { NoteStemLayout } from '$lib/layout/LNoteStem.js';
 
 	type MyProps = {
-		stem: ENoteStem;
+		stem: NoteStemLayout;
 	};
 	const { stem }: MyProps = $props();
 </script>

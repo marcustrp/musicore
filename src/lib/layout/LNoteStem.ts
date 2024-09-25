@@ -5,7 +5,7 @@ import { LNoteHead } from './LNoteHead.js';
 import { BBox } from '../utils/bBox.js';
 import type { ClefType } from '$lib/index.js';
 
-export type ENoteStem = ReturnType<LNoteStem['toObject']>;
+export type NoteStemLayout = ReturnType<LNoteStem['toObject']>;
 
 export class LNoteStem implements LayoutObject {
 	x: number;

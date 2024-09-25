@@ -3,14 +3,14 @@ import type { LayoutSettingsInternal } from '$lib/types.js';
 import { BBox } from '$lib/utils/bBox.js';
 import type { LayoutObject } from './LayoutObject.js';
 import type { LStaffLine } from './LStaffLine.js';
-import type { ELedgerLine } from './types.js';
+import type { LedgerLineLayout } from './types.js';
 
 export class LLedgerLines implements LayoutObject {
 	x: number = 0;
 	y: number = 0;
 	bBox: BBox;
 	ledgerPosition: 'above' | 'below';
-	lines: ELedgerLine[];
+	lines: LedgerLineLayout[];
 
 	private constructor(
 		settings: LayoutSettingsInternal,
@@ -40,7 +40,7 @@ export class LLedgerLines implements LayoutObject {
 	}
 
 	private createLines(settings: LayoutSettingsInternal, count: number) {
-		const lines: ELedgerLine[] = [];
+		const lines: LedgerLineLayout[] = [];
 		for (let i = 0; i < count; i++) {
 			lines.push({
 				x: 0,

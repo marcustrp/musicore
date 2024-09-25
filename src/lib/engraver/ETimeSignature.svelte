@@ -1,7 +1,7 @@
 <svelte:options namespace="svg" />
 
 <script lang="ts">
-	import type { ETimeSignature } from '$lib/layout/LTimeSignature.js';
+	import type { TimeSignatureLayout } from '$lib/layout/LTimeSignature.js';
 
 	/*import { clearSelection } from './score.store';
 	import { untrack } from 'svelte';
@@ -12,7 +12,7 @@
   });*/
 
 	type MyProps = {
-		timeSignature: ETimeSignature;
+		timeSignature: TimeSignatureLayout;
 	};
 	const { timeSignature }: MyProps = $props();
 

@@ -4,7 +4,7 @@ import { BBox } from '../utils/bBox.js';
 import { type LayoutObject } from './LayoutObject.js';
 import { LStaffLine } from './LStaffLine.js';
 
-export type ETimeSignature = ReturnType<LTimeSignature['toObject']>;
+export type TimeSignatureLayout = ReturnType<LTimeSignature['toObject']>;
 
 export class LTimeSignature implements LayoutObject {
 	x: number = 0;

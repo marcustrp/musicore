@@ -3,14 +3,14 @@
 <script lang="ts">
 	import { setContext } from 'svelte';
 	import { Score, Note } from '$lib/index.js';
-	import StaffLine from './StaffLine.svelte';
+	import EStaffLine from './EStaffLine.svelte';
 	import { ScoreEngraver, type EngraverSettings } from './scoreEngraver.js';
 
 	import { clearSelection } from './score.store.js';
-	import Clef from './Clef.svelte';
-	import Bar from './Bar.svelte';
-	import TimeSignature from './TimeSignature.svelte';
-	import KeySignature from './KeySignature.svelte';
+	import Clef from './EClef.svelte';
+	import Bar from './EBar.svelte';
+	import TimeSignature from './ETimeSignature.svelte';
+	import KeySignature from './EKeySignature.svelte';
 	import type { LayoutSettings } from '$lib/types.js';
 	import type { BBox } from '$lib/utils/bBox.js';
 	import type { EngravingData } from '$lib/sheetMusicLayout.js';
@@ -147,7 +147,7 @@
 		{#if engravingData.staffLines}
 			<g class="stafflines">
 				{#each engravingData.staffLines.lines as staffLine}
-					<StaffLine {staffLine} />
+					<EStaffLine {staffLine} />
 				{/each}
 			</g>
 		{/if}

@@ -2,7 +2,7 @@ import { type LayoutObject } from './LayoutObject.js';
 import { Font } from '../fonts/font.js';
 import { BBox } from '../utils/bBox.js';
 
-export type EStaffLine = ReturnType<LStaffLine['toObject']>;
+export type StaffLineLayout = ReturnType<LStaffLine['toObject']>;
 
 export class LStaffLine implements LayoutObject {
 	x: number;

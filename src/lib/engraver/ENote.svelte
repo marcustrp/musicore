@@ -1,12 +1,12 @@
 <svelte:options namespace="svg" />
 
 <script lang="ts">
-	import NoteStem from './NoteStem.svelte';
+	import ENoteStem from './ENoteStem.svelte';
 	import { Note, Score, type ClefType, type NoteAccidentals } from '$lib/index.js';
 	import { clearSelection, update } from './score.store.js';
 	import { untrack, getContext } from 'svelte';
-	import ColumnEditor, { type ColumnEditorEvent } from './ColumnEditor.svelte';
-	import type { ENote } from '$lib/layout/LNote.js';
+	import EColumnEditor, { type ColumnEditorEvent } from './EColumnEditor.svelte';
+	import type { NoteLayout } from '$lib/layout/LNote.js';
 	import type { ScoreEngraver } from './scoreEngraver.js';
 
 	$effect(() => {
@@ -15,7 +15,7 @@
 		});
 	});
 	type MyProps = {
-		note: ENote;
+		note: NoteLayout;
 		clef: ClefType;
 	};
 	const { note, clef }: MyProps = $props();
@@ -110,7 +110,7 @@
 			{/if}
 		{/if}
 		{#if notehead.editor && note.y !== undefined}
-			<ColumnEditor
+			<EColumnEditor
 				editorIndex={index}
 				columnEditor={notehead.editor}
 				event={(data) => handleEvent('accidental', data, note.index)}
@@ -169,10 +169,10 @@
 		{/if}
 	{/each}
 	{#if note.stem && note.y !== undefined}
-		<NoteStem stem={note.stem} />
+		<ENoteStem stem={note.stem} />
 	{/if}
 	{#if note.editor && (engraver.settings.renderEditorsOnHover !== true || engraver.settings.hoverState === true)}
-		<ColumnEditor
+		<EColumnEditor
 			columnEditor={note.editor}
 			editorIndex={0}
 			event={(data) => handleEvent('note', data, note.index)}

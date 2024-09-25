@@ -1,10 +1,10 @@
 <svelte:options namespace="svg" />
 
 <script lang="ts">
-	import type { EBarline } from '$lib/layout/LBarline.js';
+	import type { BarlineLayout } from '$lib/layout/LBarline.js';
 
 	type MyProps = {
-		barline: EBarline;
+		barline: BarlineLayout;
 	};
 	const { barline }: MyProps = $props();
 </script>

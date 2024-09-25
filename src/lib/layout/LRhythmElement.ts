@@ -5,7 +5,7 @@ import { LClef } from './LClef.js';
 import { LStaffLine } from './LStaffLine.js';
 import { type LayoutSettingsInternal } from '../types.js';
 import { BBox } from '../utils/bBox.js';
-import type { ERhythmElementType } from './types.js';
+import type { RhythmElementTypeLayout } from './types.js';
 import { LNote } from './LNote.js';
 
 export class LRhythmElement implements LayoutObject {
@@ -17,7 +17,7 @@ export class LRhythmElement implements LayoutObject {
 	type: NoteType;
 	dots?: number;
 	#duration: Fraction;
-	objectType: ERhythmElementType = 'undefined';
+	objectType: RhythmElementTypeLayout = 'undefined';
 	clef: ClefType;
 	constructor(clef: ClefType, index: number, type: NoteType, duration: Fraction, dots?: number) {
 		this.type = type;

@@ -5,34 +5,34 @@ import { BBox } from '../utils/bBox.js';
 import { type LayoutObject } from './LayoutObject.js';
 import { LStaffLine } from './LStaffLine.js';
 
-export type EBarline = ReturnType<LBarline['toObject']>;
+export type BarlineLayout = ReturnType<LBarline['toObject']>;
 
-export type ERepeatDots = {
+export type RepeatDotsLayout = {
 	x: number;
 	y1: number;
 	y2: number;
 	r: number;
 };
 
-export type EBarlineLine = {
+export type BarlineLineLayout = {
 	x: number;
 	y: number;
 	height: number;
 	width: number;
-	style: EBarlineLineStyle;
+	style: BarlineLineStyleLayout;
 	startAtBarline: number;
 	lengthStyle: 'full' | 'short' | 'tick';
 };
 
-export type EBarlineLineStyle = 'solid' | 'dashed' | 'dotted' | 'none' | 'heavy';
+export type BarlineLineStyleLayout = 'solid' | 'dashed' | 'dotted' | 'none' | 'heavy';
 
 export class LBarline implements LayoutObject {
 	x: number = 0;
 	y: number = 0;
 	bBox = new BBox();
-	endRepeat?: ERepeatDots;
-	lines: EBarlineLine[];
-	startRepeat?: ERepeatDots;
+	endRepeat?: RepeatDotsLayout;
+	lines: BarlineLineLayout[];
+	startRepeat?: RepeatDotsLayout;
 
 	constructor(
 		font: Font,
@@ -46,14 +46,14 @@ export class LBarline implements LayoutObject {
 	}
 
 	/** @todo implement */
-	private createRepeatDots(_repeat: number | string): ERepeatDots {
+	private createRepeatDots(_repeat: number | string): RepeatDotsLayout {
 		return { x: 0, y1: 0, y2: 0, r: 0 };
 	}
 
-	private createLines(font: Font, barline: BarlineStyle): EBarlineLine[] {
+	private createLines(font: Font, barline: BarlineStyle): BarlineLineLayout[] {
 		const lines = barline.split('-');
 		return lines.map((line) => {
-			let style: EBarlineLineStyle = 'solid';
+			let style: BarlineLineStyleLayout = 'solid';
 			switch (line) {
 				case 'dashed':
 					style = 'dashed';
@@ -129,7 +129,7 @@ export class LBarline implements LayoutObject {
 
 	static layoutRepeat(
 		font: Font,
-		repeat: ERepeatDots,
+		repeat: RepeatDotsLayout,
 		staveSpace: number,
 		staffLines: LStaffLine[],
 		x: number,
@@ -143,7 +143,7 @@ export class LBarline implements LayoutObject {
 
 	static layoutLine(
 		font: Font,
-		line: EBarlineLine,
+		line: BarlineLineLayout,
 		staveSpace: number,
 		staffLines: LStaffLine[],
 		x: number,

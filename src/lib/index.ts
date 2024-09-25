@@ -3,8 +3,6 @@
 // - improve by using npm pack to install file
 // https://fireship.io/lessons/how-to-structure-a-large-web-app-project/
 
-import { MusicStringImporter } from './score/import/musicString.js';
-
 export { Score } from './score/score.js';
 
 export { Bar, BarlineStyle } from './core/bar.js';
@@ -24,7 +22,7 @@ export { AbcExporter } from './score/export/abc.js';
 export { MusicStringImporter } from './score/import/musicString.js';
 
 /** old musicore-engraver exports */
-export { default as Score } from './engraver/Score.svelte';
+export { default as Score } from './engraver/EScore.svelte';
 
 export { type LayoutSettings } from './types.js';
 export { type EngraverSettings } from './engraver/scoreEngraver.js';

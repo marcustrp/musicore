@@ -3,14 +3,14 @@
 <script lang="ts">
 	import { getContext } from 'svelte';
 	import type { ClefType, KeyAccidental } from '$lib/index.js';
-	import ColumnEditor, { type ColumnEditorEvent } from './ColumnEditor.svelte';
-	import type { EKeySignature } from '$lib/layout/LKeySignature.js';
+	import EColumnEditor, { type ColumnEditorEvent } from './EColumnEditor.svelte';
+	import type { KeySignatureLayout } from '$lib/layout/LKeySignature.js';
 	import type { ScoreEngraver } from './scoreEngraver.js';
 
 	const engraver: ScoreEngraver = getContext('engraver');
 
 	type MyProps = {
-		keySignature: EKeySignature;
+		keySignature: KeySignatureLayout;
 		clef: ClefType;
 	};
 	const { keySignature, clef }: MyProps = $props();
@@ -41,7 +41,7 @@
 				d={keySignature.accidentals[index].glyph.d}
 			/>
 		{/if}
-		<ColumnEditor columnEditor={editor} editorIndex={index} event={handleEvent} />
+		<EColumnEditor columnEditor={editor} editorIndex={index} event={handleEvent} />
 	{/each}
 {:else}
 	{#each keySignature.accidentals as accidental}

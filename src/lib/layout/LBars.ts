@@ -8,7 +8,7 @@ import { LNote } from './LNote.js';
 import { LRest } from './LRest.js';
 import { LStaffLine } from './LStaffLine.js';
 
-export type EBars = ReturnType<LBars['toObject']>;
+export type BarsLayout = ReturnType<LBars['toObject']>;
 
 export class LBars implements LayoutObject {
 	x: number = 0;

@@ -6,10 +6,10 @@ import { LStaffLine } from './LStaffLine.js';
 import { type LayoutSettingsInternal } from '../types.js';
 import { LNoteHead } from './LNoteHead.js';
 import { LColumnEditor } from './LColumnEditor.js';
-import type { ERhythmElementType } from './types.js';
+import type { RhythmElementTypeLayout } from './types.js';
 import { LLedgerLines } from './LLedgerLines.js';
 
-export type ENote = ReturnType<LNote['toObject']>;
+export type NoteLayout = ReturnType<LNote['toObject']>;
 
 export class LNote extends LRhythmElement {
 	stem?: LNoteStem;
@@ -78,7 +78,7 @@ export class LNote extends LRhythmElement {
 	}
 
 	toObject(barIndex: number) {
-		const objectType: ERhythmElementType = 'note';
+		const objectType: RhythmElementTypeLayout = 'note';
 		return {
 			id: this.id,
 			objectType: objectType,

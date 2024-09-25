@@ -1,13 +1,14 @@
-import type { ENote } from './LNote.js';
-import type { ERest } from './LRest.js';
+import type { NoteLayout } from './LNote.js';
+import type { RestLayout } from './LRest.js';
 import type { LRhythmElement } from './LRhythmElement.js';
 import type { LStaffLines } from './LStaffLines.js';
-export type EStaffLines = ReturnType<LStaffLines['toObject']>;
+export type StaffLinesLayout = ReturnType<LStaffLines['toObject']>;
 
-export type ERhythmElement = ReturnType<LRhythmElement['toObject']> & (ENote | ERest);
-export type ERhythmElementType = 'note' | 'rest' | 'undefined';
+export type RhythmElementLayout = ReturnType<LRhythmElement['toObject']> &
+	(NoteLayout | RestLayout);
+export type RhythmElementTypeLayout = 'note' | 'rest' | 'undefined';
 
-export type ELedgerLine = {
+export type LedgerLineLayout = {
 	x: number;
 	y: number;
 	length: number;

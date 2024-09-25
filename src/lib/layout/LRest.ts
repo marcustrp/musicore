@@ -1,11 +1,11 @@
 import { LRhythmElement } from './LRhythmElement.js';
-import type { ERhythmElementType } from './types.js';
+import type { RhythmElementTypeLayout } from './types.js';
 
-export type ERest = ReturnType<LRest['toObject']>;
+export type RestLayout = ReturnType<LRest['toObject']>;
 
 export class LRest extends LRhythmElement {
 	toObject(barIndex: number) {
-		const objectType: ERhythmElementType = 'rest';
+		const objectType: RhythmElementTypeLayout = 'rest';
 		return {
 			objectType: objectType,
 			x: this.x,
