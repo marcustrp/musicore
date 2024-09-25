@@ -1,7 +1,7 @@
 // For testing, hardcoding imports
-import { maestro } from './maestro/maestro.js';
+//import { maestro } from './maestro/maestro.js';
 import { bravura } from './bravura/bravura.js';
-import { ash } from './ash/ash.js';
+//import { ash } from './ash/ash.js';
 
 import { type GlyphKey } from './glyphKey.js';
 import { glyphNames } from './bravura/glyphnames.js';
@@ -24,15 +24,15 @@ export class Font {
 	readonly metadata = bravuraMetadata;
 	constructor(public readonly fontName: string) {
 		switch (fontName) {
-			case 'maestro':
+			/*case 'maestro':
 				this.fontData = maestro;
-				break;
+				break;*/
 			case 'bravura':
 				this.fontData = bravura;
 				break;
-			case 'ash':
+			/*case 'ash':
 				this.fontData = ash;
-				break;
+				break;*/
 			default:
 				throw new Error(`Font ${fontName} not found`);
 		}
