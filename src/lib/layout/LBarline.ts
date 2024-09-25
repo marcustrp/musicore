@@ -1,6 +1,6 @@
 import { type BarlineStyle } from '$lib/index.js';
 import { Font } from '../fonts/font.js';
-import { type LayoutSettingsInternal } from '../types.js';
+import { type LayoutSettingsInternal } from './types.js';
 import { BBox } from '../utils/bBox.js';
 import { type LayoutObject } from './LayoutObject.js';
 import { LStaffLine } from './LStaffLine.js';

@@ -8,7 +8,7 @@ import {
 import { type LayoutObject } from './LayoutObject.js';
 import { LStaffLine } from './LStaffLine.js';
 import { LAccidental } from './LAccidental.js';
-import { type LayoutSettingsInternal } from '../types.js';
+import { type LayoutSettingsInternal } from './types.js';
 import { LColumnEditor } from './LColumnEditor.js';
 import { type Glyph } from '../fonts/font.js';
 import { BBox } from '../utils/bBox.js';

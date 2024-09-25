@@ -2,7 +2,7 @@
 	import { MusicStringImporter } from '$lib/index.js';
 	import Score from '$lib/engraver/EScore.svelte';
 	import type { EngraverSettings } from '$lib/engraver/scoreEngraver.js';
-	import type { LayoutSettings } from '$lib/types.js';
+	import type { LayoutSettings } from '$lib/layout/types.js';
 
 	const importer = new MusicStringImporter();
 	//** TODO #7 is written one octave wrong (musicore issue?) */

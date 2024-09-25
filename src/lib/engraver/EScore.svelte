@@ -11,9 +11,9 @@
 	import Bar from './EBar.svelte';
 	import TimeSignature from './ETimeSignature.svelte';
 	import KeySignature from './EKeySignature.svelte';
-	import type { LayoutSettings } from '$lib/types.js';
+	import type { LayoutSettings } from '$lib/layout/types.js';
 	import type { BBox } from '$lib/utils/bBox.js';
-	import type { EngravingData } from '$lib/sheetMusicLayout.js';
+	import type { EngravingData } from '$lib/layout/scoreLayout.js';
 	const clearSignal = $clearSelection;
 
 	type MyProps = {

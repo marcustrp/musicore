@@ -1,6 +1,6 @@
 import { type LayoutObject } from './LayoutObject.js';
 import { Font } from '../fonts/font.js';
-import { type LayoutSettingsInternal } from '../types.js';
+import { type LayoutSettingsInternal } from './types.js';
 import { LNoteHead } from './LNoteHead.js';
 import { BBox } from '../utils/bBox.js';
 import type { ClefType } from '$lib/index.js';

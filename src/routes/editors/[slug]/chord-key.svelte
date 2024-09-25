@@ -3,7 +3,7 @@
 	import Score from '$lib/engraver/EScore.svelte';
 	import MusicFont from '$lib/engraver/MusicFont.svelte';
 	import type { EngraverSettings } from '$lib/engraver/scoreEngraver.js';
-	import type { LayoutSettings } from '$lib/types.js';
+	import type { LayoutSettings } from '$lib/layout/types.js';
 	import { noteAccidentalEventHandler, noteEventHandler } from '$lib/engraver/events/note.js';
 	import { keySignatureEventHandler } from '$lib/engraver/events/key-signature.js';
 

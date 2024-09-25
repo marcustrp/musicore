@@ -15,7 +15,7 @@
 	import { MusicStringImporter, type NoteName } from '$lib/index.js';
 	import Score from '$lib/engraver/EScore.svelte';
 	import type { EngraverSettings } from '$lib/engraver/scoreEngraver.js';
-	import type { LayoutSettings } from '$lib/types.js';
+	import type { LayoutSettings } from '$lib/layout/types.js';
 	import { BBox } from '$lib/utils/bBox.js';
 	import { noteAccidentalEventHandler, noteEventHandler } from '$lib/engraver/events/note.js';
 	import type { NoteAccidentalEvent, NoteEvent } from '$lib/engraver/events/types.js';

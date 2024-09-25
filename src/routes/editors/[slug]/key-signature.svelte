@@ -2,7 +2,7 @@
 	//import { TimeSignature, Clef, Note, Score as MusicoreScore, Key } from '$lib/index.js';
 	import Score from '$lib/engraver/EScore.svelte';
 	import type { EngraverSettings } from '$lib/engraver/scoreEngraver.js';
-	import type { LayoutSettings } from '$lib/types.js';
+	import type { LayoutSettings } from '$lib/layout/types.js';
 	import { BBox } from '$lib/utils/bBox.js';
 	import { keySignatureEventHandler } from '$lib/engraver/events/key-signature.js';
 	import { MusicStringImporter } from '$lib/index.js';

@@ -1,4 +1,4 @@
-import type { LayoutSettings } from '$lib/types.js';
+import type { LayoutSettings } from '$lib/layout/types.js';
 import {
 	Note,
 	Score,

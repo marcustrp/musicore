@@ -1,5 +1,5 @@
 import type { Glyph } from '$lib/fonts/font.js';
-import type { LayoutSettingsInternal } from '$lib/types.js';
+import type { LayoutSettingsInternal } from '$lib/layout/types.js';
 import { BBox } from '$lib/utils/bBox.js';
 import type { LayoutObject } from './LayoutObject.js';
 import type { LStaffLine } from './LStaffLine.js';

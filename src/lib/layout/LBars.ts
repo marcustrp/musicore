@@ -1,5 +1,5 @@
 import { Note, Score } from '$lib/index.js';
-import { type LayoutSettingsInternal } from '../types.js';
+import { type LayoutSettingsInternal } from './types.js';
 import { BBox } from '../utils/bBox.js';
 import { type LayoutObject } from './LayoutObject.js';
 import { LBar } from './LBar.js';

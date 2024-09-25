@@ -1,5 +1,5 @@
-import { SheetMusicLayout, type EngravingData } from '$lib/sheetMusicLayout.js';
-import type { LayoutSettings } from '$lib/types.js';
+import { SheetMusicLayout, type EngravingData } from '$lib/layout/scoreLayout.js';
+import type { LayoutSettings } from '$lib/layout/types.js';
 import type { BBox } from '$lib/utils/bBox.js';
 import { Score } from '$lib/index.js';
 import type {

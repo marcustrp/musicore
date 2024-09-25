@@ -7,7 +7,7 @@ import { LRhythmElement } from './LRhythmElement.js';
 import { LStaffLine } from './LStaffLine.js';
 import { type LayoutObject } from './LayoutObject.js';
 import { LBarline } from './LBarline.js';
-import { type LayoutSettingsInternal } from '../types.js';
+import { type LayoutSettingsInternal } from './types.js';
 import { BBox } from '../utils/bBox.js';
 import type { NoteLayout } from './LNote.js';
 

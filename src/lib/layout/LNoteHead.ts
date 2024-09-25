@@ -7,7 +7,7 @@ import {
 } from '$lib/index.js';
 import { type Glyph } from '../fonts/font.js';
 import { type GlyphKey } from '../fonts/glyphKey.js';
-import { type LayoutSettingsInternal } from '../types.js';
+import { type LayoutSettingsInternal } from './types.js';
 import { LAccidental } from './LAccidental.js';
 import { type LayoutObject } from './LayoutObject.js';
 import { LStaffLine } from './LStaffLine.js';

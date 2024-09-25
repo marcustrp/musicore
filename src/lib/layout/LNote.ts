@@ -3,7 +3,7 @@ import { LNoteStem } from './LNoteStem.js';
 import { LRhythmElement } from './LRhythmElement.js';
 
 import { LStaffLine } from './LStaffLine.js';
-import { type LayoutSettingsInternal } from '../types.js';
+import { type LayoutSettingsInternal } from './types.js';
 import { LNoteHead } from './LNoteHead.js';
 import { LColumnEditor } from './LColumnEditor.js';
 import type { RhythmElementTypeLayout } from './types.js';

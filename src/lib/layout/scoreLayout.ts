@@ -1,17 +1,17 @@
 import { Score } from '$lib/index.js';
-import { LStaffLines } from './layout/LStaffLines.js';
-import { LClef, type ClefLayout } from './layout/LClef.js';
-import { LKeySignature, type KeySignatureLayout } from './layout/LKeySignature.js';
-import { LTimeSignature, type TimeSignatureLayout } from './layout/LTimeSignature.js';
-import { LBars, type BarsLayout } from './layout/LBars.js';
-import { LNote } from './layout/LNote.js';
-import { LRest } from './layout/LRest.js';
-import LayoutDocument from './layout/LayoutDocument.js';
-import { Font } from './fonts/font.js';
-import { LAccidental } from './layout/LAccidental.js';
-import { BBox } from './utils/bBox.js';
+import { LStaffLines } from './LStaffLines.js';
+import { LClef, type ClefLayout } from './LClef.js';
+import { LKeySignature, type KeySignatureLayout } from './LKeySignature.js';
+import { LTimeSignature, type TimeSignatureLayout } from './LTimeSignature.js';
+import { LBars, type BarsLayout } from './LBars.js';
+import { LNote } from './LNote.js';
+import { LRest } from './LRest.js';
+import LayoutDocument from './LayoutDocument.js';
+import { Font } from '../fonts/font.js';
+import { LAccidental } from './LAccidental.js';
+import { BBox } from '../utils/bBox.js';
 import { type LayoutSettings, type LayoutSettingsInternal } from './types.js';
-import type { StaffLinesLayout } from './layout/types.js';
+import type { StaffLinesLayout } from './types.js';
 
 export type LayoutData = {
 	document: { width: number; height: number };

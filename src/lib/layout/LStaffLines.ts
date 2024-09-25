@@ -1,7 +1,7 @@
 import { type LayoutObject } from './LayoutObject.js';
 import { BBox } from '../utils/bBox.js';
 import { LStaffLine } from './LStaffLine.js';
-import { type LayoutSettingsInternal } from '../types.js';
+import { type LayoutSettingsInternal } from './types.js';
 
 export class LStaffLines implements LayoutObject {
 	x: number = 0;

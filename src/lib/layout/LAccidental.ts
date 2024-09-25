@@ -1,6 +1,6 @@
 import { type NoteAccidentals } from '$lib/index.js';
 import { type Glyph } from '../fonts/font.js';
-import { type LayoutSettingsInternal } from '../types.js';
+import { type LayoutSettingsInternal } from './types.js';
 import { BBox } from '../utils/bBox.js';
 import { type LayoutObject } from './LayoutObject.js';
 import { LStaffLine } from './LStaffLine.js';

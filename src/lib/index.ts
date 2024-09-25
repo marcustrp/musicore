@@ -27,7 +27,7 @@ export { MusicStringImporter } from './score/import/musicString.js';
 /** old musicore-engraver exports */
 export { default as SheetMusic } from './engraver/EScore.svelte';
 
-export { type LayoutSettings } from './types.js';
+export { type LayoutSettings } from './layout/types.js';
 export { type EngraverSettings } from './engraver/scoreEngraver.js';
 
 export { LNoteHead } from './layout/LNoteHead.js';

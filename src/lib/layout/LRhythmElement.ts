@@ -3,7 +3,7 @@ import { type ClefType, type NoteType } from '$lib/index.js';
 import { type LayoutObject } from './LayoutObject.js';
 import { LClef } from './LClef.js';
 import { LStaffLine } from './LStaffLine.js';
-import { type LayoutSettingsInternal } from '../types.js';
+import { type LayoutSettingsInternal } from './types.js';
 import { BBox } from '../utils/bBox.js';
 import type { RhythmElementTypeLayout } from './types.js';
 import { LNote } from './LNote.js';
