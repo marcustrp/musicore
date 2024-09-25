@@ -27,7 +27,8 @@
 		"lint": "prettier --check . && eslint .",
 		"format": "prettier --write .",
 		"test:integration": "playwright test",
-		"test:unit": "vitest"
+		"test:unit": "vitest",
+		"u": "pnpm update --interactive"
 	},
 	"exports": {
 		".": {
