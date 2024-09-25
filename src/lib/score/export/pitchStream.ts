@@ -2,7 +2,7 @@ import { Note } from '../../core/note.js';
 import { RhythmElement } from '../../core/rhythmElement.js';
 import { Scale } from '../../core/scale.js';
 import { Score } from '../score.js';
-import { FormAnalyser } from '../utils/formAnalyser.js';
+import { FormAnalyser } from '../../tools/formAnalyser.js';
 
 export class ExportSettings {
 	constructor(
