@@ -1,28 +1,31 @@
-// todo
-// - now using npm install with relative path
-// - improve by using npm pack to install file
-// https://fireship.io/lessons/how-to-structure-a-large-web-app-project/
+// in the future, might want to split this into multiple files:
+// https://dev.to/receter/organize-your-library-with-subpath-exports-4jb9
 
 export { Score } from './score/score.js';
 
-export { Bar, BarlineStyle } from './core/bar.js';
-export { Clef, ClefType } from './core/clef.js';
-export { Key, KeyAccidental, KeyAccidentals, CustomKeyAccidental } from './core/key.js';
-export { RhythmElement, NoteType } from './core/rhythmElement.js';
+export { Bar, type BarlineStyle } from './core/bar.js';
+export { Clef, type ClefType } from './core/clef.js';
+export {
+	Key,
+	type KeyAccidental,
+	type KeyAccidentals,
+	type CustomKeyAccidental,
+} from './core/key.js';
+export { RhythmElement, type NoteType } from './core/rhythmElement.js';
 export { Rest } from './core/rest.js';
-export { Note, NoteAccidentals, NoteName } from './core/note.js';
+export { Note, type NoteAccidentals, type NoteName } from './core/note.js';
 export { Scale } from './core/scale.js';
-export { ScaleType, KeyMode } from './core/data/modes.js';
-export { TimeSignature, TimeSignatureSymbol } from './core/timeSignature.js';
+export { type ScaleType, type KeyMode } from './core/data/modes.js';
+export { TimeSignature, type TimeSignatureSymbol } from './core/timeSignature.js';
 
-export { HarmonyKind } from './core/harmony.js';
+export { type HarmonyKind } from './core/harmony.js';
 
 export { AbcExporter } from './score/export/abc.js';
 
 export { MusicStringImporter } from './score/import/musicString.js';
 
 /** old musicore-engraver exports */
-export { default as Score } from './engraver/EScore.svelte';
+export { default as SheetMusic } from './engraver/EScore.svelte';
 
 export { type LayoutSettings } from './types.js';
 export { type EngraverSettings } from './engraver/scoreEngraver.js';
@@ -30,5 +33,4 @@ export { type EngraverSettings } from './engraver/scoreEngraver.js';
 export { LNoteHead } from './layout/LNoteHead.js';
 
 export { BBox } from './utils/bBox.js';
-export { noteEventHandler } from './engraver/events/note.js';
-export { noteAccidentalEventHandler } from './engraver/events/note.js';
+export { noteEventHandler, noteAccidentalEventHandler } from './engraver/events/note.js';
