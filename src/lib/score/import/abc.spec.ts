@@ -22,7 +22,7 @@ describe('parseElement()', () => {
 			const tune = abcjs.renderAbc('*', abc)[0];
 			parser.initScore(tune);
 			parser.score.parts.addPart(new Clef('treble'));
-			parser.parseElement(tune.lines[0].staff![0].voices![0]![0], 0, 0, 0);
+			parser.parseElement(tune.lines[0].staff![0].voices![0]![0]);
 			expect(parser.score.parts.getPart(0).getVoice(0).getNotes()).toStrictEqual(expectedResult);
 		});
 		it('should add chord (multiple notes)', () => {
@@ -33,7 +33,7 @@ describe('parseElement()', () => {
 			const tune = abcjs.renderAbc('*', abc)[0];
 			parser.initScore(tune);
 			parser.score.parts.addPart(new Clef('treble'));
-			parser.parseElement(tune.lines[0].staff![0].voices![0]![0], 0, 0, 0);
+			parser.parseElement(tune.lines[0].staff![0].voices![0]![0]);
 			expect(parser.score.parts.getPart(0).getVoice(0).getNotes()).toStrictEqual(expectedResult);
 		});
 	});
@@ -43,7 +43,7 @@ describe('parseElement()', () => {
 		const tune = abcjs.renderAbc('*', abc)[0];
 		parser.initScore(tune);
 		parser.score.parts.addPart(new Clef('treble'));
-		parser.parseElement(tune.lines[0].staff![0].voices![0]![0], 0, 0, 0);
+		parser.parseElement(tune.lines[0].staff![0].voices![0]![0]);
 		expect(parser.score.bars.bars[0].notes['P1']['V1'][0]['_chordSymbols']).toEqual(expectedResult);
 	});
 	it('should add start slur', () => {
@@ -52,7 +52,7 @@ describe('parseElement()', () => {
 		const tune = abcjs.renderAbc('*', abc)[0];
 		parser.initScore(tune);
 		parser.score.parts.addPart(new Clef('treble'));
-		parser.parseElement(tune.lines[0].staff![0].voices![0]![0], 0, 0, 0);
+		parser.parseElement(tune.lines[0].staff![0].voices![0]![0]);
 		expect((parser.score.parts.getPart(0).getVoice(0).getNote() as Note).slurs).toEqual(
 			expectedResult,
 		);
@@ -63,7 +63,7 @@ describe('parseElement()', () => {
 		const tune = abcjs.renderAbc('*', abc)[0];
 		parser.initScore(tune);
 		parser.score.parts.addPart(new Clef('treble'));
-		parser.parseElement(tune.lines[0].staff![0].voices![0]![0], 0, 0, 0);
+		parser.parseElement(tune.lines[0].staff![0].voices![0]![0]);
 		expect((parser.score.parts.getPart(0).getVoice(0).getNote() as Note).slurs).toEqual(
 			expectedResult,
 		);

@@ -104,6 +104,7 @@ describe('getBarAbc()', () => {
 			lineBreak: false,
 		};
 
+		// eslint-disable-next-line @typescript-eslint/no-explicit-any
 		vi.spyOn(BarGenerator.prototype as any, 'getBarline').mockReturnValueOnce('|]');
 		const result = generator.getBarAbc(bar, 1);
 		checkWarning(warnings);
@@ -121,6 +122,7 @@ describe('getBarAbc()', () => {
 			end: '!segno!|',
 			lineBreak: false,
 		};
+		// eslint-disable-next-line @typescript-eslint/no-explicit-any
 		vi.spyOn(BarGenerator.prototype as any, 'getBarline').mockReturnValueOnce('|');
 		const result = generator.getBarAbc(bar, 1);
 		checkWarning(warnings);
@@ -138,6 +140,7 @@ describe('getBarAbc()', () => {
 			end: '|',
 			lineBreak: false,
 		};
+		// eslint-disable-next-line @typescript-eslint/no-explicit-any
 		vi.spyOn(BarGenerator.prototype as any, 'getBarline').mockReturnValueOnce('|');
 		const result = generator.getBarAbc(bar, 1);
 		checkWarning(warnings);
@@ -156,6 +159,7 @@ describe('getBarAbc()', () => {
 			end: ':|]',
 			lineBreak: false,
 		};
+		// eslint-disable-next-line @typescript-eslint/no-explicit-any
 		vi.spyOn(BarGenerator.prototype as any, 'getBarline').mockReturnValueOnce('|]');
 		const result = generator.getBarAbc(bar, 1);
 		checkWarning(warnings);
@@ -173,6 +177,7 @@ describe('getBarAbc()', () => {
 			end: '|',
 			lineBreak: false,
 		};
+		// eslint-disable-next-line @typescript-eslint/no-explicit-any
 		vi.spyOn(BarGenerator.prototype as any, 'getBarline').mockReturnValueOnce('|');
 		const result = generator.getBarAbc(bar, 1);
 		checkWarning(warnings);
@@ -191,6 +196,7 @@ describe('getBarAbc()', () => {
 			lineBreak: true,
 			start: '',
 		};
+		// eslint-disable-next-line @typescript-eslint/no-explicit-any
 		vi.spyOn(BarGenerator.prototype as any, 'getBarline').mockReturnValueOnce('|]');
 		const result = generator.getBarAbc(bar, 1);
 		checkWarning(warnings);
@@ -208,6 +214,7 @@ describe('getBarAbc()', () => {
 			end: '|',
 			lineBreak: true,
 		};
+		// eslint-disable-next-line @typescript-eslint/no-explicit-any
 		vi.spyOn(BarGenerator.prototype as any, 'getBarline').mockReturnValueOnce('|');
 		const result = generator.getBarAbc(bar, 1);
 		checkWarning(warnings);

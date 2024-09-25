@@ -355,6 +355,7 @@ describe('parse', () => {
 			notes.push(new Note('w', 'c'));
 			const score = importer.parse(musicString);
 			if (importer.errors.length) importer.errors.forEach((item) => console.log('### ' + item));
+			// @ts-expect-error: Redefining readonly property
 			score.bars.bars.forEach((bar) => (bar.notes = {})); // ignore data in this test
 			expect(importer.errors.length).toBe(0);
 			//expect(score.parts.getPart(0).getVoice(0).getNotes()).toStrictEqual(notes);
@@ -375,6 +376,7 @@ describe('parse', () => {
 			];
 			const score = importer.parse(musicString);
 			if (importer.errors.length) importer.errors.forEach((item) => console.log('### ' + item));
+			// @ts-expect-error: Redefining readonly property
 			score.bars.bars.forEach((bar) => (bar.notes = {})); // ignore data in this test
 			expect(importer.errors.length).toBe(0);
 			expect(score.bars.bars).toEqual(expectedBars);
@@ -405,6 +407,7 @@ describe('parse', () => {
 			];
 			const score = importer.parse(musicString);
 			if (importer.errors.length) importer.errors.forEach((item) => console.log('### ' + item));
+			// @ts-expect-error: Redefining readonly property
 			score.bars.bars.forEach((bar) => (bar.notes = {})); // ignore data in this test
 			expect(importer.errors.length).toBe(0);
 			expect(score.bars.bars).toEqual(expectedBars);
@@ -424,6 +427,7 @@ describe('parse', () => {
 				},
 			];
 			const score = importer.parse(musicString);
+			// @ts-expect-error: Redefining readonly property
 			score.bars.bars.forEach((bar) => (bar.notes = {})); // ignore data in this test
 			if (importer.errors.length) importer.errors.forEach((item) => console.log('### ' + item));
 			expect(importer.errors.length).toBe(0);
@@ -454,6 +458,7 @@ describe('parse', () => {
 				},
 			];
 			const score = importer.parse(musicString);
+			// @ts-expect-error: Redefining readonly property
 			score.bars.bars.forEach((bar) => (bar.notes = {})); // ignore data in this test
 			if (importer.errors.length) importer.errors.forEach((item) => console.log('### ' + item));
 			expect(importer.errors.length).toBe(0);
@@ -488,6 +493,7 @@ describe('parse', () => {
 			const score = importer.parse(musicString);
 			if (importer.errors.length) importer.errors.forEach((item) => console.log('### ' + item));
 			expect(importer.errors.length).toBe(0);
+			// @ts-expect-error: Redefining readonly property
 			score.bars.bars.forEach((bar) => (bar.notes = {})); // ignore data in this test
 			expect(score.bars.bars).toEqual(expectedBars);
 		});
@@ -532,6 +538,7 @@ describe('parse', () => {
 				},
 			];
 			const score = importer.parse(musicString);
+			// @ts-expect-error: Redefining readonly property
 			score.bars.bars.forEach((bar) => (bar.notes = {})); // ignore data in this test
 			if (importer.errors.length) importer.errors.forEach((item) => console.log('### ' + item));
 			expect(importer.errors.length).toBe(0);
@@ -570,6 +577,7 @@ describe('parse', () => {
 				},
 			];
 			const score = importer.parse(musicString);
+			// @ts-expect-error: Redefining readonly property
 			score.bars.bars.forEach((bar) => (bar.notes = {})); // ignore data in this test
 			if (importer.errors.length) importer.errors.forEach((item) => console.log('### ' + item));
 			expect(importer.errors.length).toBe(0);
@@ -618,6 +626,7 @@ describe('parse', () => {
 					},
 				];
 				const score = importer.parse(musicString);
+				// @ts-expect-error: Redefining readonly property
 				score.bars.bars.forEach((bar) => (bar.notes = {})); // ignore data in this test
 				if (importer.errors.length) importer.errors.forEach((item) => console.log('### ' + item));
 				expect(importer.errors.length).toBe(0);

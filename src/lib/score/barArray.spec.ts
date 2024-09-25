@@ -1,9 +1,9 @@
-import { SpyInstance, afterAll, beforeEach, describe, expect, it, vi } from 'vitest';
+import { type MockInstance, afterAll, beforeEach, describe, expect, it, vi } from 'vitest';
 import { Key } from '../core/key.js';
 import { Note } from '../core/note.js';
 import { BarArray } from './barArray.js';
 import { TimeSignature } from '../core/timeSignature.js';
-import { Bar, type SetKeyOptions } from '../core/bar.js';
+import { Bar } from '../core/bar.js';
 import Fraction from 'fraction.js';
 
 let barArray: BarArray;
@@ -38,7 +38,7 @@ describe('appendBar', () => {
 
 describe('setKey', () => {
 	const key = new Key('e', 'major');
-	const spies: SpyInstance<[key: Key, options?: SetKeyOptions]>[] = [];
+	const spies: MockInstance[] = [];
 	beforeEach(() => {
 		barArray.bars = [
 			new Bar(new TimeSignature(), new Key('d', 'minor'), true),
@@ -113,8 +113,8 @@ describe('addNote', () => {
 	/** @todo implement test */
 	//describe('option.overflow = "split"', () => {});
 	describe('option.overflow = "ignore"', () => {
-		let barAddNoteSpy: SpyInstance;
-		let spyAppendBar: SpyInstance;
+		let barAddNoteSpy: MockInstance;
+		let spyAppendBar: MockInstance;
 		beforeEach(() => {
 			barAddNoteSpy = vi.spyOn(Bar.prototype, 'addNote').mockImplementationOnce(() => undefined);
 			spyAppendBar = vi.spyOn(BarArray.prototype, 'appendBar');
@@ -139,9 +139,9 @@ describe('addNote', () => {
 		});
 	});
 	describe('option.overflow = "nextBar"', () => {
-		let barAddNoteSpy: SpyInstance;
-		let spyAppendBar: SpyInstance;
-		let spyGetVoiceDuration: SpyInstance;
+		let barAddNoteSpy: MockInstance;
+		let spyAppendBar: MockInstance;
+		let spyGetVoiceDuration: MockInstance;
 		beforeEach(() => {
 			barAddNoteSpy = vi.spyOn(Bar.prototype, 'addNote').mockImplementationOnce(() => undefined);
 			spyAppendBar = vi.spyOn(BarArray.prototype, 'appendBar');

@@ -1,3 +1,5 @@
+/** @todo find a solution to this, or remove interface? */
+// eslint-disable-next-line @typescript-eslint/no-empty-object-type
 export interface Direction {} // not tied to single note/rest
 
 // See also notations.ts for more directions

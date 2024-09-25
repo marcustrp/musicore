@@ -72,7 +72,7 @@
 		color: string;
 		bBox: BBox;
 	};
-
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	function findBBoxes(object: { [key: string]: any }, path: string) {
 		if (!settings.showBBoxes) return [];
 		let value: DebugBBox[] = [];

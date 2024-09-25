@@ -70,6 +70,7 @@ describe('addWorkInformation()', () => {
 		expect(score.work).toEqual(expectedResult);
 	});
 	it('should throw error if type is unknown', () => {
+		// eslint-disable-next-line @typescript-eslint/no-explicit-any
 		expect(() => score.addWorkInformation('test' as any, 'test')).toThrowError(
 			'Unknown work information type',
 		);

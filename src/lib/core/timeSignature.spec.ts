@@ -1,12 +1,13 @@
 import Fraction from 'fraction.js';
-import { beforeEach, describe, expect, it, vi, SpyInstance, afterEach } from 'vitest';
+import { beforeEach, describe, expect, it, vi, type MockInstance, afterEach } from 'vitest';
 import { TimeSignature } from './timeSignature.js';
 import { Note } from './note.js';
 
 describe('setBeamGroupDuration()', () => {
-	let spy: SpyInstance;
+	let spy: MockInstance;
 	const initSpy = () =>
 		vi
+			// eslint-disable-next-line @typescript-eslint/no-explicit-any
 			.spyOn(TimeSignature.prototype as any, 'fillBeamGroupDurations')
 			.mockImplementationOnce((durations) => {
 				return durations;
@@ -63,9 +64,10 @@ describe('setBeamGroupDuration()', () => {
 });
 
 describe('TimeSignature', () => {
-	let spy: SpyInstance;
+	let spy: MockInstance;
 	const initSpy = () =>
 		vi
+			// eslint-disable-next-line @typescript-eslint/no-explicit-any
 			.spyOn(TimeSignature.prototype as any, 'setBeamGroupDuration')
 			.mockImplementationOnce((durations) => {
 				return durations;
@@ -103,6 +105,7 @@ describe('TimeSignature', () => {
 		expect(result).toEqual(timeSignatureObj);
 	});
 	it('should accept supported symbol "cut"', () => {
+		// eslint-disable-next-line @typescript-eslint/no-explicit-any
 		vi.spyOn(TimeSignature.prototype as any, 'getBeatsPerBar').mockImplementationOnce(() => 2);
 		const timeSignatureObj2 = {
 			count: 2,

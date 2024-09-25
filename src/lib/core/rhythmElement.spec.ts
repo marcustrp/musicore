@@ -195,6 +195,7 @@ describe('RhythmElement.setChordSymbol', () => {
 		const offset = [new Fraction(0), new Fraction(1, 2)];
 		const chordSymbols = [{ text: text[0] }, { text: text[1], offset: offset[1] }];
 
+		// eslint-disable-next-line @typescript-eslint/no-explicit-any
 		vi.spyOn(RhythmElement.prototype as any, 'sortChordSymbols').mockImplementationOnce(() => {});
 		const note = new RhythmElement('q');
 		note.setChordSymbol({ text: text[0] } as ChordSymbol);

@@ -942,7 +942,7 @@ describe('process()', () => {
 			step: 'IVm',
 		};
 		const note = Note.fromScaleNumber(data.items as ScaleNumber, 5, scale, data.type);
-		note.analysis = { romanNumeral: [{ step: 'IVm' } as any as RomanNumeralAnalysis] };
+		note.analysis = { romanNumeral: [{ step: 'IVm' } as RomanNumeralAnalysis] };
 		const expectedResult = { item: note };
 		const result = parser.process(data, info);
 		note['id'] = result!.item.id;
@@ -1020,10 +1020,11 @@ describe('process()', () => {
 			_midiNumber: 62,
 			notations: [{ text: 'f' }],
 			_staffIndex: 0,
+			id: '',
 		};
 		const expectedResult = { item: note };
 		const result = parser.process(data, info);
-		delete result!.item['id'];
+		result!.item['id'] = '';
 		expect(result).toEqual(expectedResult);
 	});
 });

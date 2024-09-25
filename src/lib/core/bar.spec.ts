@@ -29,13 +29,16 @@ describe('Bar', () => {
 describe('Bar.getVoiceDuration', () => {
 	it('should return 0 if voice is empty', () => {
 		const bar = new Bar(new TimeSignature(), new Key('c', 'major'));
+		// @ts-expect-error: Redefining readonly property
 		bar.notes = { P1: { V1: [new Note('q', 'c')] } };
+
 		expect(bar.getVoiceDuration('P1', 'V2').valueOf()).equal(0);
 		expect(bar.getVoiceDuration('P2', 'V1').valueOf()).equal(0);
 	});
 	it('should return correct voice duration of bar with single note', () => {
 		const bar = new Bar(new TimeSignature(), new Key('c', 'major'));
 		const note = new Note('w', 'c');
+		// @ts-expect-error: Redefining readonly property
 		bar.notes = { P1: { V1: [note] } };
 
 		expect(bar.getVoiceDuration('P1', 'V1').valueOf()).equal(1);
@@ -44,6 +47,7 @@ describe('Bar.getVoiceDuration', () => {
 		const bar = new Bar(new TimeSignature(), new Key('c', 'major'));
 		const note = new Note('q', 'c');
 		const note2 = new Note('q', 'd');
+		// @ts-expect-error: Redefining readonly property
 		bar.notes = { P1: { V1: [note, note2] } };
 		expect(bar.getVoiceDuration('P1', 'V1').toString()).equal('0.5');
 	});
@@ -54,6 +58,7 @@ describe('Bar.getVoiceDuration', () => {
 		const note1 = new Note('h', 'c');
 		const note2 = new Note('h', 'c');
 		const note3 = new Note('h', 'c');
+		// @ts-expect-error: Redefining readonly property
 		bar.notes = { P1: { V1: [note1, note2, note3] } };
 		expect(bar.getVoiceDuration('P1', 'V1').toString()).equal('1.5');
 	});
@@ -67,6 +72,7 @@ describe('Bar.getMaxVoiceDuration', () => {
 	it('should return correct duration of a bar with a single voice', () => {
 		const bar = new Bar(new TimeSignature(), new Key('c', 'major'));
 		const note = new Note('q', 'c');
+		// @ts-expect-error: Redefining readonly property
 		bar.notes = { P1: { V1: [note] } };
 		expect(bar.getMaxVoiceDuration().toString()).equal('0.25');
 	});
@@ -74,6 +80,7 @@ describe('Bar.getMaxVoiceDuration', () => {
 		const bar = new Bar(new TimeSignature(), new Key('c', 'major'));
 		const note = new Note('q', 'c');
 		const note2 = new Note('h', 'd');
+		// @ts-expect-error: Redefining readonly property
 		bar.notes = { P1: { V1: [note], V2: [note2] } };
 		expect(bar.getMaxVoiceDuration().toString()).equal('0.5');
 	});
@@ -81,6 +88,7 @@ describe('Bar.getMaxVoiceDuration', () => {
 		const bar = new Bar(new TimeSignature(), new Key('c', 'major'));
 		const note = new Note('q', 'c');
 		const note2 = new Note('h', 'd');
+		// @ts-expect-error: Redefining readonly property
 		bar.notes = { P1: { V1: [note] }, P2: { V1: [note2] } };
 		expect(bar.getMaxVoiceDuration().toString()).equal('0.5');
 	});
@@ -114,12 +122,14 @@ describe('Bar.setPickup', () => {
 	it('should throw error if duration is not specified and longest voice is equal to time signature', () => {
 		const bar = new Bar(new TimeSignature(), new Key('c', 'major'));
 		const note = new Note('w', 'c');
+		// @ts-expect-error: Redefining readonly property
 		bar.notes = { P1: { V1: [note] } };
 		expect(() => bar.setPickup()).toThrow();
 	});
 	it('should set correct pickup flag', () => {
 		const bar = new Bar(new TimeSignature(), new Key('c', 'major'));
 		const note = new Note('q', 'c');
+		// @ts-expect-error: Redefining readonly property
 		bar.notes = { P1: { V1: [note] } };
 		bar.setPickup();
 		expect(bar.pickup).equal(true);
@@ -127,6 +137,7 @@ describe('Bar.setPickup', () => {
 	it('should return correct duration change', () => {
 		const bar = new Bar(new TimeSignature(), new Key('c', 'major'));
 		const note = new Note('q', 'c');
+		// @ts-expect-error: Redefining readonly property
 		bar.notes = { P1: { V1: [note] } };
 		const durationChange = bar.setPickup();
 		expect(durationChange.toString()).equal('0.75');
@@ -134,6 +145,7 @@ describe('Bar.setPickup', () => {
 	it('should set correct duration', () => {
 		const bar = new Bar(new TimeSignature(), new Key('c', 'major'));
 		const note = new Note('q', 'c');
+		// @ts-expect-error: Redefining readonly property
 		bar.notes = { P1: { V1: [note] } };
 		bar.setPickup();
 		expect(bar.duration.toString()).equal('0.25');
@@ -146,6 +158,7 @@ describe('Bar.setPickup', () => {
 	it('should not allow a specified duration that is shorter than the longest voice', () => {
 		const bar = new Bar(new TimeSignature(), new Key('c', 'major'));
 		const note = new Note('q', 'c');
+		// @ts-expect-error: Redefining readonly property
 		bar.notes = { P1: { V1: [note] } };
 		expect(() => bar.setPickup(new Fraction(1, 8))).toThrow();
 	});
