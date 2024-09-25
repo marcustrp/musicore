@@ -1,11 +1,10 @@
 import Fraction from 'fraction.js';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
-import { Bar, BarlineStyle } from '../../../core/bar';
-import { Clef } from '../../../core/clef';
-import { Coda, Fine, Segno } from '../../../core/data/directions';
-import { TimeSignature } from '../../../core/timeSignature';
-import { Score } from '../../score';
-import { BarGenerator } from './bar';
+import { Bar, type BarlineStyle } from '../../../core/bar.js';
+import { Coda, Fine, Segno } from '../../../core/data/directions.js';
+import { TimeSignature } from '../../../core/timeSignature.js';
+import { Score } from '../../score.js';
+import { BarGenerator } from './bar.js';
 
 let score: Score;
 let warnings: string[];

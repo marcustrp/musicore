@@ -1,12 +1,9 @@
 import { beforeEach, describe, expect, it } from 'vitest';
-import { Bar } from '../core/bar';
-import { Clef } from '../core/clef';
-import { Key } from '../core/key';
-import { TimeSignature } from '../core/timeSignature';
-import { Part } from './part';
-import { BarArray } from './barArray';
-import { Note } from '../core/note';
-import Fraction from 'fraction.js';
+import { Clef } from '../core/clef.js';
+import { Key } from '../core/key.js';
+import { TimeSignature } from '../core/timeSignature.js';
+import { Part } from './part.js';
+import { BarArray } from './barArray.js';
 
 let part: Part;
 beforeEach(() => {

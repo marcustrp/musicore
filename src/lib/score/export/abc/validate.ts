@@ -1,6 +1,6 @@
 import { TimeSignature } from '../../../core/timeSignature.js';
 import { Score } from '../../score.js';
-import { ReportFunction } from '../abc.js';
+import { type ReportFunction } from '../abc.js';
 
 /**
  * Validate a score before exporting

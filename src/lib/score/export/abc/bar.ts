@@ -1,6 +1,6 @@
-import { Bar, BarlineStyle } from '../../../core/bar.js';
-import { Coda, DaCapo, Direction, Fine, Segno } from '../../../core/data/directions.js';
-import { ReportFunction } from '../abc.js';
+import { Bar, type BarlineStyle } from '../../../core/bar.js';
+import { Coda, DaCapo, type Direction, Fine, Segno } from '../../../core/data/directions.js';
+import { type ReportFunction } from '../abc.js';
 
 export class BarGenerator {
 	constructor(

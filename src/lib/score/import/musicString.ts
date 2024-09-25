@@ -1,12 +1,12 @@
 import Fraction from 'fraction.js';
-import { Direction } from '../../core/data/directions.js';
+import { type Direction } from '../../core/data/directions.js';
 import { Note } from '../../core/note.js';
 import { Rest } from '../../core/rest.js';
 import { Score } from '../score.js';
-import { BarItem, BarlineParser } from './musicString/bar.js';
-import { BodyItem, BodyParser, TripletQueue } from './musicString/body.js';
-import { InformationItem, InformationParser } from './musicString/information.js';
-import { ModifierItem, ModifierParser } from './musicString/modifiers.js';
+import { type BarItem, BarlineParser } from './musicString/bar.js';
+import { type BodyItem, BodyParser } from './musicString/body.js';
+import { type InformationItem, InformationParser } from './musicString/information.js';
+import { type ModifierItem, ModifierParser } from './musicString/modifiers.js';
 import { Spacer } from './musicString/spacer.js';
 import ChordSymbol from '../../core/chordSymbol.js';
 

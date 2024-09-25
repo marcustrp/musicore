@@ -1,15 +1,10 @@
 <script lang="ts">
-	import { MusicStringImporter, Key, type NoteAccidentals } from '$lib/index.js';
+	import { MusicStringImporter, type NoteAccidentals } from '$lib/index.js';
 	import Score from '$lib/engraver/Score.svelte';
-	import MusicFont from '$lib/engraver/MusicFont.svelte';
 	import type { EngraverSettings } from '$lib/engraver/scoreEngraver.js';
 	import type { LayoutSettings } from '$lib/types.js';
 	import { BBox } from '$lib/utils/bBox.js';
 	import { noteAccidentalEventHandler, noteEventHandler } from '$lib/engraver/events/note.js';
-	import type { NoteEvent } from '$lib/engraver/events/types.js';
-	import Note from '$lib/engraver/Note.svelte';
-	import { LNote } from '$lib/layout/LNote.js';
-	import { LNoteHead } from '$lib/layout/LNoteHead.js';
 	import AccidentalSelector from './accidental-selector.svelte';
 
 	const importer = new MusicStringImporter();

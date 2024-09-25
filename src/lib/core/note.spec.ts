@@ -1,10 +1,14 @@
-import Fraction from 'fraction.js';
-import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
-import { NoteAccidentals, Note, NoteName, ScaleNumber, ScaleNumberParts } from './note';
-import { Scale } from './scale';
-import { AccidentalName } from 'abcjs';
-import { Notation } from './data/notations';
-import ChordSymbol from './chordSymbol';
+import { afterEach, describe, expect, it, vi } from 'vitest';
+import {
+	type NoteAccidentals,
+	Note,
+	type NoteName,
+	type ScaleNumber,
+	type ScaleNumberParts,
+} from './note.js';
+import { Scale } from './scale.js';
+import { type Notation } from './data/notations.js';
+import ChordSymbol from './chordSymbol.js';
 
 describe('Note', () => {
 	it('should create a simple note instance', () => {
@@ -88,7 +92,7 @@ describe('Note.fromScaleNumber', () => {
 			return {
 				root: { number: data.rootNumber },
 				rootName: data.rootName,
-			} as any as Scale;
+			} as Scale;
 		},
 	};
 	afterEach(() => {
@@ -107,11 +111,11 @@ describe('Note.fromScaleNumber', () => {
 			_midiNumber: 54,
 			_staffIndex: 0,
 		};
-		const spy1 = vi.spyOn(Note, 'nameToNoteIndex').mockImplementationOnce(() => noteIndex);
-		const spy2 = vi.spyOn(Note, 'getNumberParts').mockImplementationOnce(() => noteNumberParts);
-		const spy3 = vi
-			.spyOn(Note, 'noteNumberToNameInScale')
-			.mockImplementationOnce(() => noteObj._root + (noteObj._accidental || ''));
+		vi.spyOn(Note, 'nameToNoteIndex').mockImplementationOnce(() => noteIndex);
+		vi.spyOn(Note, 'getNumberParts').mockImplementationOnce(() => noteNumberParts);
+		vi.spyOn(Note, 'noteNumberToNameInScale').mockImplementationOnce(
+			() => noteObj._root + (noteObj._accidental || ''),
+		);
 
 		const result = Note.fromScaleNumber(
 			((noteNumberParts.accidental || '') + noteNumberParts.number) as ScaleNumber,
@@ -133,11 +137,11 @@ describe('Note.fromScaleNumber', () => {
 			_midiNumber: 56,
 			_staffIndex: 0,
 		};
-		const spy1 = vi.spyOn(Note, 'nameToNoteIndex').mockImplementationOnce(() => noteIndex);
-		const spy2 = vi.spyOn(Note, 'getNumberParts').mockImplementationOnce(() => noteNumberParts);
-		const spy3 = vi
-			.spyOn(Note, 'noteNumberToNameInScale')
-			.mockImplementationOnce(() => noteObj._root + (noteObj._accidental || ''));
+		vi.spyOn(Note, 'nameToNoteIndex').mockImplementationOnce(() => noteIndex);
+		vi.spyOn(Note, 'getNumberParts').mockImplementationOnce(() => noteNumberParts);
+		vi.spyOn(Note, 'noteNumberToNameInScale').mockImplementationOnce(
+			() => noteObj._root + (noteObj._accidental || ''),
+		);
 
 		const result = Note.fromScaleNumber(
 			((noteNumberParts.accidental || '') + noteNumberParts.number) as ScaleNumber,
@@ -158,11 +162,9 @@ describe('Note.fromScaleNumber', () => {
 			_midiNumber: 65,
 			_staffIndex: 0,
 		};
-		const spy1 = vi.spyOn(Note, 'nameToNoteIndex').mockImplementationOnce(() => noteIndex);
-		const spy2 = vi.spyOn(Note, 'getNumberParts').mockImplementationOnce(() => noteNumberParts);
-		const spy3 = vi
-			.spyOn(Note, 'noteNumberToNameInScale')
-			.mockImplementationOnce(() => noteObj._root);
+		vi.spyOn(Note, 'nameToNoteIndex').mockImplementationOnce(() => noteIndex);
+		vi.spyOn(Note, 'getNumberParts').mockImplementationOnce(() => noteNumberParts);
+		vi.spyOn(Note, 'noteNumberToNameInScale').mockImplementationOnce(() => noteObj._root);
 		const result = Note.fromScaleNumber(
 			((noteNumberParts.accidental || '') + noteNumberParts.number) as ScaleNumber,
 			5,
@@ -183,11 +185,11 @@ describe('Note.fromScaleNumber', () => {
 			_midiNumber: 66,
 			_staffIndex: 0,
 		};
-		const spy1 = vi.spyOn(Note, 'nameToNoteIndex').mockImplementationOnce(() => noteIndex);
-		const spy2 = vi.spyOn(Note, 'getNumberParts').mockImplementationOnce(() => noteNumberParts);
-		const spy3 = vi
-			.spyOn(Note, 'noteNumberToNameInScale')
-			.mockImplementationOnce(() => noteObj._root + (noteObj._accidental || ''));
+		vi.spyOn(Note, 'nameToNoteIndex').mockImplementationOnce(() => noteIndex);
+		vi.spyOn(Note, 'getNumberParts').mockImplementationOnce(() => noteNumberParts);
+		vi.spyOn(Note, 'noteNumberToNameInScale').mockImplementationOnce(
+			() => noteObj._root + (noteObj._accidental || ''),
+		);
 		const result = Note.fromScaleNumber(
 			((noteNumberParts.accidental || '') + noteNumberParts.number) as ScaleNumber,
 			5,
@@ -207,11 +209,9 @@ describe('Note.fromScaleNumber', () => {
 			_midiNumber: 81,
 			_staffIndex: 0,
 		};
-		const spy1 = vi.spyOn(Note, 'nameToNoteIndex').mockImplementationOnce(() => noteIndex);
-		const spy2 = vi.spyOn(Note, 'getNumberParts').mockImplementationOnce(() => noteNumberParts);
-		const spy3 = vi
-			.spyOn(Note, 'noteNumberToNameInScale')
-			.mockImplementationOnce(() => noteObj._root);
+		vi.spyOn(Note, 'nameToNoteIndex').mockImplementationOnce(() => noteIndex);
+		vi.spyOn(Note, 'getNumberParts').mockImplementationOnce(() => noteNumberParts);
+		vi.spyOn(Note, 'noteNumberToNameInScale').mockImplementationOnce(() => noteObj._root);
 		const result = Note.fromScaleNumber(
 			((noteNumberParts.accidental || '') + noteNumberParts.number) as ScaleNumber,
 			5,
@@ -231,11 +231,9 @@ describe('Note.fromScaleNumber', () => {
 			_midiNumber: 64,
 			_staffIndex: 0,
 		};
-		const spy1 = vi.spyOn(Note, 'nameToNoteIndex').mockImplementationOnce(() => noteIndex);
-		const spy2 = vi.spyOn(Note, 'getNumberParts').mockImplementationOnce(() => noteNumberParts);
-		const spy3 = vi
-			.spyOn(Note, 'noteNumberToNameInScale')
-			.mockImplementationOnce(() => noteObj._root);
+		vi.spyOn(Note, 'nameToNoteIndex').mockImplementationOnce(() => noteIndex);
+		vi.spyOn(Note, 'getNumberParts').mockImplementationOnce(() => noteNumberParts);
+		vi.spyOn(Note, 'noteNumberToNameInScale').mockImplementationOnce(() => noteObj._root);
 		const result = Note.fromScaleNumber(
 			((noteNumberParts.accidental || '') + noteNumberParts.number) as ScaleNumber,
 			4,
@@ -288,11 +286,11 @@ describe('Note.fromScaleNumber', () => {
 				_midiNumber: edgeCase.midiNumber,
 				_staffIndex: 0,
 			};
-			/*const spy1 = vi.spyOn(Note, 'nameToNoteIndex').mockImplementationOnce(() => edgeCase.midiNumber % 12);
-      const spy2 = vi.spyOn(Note, 'getNumberParts').mockImplementationOnce(() => {
+			/*vi.spyOn(Note, 'nameToNoteIndex').mockImplementationOnce(() => edgeCase.midiNumber % 12);
+      vi.spyOn(Note, 'getNumberParts').mockImplementationOnce(() => {
         return {number: +(edgeCase.scaleNumber.length === 1 ? +edgeCase.scaleNumber : edgeCase.scaleNumber.substr(1)), accidental: edgeCase.scaleNumber.length === 1 ? undefined : edgeCase.scaleNumber[0]}
       })
-      const spy3 = vi.spyOn(Note, 'noteNumberToNameInScale').mockImplementationOnce(() => (noteObj._root));
+      vi.spyOn(Note, 'noteNumberToNameInScale').mockImplementationOnce(() => (noteObj._root));
       */
 			const result = Note.fromScaleNumber(
 				edgeCase.scaleNumber,
@@ -315,11 +313,9 @@ describe('Note.fromScaleNumber', () => {
 			_midiNumber: 71,
 			_staffIndex: 0,
 		};
-		const spy1 = vi.spyOn(Note, 'nameToNoteIndex').mockImplementationOnce(() => noteIndex);
-		const spy2 = vi.spyOn(Note, 'getNumberParts').mockImplementationOnce(() => noteNumberParts);
-		const spy3 = vi
-			.spyOn(Note, 'noteNumberToNameInScale')
-			.mockImplementationOnce(() => noteObj._root);
+		vi.spyOn(Note, 'nameToNoteIndex').mockImplementationOnce(() => noteIndex);
+		vi.spyOn(Note, 'getNumberParts').mockImplementationOnce(() => noteNumberParts);
+		vi.spyOn(Note, 'noteNumberToNameInScale').mockImplementationOnce(() => noteObj._root);
 		const result = Note.fromScaleNumber(
 			((noteNumberParts.accidental || '') + noteNumberParts.number) as ScaleNumber,
 			4,
@@ -358,7 +354,7 @@ describe('Note.nameToNoteIndex', () => {
 		expect(result).toEqual(-1);
 	});
 	it('should return -1 for undefined', () => {
-		const result = Note.nameToNoteIndex(undefined as any as string);
+		const result = Note.nameToNoteIndex(undefined as unknown as string);
 		expect(result).toEqual(-1);
 	});
 });
@@ -506,13 +502,13 @@ describe('Note.addNotaion', () => {
 			],
 		};
 		const note = new Note('q', 'c', undefined, 5);
-		note.addNotation({ type: 'text', text: 'test' } as any as Notation);
+		note.addNotation({ type: 'text', text: 'test' } as unknown as Notation);
 
 		expect(note).toEqual(noteObj);
 	});
 	it('should throw on undefined input', () => {
 		const note = new Note('q', 'c');
-		const func = () => note.addNotation(undefined as any as Notation);
+		const func = () => note.addNotation(undefined as unknown as Notation);
 		expect(func).toThrow();
 	});
 });
@@ -576,7 +572,7 @@ describe('Note.validateName', () => {
 		expect(result).toBe(false);
 	});
 	it('should return false for undefined input', () => {
-		const note = undefined as any as string;
+		const note = undefined as unknown as string;
 		const result = Note.validateName(note);
 		expect(result).toBe(false);
 	});
@@ -594,7 +590,7 @@ describe('Note.nameToNatural', () => {
 		expect(func).toThrow();
 	});
 	it('should throw on undefined input', () => {
-		const note = undefined as any as string;
+		const note = undefined as unknown as string;
 		const func = () => Note.nameToNatural(note);
 		expect(func).toThrow();
 	});
@@ -640,7 +636,7 @@ describe('Note.nameToNoteIndex', () => {
 		expect(result).toBe(-1);
 	});
 	it('should return -1 for undefined input', () => {
-		const note = undefined as any as string;
+		const note = undefined as unknown as string;
 		const result = Note.nameToNoteIndex(note);
 		expect(result).toBe(-1);
 	});
@@ -668,7 +664,7 @@ describe('Note.getNumberParts', () => {
 		expect(result).toBeUndefined();
 	});
 	it('should return undefined if undefined input', () => {
-		const note = undefined as any as string;
+		const note = undefined as unknown as string;
 		const result = Note.getNumberParts(note);
 		expect(result).toBeUndefined();
 	});
@@ -736,68 +732,5 @@ describe('Note.noteIndexToNameInScale', () => {
 		const noteNumber = 0;
 		const result = Note.noteIndexToNameInScale(scaleRoot, noteNumber);
 		expect(result).toBeUndefined();
-	});
-});
-
-describe('Note.getPosition', () => {
-	describe('treble clef', () => {
-		it('should return currect position for c, octave 5 (no given clef)', () => {
-			const note = new Note('q', 'c', undefined, 5);
-			const result = note.getPosition();
-			expect(result).toEqual(10);
-		});
-		it('should return currect position for c, octave 5', () => {
-			const note = new Note('q', 'c', undefined, 5);
-			const result = note.getPosition('treble');
-			expect(result).toEqual(10);
-		});
-		it('should return currect position for c, octave 6', () => {
-			const note = new Note('q', 'c', undefined, 6);
-			const result = note.getPosition('treble');
-			expect(result).toEqual(3);
-		});
-		it('should return currect position for c, octave 7', () => {
-			const note = new Note('q', 'c', undefined, 7);
-			const result = note.getPosition('treble');
-			expect(result).toEqual(-4);
-		});
-	});
-	describe('bass clef', () => {
-		it('should return currect position for c, octave 4', () => {
-			const note = new Note('q', 'c', undefined, 4);
-			const result = note.getPosition('f');
-			expect(result).toEqual(5);
-		});
-	});
-});
-
-describe('Note.getPosition', () => {
-	describe('treble clef', () => {
-		it('should return currect root for position 10 (no given clef)', () => {
-			const result = Note.rootAndOctaveFromPosition(10);
-			expect(result).toEqual({ root: 'c', octave: 5 });
-		});
-		it('should return currect root for position 4 (no given clef)', () => {
-			const result = Note.rootAndOctaveFromPosition(4);
-			expect(result).toEqual({ root: 'b', octave: 5 });
-		});
-		it('should return currect root for position 3 (no given clef)', () => {
-			const result = Note.rootAndOctaveFromPosition(3);
-			expect(result).toEqual({ root: 'c', octave: 6 });
-		});
-		it('should return currect root for position 0 (no given clef)', () => {
-			const result = Note.rootAndOctaveFromPosition(0);
-			expect(result).toEqual({ root: 'f', octave: 6 });
-		});
-		it('should return currect root for position -1 (no given clef)', () => {
-			const result = Note.rootAndOctaveFromPosition(-1);
-			expect(result).toEqual({ root: 'g', octave: 6 });
-		});
-	});
-	describe('bass clef', () => {
-		it('should return currect root for position 2', () => {
-			const result = Note.rootAndOctaveFromPosition(2, 'f');
-			expect(result).toEqual({ root: 'f', octave: 4 });
-		});
 	});
 });

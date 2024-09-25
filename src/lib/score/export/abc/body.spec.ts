@@ -1,8 +1,7 @@
 import { beforeEach, describe, expect, it } from 'vitest';
-import { Clef } from '../../../core/clef';
-import { Note } from '../../../core/note';
-import { Score } from '../../score';
-import { BodyGenerator } from './body';
+import { Note } from '../../../core/note.js';
+import { Score } from '../../score.js';
+import { BodyGenerator } from './body.js';
 
 let score: Score;
 let generator: BodyGenerator;
@@ -14,7 +13,7 @@ const throwError = (message: string) => {
 	throw new Error(message);
 };
 
-const checkWarning = (warnings: string[]) => {
+const _checkWarning = (warnings: string[]) => {
 	if (warnings.length > 0) console.log(warnings);
 	expect(warnings.length).toBe(0);
 };

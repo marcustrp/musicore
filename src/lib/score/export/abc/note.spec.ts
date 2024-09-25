@@ -1,11 +1,11 @@
 import Fraction from 'fraction.js';
 import { beforeAll, beforeEach, describe, expect, it } from 'vitest';
-import * as Notations from '../../../core/data/notations';
-import { Note } from '../../../core/note';
-import { Scale } from '../../../core/scale';
-import { NoteGenerator } from './note';
-import RomanNumeralAnalysis from '../../../core/romanNumeralAnalysis';
-import FunctionAnalysis from '../../../core/functionAnalysis';
+import * as Notations from '../../../core/data/notations.js';
+import { Note } from '../../../core/note.js';
+import { Scale } from '../../../core/scale.js';
+import { NoteGenerator } from './note.js';
+import RomanNumeralAnalysis from '../../../core/romanNumeralAnalysis.js';
+import FunctionAnalysis from '../../../core/functionAnalysis.js';
 
 let generator: NoteGenerator;
 let warnings: string[];
@@ -16,7 +16,7 @@ const throwError = (message: string) => {
 	throw new Error(message);
 };
 
-const checkWarning = (warnings: string[]) => {
+const _checkWarning = (warnings: string[]) => {
 	if (warnings.length > 0) console.log(warnings);
 	expect(warnings.length).toBe(0);
 };
@@ -92,14 +92,14 @@ describe('getAnalysis()', () => {
 	it('should return step analysis', () => {
 		const expectedResult = '"^IVm"';
 		const note = new Note('q', 'c');
-		note.analysis = { romanNumeral: [{ step: 'IVm' } as any as RomanNumeralAnalysis] };
+		note.analysis = { romanNumeral: [{ step: 'IVm' } as unknown as RomanNumeralAnalysis] };
 		const result = generator['getAnalysis'](note);
 		expect(result).toBe(expectedResult);
 	});
 	it('should return function analysis', () => {
 		const expectedResult = '"_D64"';
 		const note = new Note('q', 'c');
-		note.analysis = { function: [{ function: 'D64' } as any as FunctionAnalysis] };
+		note.analysis = { function: [{ function: 'D64' } as unknown as FunctionAnalysis] };
 		const result = generator['getAnalysis'](note);
 		expect(result).toBe(expectedResult);
 	});

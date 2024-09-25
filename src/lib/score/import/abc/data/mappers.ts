@@ -1,6 +1,6 @@
 import * as abcjs from 'abcjs';
-import { KeyMode } from '../../../../core/data/modes.js';
-import { ClefType } from '../../../../core/clef.js';
+import { type KeyMode } from '../../../../core/data/modes.js';
+import { type ClefType } from '../../../../core/clef.js';
 
 export const keyMode: { [key: string]: KeyMode } = {
 	'': 'major',

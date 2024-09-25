@@ -1,10 +1,10 @@
 import Fraction from 'fraction.js';
 import { beforeEach, describe, expect, it } from 'vitest';
-import { Key } from '../../core/key';
-import { TimeSignature } from '../../core/timeSignature';
-import { Note } from '../../core/note';
-import { Rest } from '../../core/rest';
-import { MusicStringImporter } from './musicString';
+import { Key } from '../../core/key.js';
+import { TimeSignature } from '../../core/timeSignature.js';
+import { Note } from '../../core/note.js';
+import { Rest } from '../../core/rest.js';
+import { MusicStringImporter } from './musicString.js';
 
 let importer: MusicStringImporter;
 beforeEach(() => {

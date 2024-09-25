@@ -1,10 +1,9 @@
-import { SpyInstance, afterAll, beforeAll, beforeEach, describe, expect, it, vi } from 'vitest';
-import { Key } from '../core/key';
-import { Note } from '../core/note';
-import { Voice } from './voice';
-import { BarArray } from './barArray';
-import { TimeSignature } from '../core/timeSignature';
-import { Bar, SetKeyOptions } from '../core/bar';
+import { SpyInstance, afterAll, beforeEach, describe, expect, it, vi } from 'vitest';
+import { Key } from '../core/key.js';
+import { Note } from '../core/note.js';
+import { BarArray } from './barArray.js';
+import { TimeSignature } from '../core/timeSignature.js';
+import { Bar, type SetKeyOptions } from '../core/bar.js';
 import Fraction from 'fraction.js';
 
 let barArray: BarArray;

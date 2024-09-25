@@ -1,9 +1,9 @@
 import { describe, expect, it } from 'vitest';
-import { ModifierParser } from './modifiers';
+import { ModifierParser } from './modifiers.js';
 
 describe('parse', () => {
 	it('should parse octave shift down', () => {
-		const errors = [];
+		const errors: string[] = [];
 		const musicString = '-';
 		const parser = new ModifierParser(errors);
 		const result = parser.parse(musicString);
@@ -11,7 +11,7 @@ describe('parse', () => {
 		expect(result).toEqual({ type: 'octave-shift', data: -1 });
 	});
 	it('should parse octave shift up', () => {
-		const errors = [];
+		const errors: string[] = [];
 		const musicString = '+';
 		const parser = new ModifierParser(errors);
 		const result = parser.parse(musicString);

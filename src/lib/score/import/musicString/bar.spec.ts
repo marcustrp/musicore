@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, it } from 'vitest';
-import { BarItem, BarlineParser } from './bar';
+import { type BarItem, BarlineParser } from './bar.js';
 
 let parser: BarlineParser;
 let errors: string[];
@@ -215,7 +215,7 @@ describe('processDecorations', () => {
 		}
 	});
 	it('should add error on invalid decorator', () => {
-		const result = parser.processDecorations('!notvalid!');
+		parser.processDecorations('!notvalid!');
 		expect(errors.length).toBe(1);
 	});
 });

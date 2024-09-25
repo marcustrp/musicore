@@ -1,9 +1,9 @@
 import Fraction from 'fraction.js';
-import { Bar, BarlineStyle } from '../core/bar.js';
+import { Bar, type BarlineStyle } from '../core/bar.js';
 import { TimeSignature } from '../core/timeSignature.js';
 import { Key } from '../core/key.js';
 import { RhythmElement } from '../core/rhythmElement.js';
-import { Direction } from '../core/data/directions.js';
+import { type Direction } from '../core/data/directions.js';
 import { Note } from '../core/note.js';
 import { Rest } from '../core/rest.js';
 

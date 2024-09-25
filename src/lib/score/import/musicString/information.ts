@@ -1,7 +1,7 @@
-import { Clef, ClefType } from '../../../core/clef.js';
-import { KeyMode, ScaleType } from '../../../core/data/modes.js';
+import { Clef, type ClefType } from '../../../core/clef.js';
+import { type KeyMode, type ScaleType } from '../../../core/data/modes.js';
 import { Key } from '../../../core/key.js';
-import { TimeSignature, TimeSignatureSymbol } from '../../../core/timeSignature.js';
+import { TimeSignature, type TimeSignatureSymbol } from '../../../core/timeSignature.js';
 import { Scale } from '../../../core/scale.js';
 
 export type InformationData<T> = {
@@ -118,7 +118,7 @@ export class InformationParser {
 					data = this.getClef(input);
 					if (data?.data) item.clef = data.data as Clef;
 					break;
-				case 'B':
+				case 'D':
 					data = this.getString('D', input);
 					if (data?.data) {
 						if (!item.discography) item.discography = [];
@@ -133,12 +133,15 @@ export class InformationParser {
 					}
 					break;
 				case 'I':
-					const root =
-						currentInfo.key ? currentInfo.key.root
-						: item.key ? item.key.root
-						: 'c';
-					data = this.getInputScale(input, root);
-					if (data?.data) item.inputScale = data.data as Scale;
+					{
+						const root =
+							currentInfo.key ? currentInfo.key.root
+							: item.key ? item.key.root
+							: 'c';
+						data = this.getInputScale(input, root);
+						if (data?.data) item.inputScale = data.data as Scale;
+					}
+					break;
 				case 'K':
 					data = this.getKey(input);
 					if (data?.data) {

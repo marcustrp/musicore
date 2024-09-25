@@ -1,7 +1,7 @@
 import Fraction from 'fraction.js';
-import { beforeEach, describe, expect, it, vi, SpyInstance, afterEach, beforeAll } from 'vitest';
-import { TimeSignature } from './timeSignature';
-import { Note } from './note';
+import { beforeEach, describe, expect, it, vi, SpyInstance, afterEach } from 'vitest';
+import { TimeSignature } from './timeSignature.js';
+import { Note } from './note.js';
 
 describe('setBeamGroupDuration()', () => {
 	let spy: SpyInstance;
@@ -19,14 +19,14 @@ describe('setBeamGroupDuration()', () => {
 		vi.restoreAllMocks();
 	});
 	it('should set beamGroupDurations for supported time signatures', () => {
-		const timeSignature = new TimeSignature(4, 4);
-		const timeSignature2 = new TimeSignature(2, 8);
-		const timeSignature3 = new TimeSignature(3, 8);
-		const timeSignature4 = new TimeSignature(6, 8);
-		const timeSignature5 = new TimeSignature(9, 8);
-		const timeSignature6 = new TimeSignature(12, 8);
-		const timeSignature7 = new TimeSignature(5, 8);
-		const timeSignature8 = new TimeSignature(7, 8);
+		new TimeSignature(4, 4);
+		new TimeSignature(2, 8);
+		new TimeSignature(3, 8);
+		new TimeSignature(6, 8);
+		new TimeSignature(9, 8);
+		new TimeSignature(12, 8);
+		new TimeSignature(5, 8);
+		new TimeSignature(7, 8);
 
 		expect(spy).toBeCalledWith([new Fraction(1, 4)]);
 		expect(spy).toBeCalledWith([new Fraction(2, 8)]);

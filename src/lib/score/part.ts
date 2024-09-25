@@ -2,9 +2,6 @@ import { Staff } from './staff.js';
 import { Voice } from './voice.js';
 import { Clef } from '../core/clef.js';
 import { BarArray } from './barArray.js';
-import { Note } from '../core/note.js';
-import { Rest } from '../core/rest.js';
-import Fraction from 'fraction.js';
 
 export class Part {
 	/** @todo implement more properties */
@@ -81,7 +78,13 @@ export class Part {
     return staff.clef.length;
   }*/
 
-	getClef(staffIndex: number, clefIndex: number) {
+	/**
+	 *
+	 * @param staffIndex
+	 * @param clefIndex @todo implement clefIndex
+	 * @returns
+	 */
+	getClef(staffIndex: number, _clefIndex: number) {
 		const staff = this.getStaff(staffIndex);
 		//if (staff.clef.length <= clefIndex) throw new Error('Clef index out of bounds');
 		//return staff.clef[clefIndex];
@@ -95,7 +98,6 @@ export class Part {
 	}
 
 	getVoiceId(voiceIndex: number) {
-		const voice = this.getVoice(voiceIndex);
 		return this.voices[voiceIndex].id;
 	}
 

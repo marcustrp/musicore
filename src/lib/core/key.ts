@@ -1,7 +1,7 @@
-import { ClefType } from './clef.js';
+import { type ClefType } from './clef.js';
 import { majorKeyAccidentals, modeOffsets, keySignaturePosition } from './data/keys.js';
-import { KeyMode } from './data/modes.js';
-import { Accidentals, Note, NoteName } from './note.js';
+import { type KeyMode } from './data/modes.js';
+import { type Accidentals, Note, type NoteName } from './note.js';
 import { Scale } from './scale.js';
 
 export type KeyAccidental = '#' | 'b';

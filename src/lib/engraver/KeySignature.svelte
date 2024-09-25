@@ -44,7 +44,7 @@
 		<ColumnEditor columnEditor={editor} editorIndex={index} event={handleEvent} />
 	{/each}
 {:else}
-	{#each keySignature.accidentals as accidental, column}
+	{#each keySignature.accidentals as accidental}
 		<g>
 			{#if accidental.y !== undefined}}
 				<path

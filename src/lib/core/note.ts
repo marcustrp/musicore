@@ -1,9 +1,8 @@
-import { ClefType } from './clef.js';
-import { Notation } from './data/notations.js';
+import { type Notation } from './data/notations.js';
 import * as noteData from './data/noteData.js';
 import FiguredBass from './figuredBass.js';
 import FunctionAnalysis from './functionAnalysis.js';
-import { NoteType, RhythmElement } from './rhythmElement.js';
+import { type NoteType, RhythmElement } from './rhythmElement.js';
 import RomanNumeralAnalysis from './romanNumeralAnalysis.js';
 import { Scale } from './scale.js';
 

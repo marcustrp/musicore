@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { MusicStringImporter, Key, type NoteAccidentals } from '$lib/index.js';
+	import { MusicStringImporter, type NoteAccidentals } from '$lib/index.js';
 	import Score from '$lib/engraver/Score.svelte';
 	import MusicFont from '$lib/engraver/MusicFont.svelte';
 	import type { EngraverSettings } from '$lib/engraver/scoreEngraver.js';

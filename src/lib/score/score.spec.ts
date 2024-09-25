@@ -1,12 +1,7 @@
-import Fraction from 'fraction.js';
-import { it, expect, describe, beforeEach, vi } from 'vitest';
-import { Bar } from '../core/bar';
-import { Clef } from '../core/clef';
-import { Key } from '../core/key';
-import { TimeSignature } from '../core/timeSignature';
-import { Note } from '../core/note';
-import { Score } from './score';
-import { Part } from './part';
+import { it, expect, describe, beforeEach } from 'vitest';
+import { Key } from '../core/key.js';
+import { TimeSignature } from '../core/timeSignature.js';
+import { Score } from './score.js';
 
 /*it('should return correct title', () => {
   const expectedResult = 'test';

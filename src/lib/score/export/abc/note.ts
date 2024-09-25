@@ -4,7 +4,7 @@ import { TimeSignature } from '../../../core/timeSignature.js';
 import { Note } from '../../../core/note.js';
 import { Rest } from '../../../core/rest.js';
 import { RhythmElement } from '../../../core/rhythmElement.js';
-import { ReportFunction } from '../abc.js';
+import { type ReportFunction } from '../abc.js';
 
 export class NoteGenerator {
 	constructor(

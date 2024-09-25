@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { capitalizeFirstChar } from './string';
+import { capitalizeFirstChar } from './string.js';
 
 describe('capitalizeFirstLetter()', () => {
 	it('should capitalize first letter', () => {

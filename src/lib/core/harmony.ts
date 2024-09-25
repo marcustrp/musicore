@@ -35,7 +35,7 @@ export type HarmonyKind =
 type HarmonyDegreeType = 'subtract' | 'add';
 export interface HarmonySettings {
 	root: string; // root.step
-	numeral?: any;
+	numeral?: unknown;
 	kind: HarmonyKind;
 	bass?: string;
 	degree?: {

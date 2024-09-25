@@ -1,17 +1,17 @@
 import Fraction from 'fraction.js';
 import { beforeEach, describe, expect, it } from 'vitest';
-import { Bar } from '../../../core/bar';
-import { Crescendo, Diminuendo, Dynamic, Mordent, Trill } from '../../../core/data/notations';
-import { Key } from '../../../core/key';
-import { TimeSignature } from '../../../core/timeSignature';
-import { Note, ScaleNumber } from '../../../core/note';
-import { Rest } from '../../../core/rest';
-import { NoteType } from '../../../core/rhythmElement';
-import { Scale } from '../../../core/scale';
-import { BodyData, BodyMatch, BodyParser } from './body';
-import ChordSymbol from '../../../core/chordSymbol';
-import RomanNumeralAnalysis from '../../../core/romanNumeralAnalysis';
-import FunctionAnalysis from '../../../core/functionAnalysis';
+import { Bar } from '../../../core/bar.js';
+import { Crescendo, Diminuendo, Dynamic, Mordent, Trill } from '../../../core/data/notations.js';
+import { Key } from '../../../core/key.js';
+import { TimeSignature } from '../../../core/timeSignature.js';
+import { Note, type ScaleNumber } from '../../../core/note.js';
+import { Rest } from '../../../core/rest.js';
+import { type NoteType } from '../../../core/rhythmElement.js';
+import { Scale } from '../../../core/scale.js';
+import { type BodyData, BodyMatch, BodyParser } from './body.js';
+import ChordSymbol from '../../../core/chordSymbol.js';
+import RomanNumeralAnalysis from '../../../core/romanNumeralAnalysis.js';
+import FunctionAnalysis from '../../../core/functionAnalysis.js';
 
 let parser: BodyParser;
 let errors: string[];
@@ -114,8 +114,8 @@ describe('parse()', () => {
 				info,
 				new Bar(new TimeSignature(), new Key('c', 'major')),
 			);
-			note1['id'] = result[0].item.id;
-			note2['id'] = result[1].item.id;
+			note1['id'] = result![0].item.id;
+			note2['id'] = result![1].item.id;
 			expect(result).toStrictEqual(expectedResult);
 		});
 	});
@@ -128,7 +128,7 @@ describe('parse()', () => {
 			info,
 			new Bar(new TimeSignature(), new Key('c', 'major')),
 		);
-		note1['id'] = result[0].item.id;
+		note1['id'] = result![0].item.id;
 		expect(result).toStrictEqual(expectedResult);
 	});
 });
@@ -320,6 +320,8 @@ describe('match()', () => {
 					],
 				},
 			];
+			const result = parser.match(musicString, new Bar(new TimeSignature(), new Key('c', 'major')));
+			expect(result).toEqual(data);
 		});
 		it('should add two end slurs', () => {
 			const musicString = '1q))';
@@ -849,7 +851,7 @@ describe('process()', () => {
 		const note = Note.fromScaleNumber(data.items as ScaleNumber, 5, scale, data.type);
 		const expectedResult = { item: note };
 		const result = parser.process(data, info);
-		note['id'] = result.item.id;
+		note['id'] = result!.item.id;
 		expect(result).toEqual(expectedResult);
 	});
 	it('should return a note with sharp accidental', () => {
@@ -860,7 +862,7 @@ describe('process()', () => {
 		const note = Note.fromScaleNumber(data.items as ScaleNumber, 5, scale, data.type);
 		const expectedResult = { item: note };
 		const result = parser.process(data, info);
-		note['id'] = result.item.id;
+		note['id'] = result!.item.id;
 		expect(result).toEqual(expectedResult);
 	});
 	/*it('should correct octave for b#', () => {
@@ -885,7 +887,7 @@ describe('process()', () => {
 		note.tie = 'start';
 		const expectedResult = { item: note };
 		const result = parser.process(data, info);
-		note['id'] = result.item.id;
+		note['id'] = result!.item.id;
 		expect(result).toEqual(expectedResult);
 	});
 	/*it('should return a note with chord notes', () => {
@@ -930,7 +932,7 @@ describe('process()', () => {
 		const rest = new Rest(data.type);
 		const expectedResult = { item: rest };
 		const result = parser.process(data, info);
-		rest['id'] = result.item.id;
+		rest['id'] = result!.item.id;
 		expect(result).toEqual(expectedResult);
 	});
 	it('should return a note with step (analysis)', () => {
@@ -943,7 +945,7 @@ describe('process()', () => {
 		note.analysis = { romanNumeral: [{ step: 'IVm' } as any as RomanNumeralAnalysis] };
 		const expectedResult = { item: note };
 		const result = parser.process(data, info);
-		note['id'] = result.item.id;
+		note['id'] = result!.item.id;
 		expect(result).toEqual(expectedResult);
 	});
 	it('should return a note/rest with chord symbol', () => {
@@ -961,8 +963,8 @@ describe('process()', () => {
 		const expectedResult2 = { item: note2 };
 		const result2 = parser.process(data[1], info);
 
-		note['id'] = result.item.id;
-		note2['id'] = result2.item.id;
+		note['id'] = result!.item.id;
+		note2['id'] = result2!.item.id;
 		expect(result).toEqual(expectedResult);
 		expect(result2).toEqual(expectedResult2);
 	});
@@ -976,7 +978,7 @@ describe('process()', () => {
 		note.lyrics = [{ text: 'Yes!' }];
 		const expectedResult = { item: note };
 		const result = parser.process(data, info);
-		note['id'] = result.item.id;
+		note['id'] = result!.item.id;
 		expect(result).toEqual(expectedResult);
 	});
 	it('should return a note with solfa', () => {
@@ -989,7 +991,7 @@ describe('process()', () => {
 		note.solfege = 'Ta';
 		const expectedResult = { item: note };
 		const result = parser.process(data, info);
-		note['id'] = result.item.id;
+		note['id'] = result!.item.id;
 		expect(result).toEqual(expectedResult);
 	});
 	it('should return a note with function (analysis)', () => {
@@ -999,10 +1001,10 @@ describe('process()', () => {
 			function: 'T5',
 		};
 		const note = Note.fromScaleNumber(data.items as ScaleNumber, 5, scale, data.type);
-		note.analysis = { function: [{ function: 'T5' } as any as FunctionAnalysis] };
+		note.analysis = { function: [{ function: 'T5' } as FunctionAnalysis] };
 		const expectedResult = { item: note };
 		const result = parser.process(data, info);
-		note['id'] = result.item.id;
+		note['id'] = result!.item.id;
 		expect(result).toEqual(expectedResult);
 	});
 	it('should return a note with notation', () => {
@@ -1021,7 +1023,7 @@ describe('process()', () => {
 		};
 		const expectedResult = { item: note };
 		const result = parser.process(data, info);
-		delete result.item['id'];
+		delete result!.item['id'];
 		expect(result).toEqual(expectedResult);
 	});
 });

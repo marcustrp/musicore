@@ -2,16 +2,15 @@ import Fraction from 'fraction.js';
 import { Bar } from '../../../core/bar.js';
 import * as Notations from '../../../core/data/notations.js';
 import { Duration } from '../../../core/duration.js';
-import { BeamValue, Note, Octave, ScaleNumber, TieType } from '../../../core/note.js';
+import { type BeamValue, Note, type Octave, type ScaleNumber } from '../../../core/note.js';
 import { Rest } from '../../../core/rest.js';
-import { NoteType, RhythmElement } from '../../../core/rhythmElement.js';
-import { Scale } from '../../../core/scale.js';
+import { type NoteType, RhythmElement } from '../../../core/rhythmElement.js';
 import { dynamics, articulations } from './notations.js';
 import { Spacer } from './spacer.js';
 import ChordSymbol from '../../../core/chordSymbol.js';
 import RomanNumeralAnalysis from '../../../core/romanNumeralAnalysis.js';
 import FunctionAnalysis from '../../../core/functionAnalysis.js';
-import { InformationItem } from './information.js';
+import { type InformationItem } from './information.js';
 
 type NoteTypeMusicstring = '_' | '__' | NoteType;
 
@@ -178,7 +177,8 @@ export class BodyParser {
    */
 	match(item: string, bar: Bar) {
 		const myRegexp =
-			/([\(]*)?(?:([1-9]):(?:([1-9]):)?(?:([1-9]):)?)?(!(?!(?:!|!!)).*!)*(?:\`([^\"]*)\`)?(?:\"([^\"]*)\")?(?:'([^']*)')?(?:´([^']*)´)?(?:\*([^\*]*)\*)?(?:(__|[ldwhqestuv_])|(?:\[((?:(?:[+-]){0,2}(?:(?:bb|b|#|x|m)(?!x))?[1-9rxyi][IL]*){0,32})\](__|[ldwhqestuv_]))|(?:\[((?:(?:[+-\/]){0,2}(?:(?:bb|b|#|x|m)(?!x))?[1-9rxyi][IL]*){0,32})\])|(?:((?:[+-\/]){0,2}(?:(?:bb|b|#|x|m)(?!x))?[1-9rxyi][IL]*)(__|[ldwhqestuv_]))|((?:[+-\/]){0,2}(?:(?:bb|b|#|x|m)(?!x))?[1-9rxyi][IL]*))([\.]*)(=)?([\)]*)?/g;
+			/([(]*)?(?:([1-9]):(?:([1-9]):)?(?:([1-9]):)?)?(!(?!(?:!|!!)).*!)*(?:`([^"]*)`)?(?:"([^"]*)")?(?:'([^']*)')?(?:´([^']*)´)?(?:\*([^*]*)\*)?(?:(__|[ldwhqestuv_])|(?:\[((?:(?:[+-]){0,2}(?:(?:bb|b|#|x|m)(?!x))?[1-9rxyi][IL]*){0,32})\](__|[ldwhqestuv_]))|(?:\[((?:(?:[+-/]){0,2}(?:(?:bb|b|#|x|m)(?!x))?[1-9rxyi][IL]*){0,32})\])|(?:((?:[+-/]){0,2}(?:(?:bb|b|#|x|m)(?!x))?[1-9rxyi][IL]*)(__|[ldwhqestuv_]))|((?:[+-/]){0,2}(?:(?:bb|b|#|x|m)(?!x))?[1-9rxyi][IL]*))([.]*)(=)?([)]*)?/g;
+		//	/([\(]*)?(?:([1-9]):(?:([1-9]):)?(?:([1-9]):)?)?(!(?!(?:!|!!)).*!)*(?:\`([^\"]*)\`)?(?:\"([^\"]*)\")?(?:'([^']*)')?(?:´([^']*)´)?(?:\*([^\*]*)\*)?(?:(__|[ldwhqestuv_])|(?:\[((?:(?:[+-]){0,2}(?:(?:bb|b|#|x|m)(?!x))?[1-9rxyi][IL]*){0,32})\](__|[ldwhqestuv_]))|(?:\[((?:(?:[+-\/]){0,2}(?:(?:bb|b|#|x|m)(?!x))?[1-9rxyi][IL]*){0,32})\])|(?:((?:[+-\/]){0,2}(?:(?:bb|b|#|x|m)(?!x))?[1-9rxyi][IL]*)(__|[ldwhqestuv_]))|((?:[+-\/]){0,2}(?:(?:bb|b|#|x|m)(?!x))?[1-9rxyi][IL]*))([\.]*)(=)?([\)]*)?/g;
 		//  /([\(]*)?(?:([1-9]):(?:([1-9]):)?(?:([1-9]):)?)?(!(?!(?:!|!!)).*!)*(?:\`([^\"]*)\`)?(?:\"([^\"]*)\")?(?:'([^']*)')?(?:´([^']*)´)?(?:\*([^\*]*)\*)?(?:(__|[ldwhqestuv_])|(?:\[((?:(?:[+-]){0,2}(?:(?:bb|b|#|x|m)(?!x))?[1-9rxyi]){0,32})\](__|[ldwhqestuv_]))|(?:\[((?:(?:[+-\/]){0,2}(?:(?:bb|b|#|x|m)(?!x))?[1-9rxyi]){0,32})\])|(?:((?:[+-\/]){0,2}(?:(?:bb|b|#|x|m)(?!x))?[1-9rxyi])(__|[ldwhqestuv_]))|((?:[+-\/]){0,2}(?:(?:bb|b|#|x|m)(?!x))?[1-9rxyi]))([\.]*)(=)?([\)]*)?/g;
 		//  /([\(]*)?(?:([1-9]):(?:([1-9]):)?(?:([1-9]):)?)?(!(?!(?:!|!!)).*!)*(?:\`([^\"]*)\`)?(?:\"([^\"]*)\")?(?:'([^']*)')?(?:´([^']*)´)?(?:\*([^\*]*)\*)?(?:(__|[ldwhqestuv_])|(?:\[((?:(?:[+-]){0,2}(?:(?:bb|b|#|x|m)(?!x))?[1-9rxy]){0,32})\](__|[ldwhqestuv_]))|(?:\[((?:(?:[+-]){0,2}(?:(?:bb|b|#|x|m)(?!x))?[1-9rxy]){0,32})\])|(?:((?:[+-]){0,2}(?:(?:bb|b|#|x|m)(?!x))?[1-9rxy])(__|[ldwhqestuv_]))|((?:[+-]){0,2}(?:(?:bb|b|#|x|m)(?!x))?[1-9rxy]))([\.]*)(=)?([\)]*)?/g;
 		// /(!(?!(?:!|!!)).*!)*(?:\`([^\"]*)\`)?(?:\"([^\"]*)\")?(?:'([^']*)')?(?:´([^']*)´)?(?:\*([^\*]*)\*)?(?:((?:[+-]*)?(?:[b#x]{0,2}[0-7y]))|(?:\[((?:(?:[+-]*)?(?:[b#x]{0,2}[0-7y])){0,32})\])|(?:((?:[+-]*)?(?:[b#x]{0,2}[0-7y]))([whq]|8|16|32|64|128))|(?:\[((?:(?:[+-]*)?(?:[b#x]{0,2}[0-7y])){0,32})\]([whq]|8|16|32|64|128))|([([whq]|8|16|32|64|128))([\.]*)([r])*(-)?/g;
@@ -194,7 +194,7 @@ export class BodyParser {
 			}
 		} while (match);
 		const group: BodyData[] = [];
-		items.forEach((item, index) => {
+		items.forEach((item) => {
 			group.push(this.matchParse(item, items.length > 1));
 		});
 		if (group.length > 1) {
@@ -340,7 +340,7 @@ export class BodyParser {
 		// if a note in group has _, but is not part of triplet in group, we
 		// need to add one to the total group note count. Example 1_3:123
 		let tripletNoteCountAdd = 0;
-		group.forEach((item, index) => {
+		group.forEach((item) => {
 			let itemDuration: Fraction;
 			if (item.typeIsDefault) {
 				if (item.dots === 1) {
@@ -463,11 +463,11 @@ export class BodyParser {
 		return state;
 	}
 
-	getTripletDefaultQ(p: number) {
+	getTripletDefaultQ(_p: number) {
 		return 2;
 	}
 
-	getTripletDefaultR(p: number) {
+	getTripletDefaultR(_p: number) {
 		return 3;
 	}
 
@@ -480,7 +480,7 @@ export class BodyParser {
    * @returns 
    */
 	process(data: BodyData, info: InformationItem) {
-		const numberRegExp = /([+\-\/]*)?([b#xm]{0,2}[0-9ryi])([IL]*)/g;
+		const numberRegExp = /([+\-/]*)?([b#xm]{0,2}[0-9ryi])([IL]*)/g;
 		data.type = data.type as NoteType;
 		// get scaleNumber (1, 2, b3 etc). If not set, default to 1
 		//let scaleNumber = items[5] || items[9] || '1';
@@ -589,8 +589,7 @@ export class BodyParser {
 	}
 
 	addData(item: Note | Spacer, data: BodyData) {
-		if (data.step)
-			item.analysis = { romanNumeral: [{ step: data.step } as any as RomanNumeralAnalysis] };
+		if (data.step) item.analysis = { romanNumeral: [{ step: data.step } as RomanNumeralAnalysis] };
 		this.setChordSymbol(item, data.chordSymbol);
 		if (data.lyrics) item.lyrics = [{ text: data.lyrics }];
 		if (data.solfa) item.solfege = data.solfa;
@@ -598,7 +597,7 @@ export class BodyParser {
 			if (!item.analysis) {
 				item.analysis = {};
 			}
-			item.analysis!.function = [{ function: data.function } as any as FunctionAnalysis];
+			item.analysis!.function = [{ function: data.function } as FunctionAnalysis];
 		}
 	}
 

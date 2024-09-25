@@ -36,6 +36,8 @@ export class Segno implements Direction {
 export class DaCapo implements Direction {
 	al?: 'coda' | 'fine';
 	extra?: string;
-	constructor(al?: 'coda' | 'fine') {}
+	constructor(al?: 'coda' | 'fine') {
+		if (al) this.al = al;
+	}
 }
 export class Fine implements Direction {}

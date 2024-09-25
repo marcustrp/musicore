@@ -1,4 +1,4 @@
-import { ScaleNumber } from '../note.js';
+import { type ScaleNumber } from '../note.js';
 
 export const ScaleTypes: {
 	[key: string]: {

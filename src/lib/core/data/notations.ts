@@ -1,5 +1,5 @@
 import Fraction from 'fraction.js';
-import { Direction } from './directions.js';
+import { type Direction } from './directions.js';
 
 export interface Notation {
 	clone(): Notation;

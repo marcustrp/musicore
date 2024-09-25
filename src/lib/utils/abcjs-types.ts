@@ -30,7 +30,7 @@ export type NotePitch_m_FIX = {
 	name: string;
 	startSlur?: Array<{ label: number }>;
 	endSlur?: Array<number>;
-	startTie?: {};
+	startTie?: object;
 	endTie?: boolean;
 	verticalPos: number;
 	highestVert: number;

@@ -1,10 +1,9 @@
 import { beforeEach, describe, expect, it } from 'vitest';
-import { Clef } from '../../core/clef';
-import { Key } from '../../core/key';
-import { TimeSignature } from '../../core/timeSignature';
-import { Note } from '../../core/note';
-import { Score } from '../score';
-import { AbcExporter } from './abc';
+import { Key } from '../../core/key.js';
+import { TimeSignature } from '../../core/timeSignature.js';
+import { Note } from '../../core/note.js';
+import { Score } from '../score.js';
+import { AbcExporter } from './abc.js';
 
 let exporter: AbcExporter;
 beforeEach(() => {

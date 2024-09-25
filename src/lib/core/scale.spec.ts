@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { Scale } from './scale';
+import { Scale } from './scale.js';
 
 describe('Scale', () => {
 	it('should create a scale', () => {
@@ -58,7 +58,7 @@ describe('fromString()', () => {
 		expect(resultFn).toThrowError(/Empty rootAndMode/);
 	});
 	it('should throw an error if parameter is undefined', () => {
-		const scaleString = undefined as any as string;
+		const scaleString = undefined as unknown as string;
 
 		const resultFn = () => Scale.fromString(scaleString);
 		expect(resultFn).toThrowError(/Empty rootAndMode/);

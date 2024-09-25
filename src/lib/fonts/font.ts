@@ -8,9 +8,9 @@ import { glyphNames } from './bravura/glyphnames.js';
 import { bravuraMetadata } from './bravura/bravura_metadata.js';
 import { BBox } from '../utils/bBox.js';
 
-type GlyphNames = typeof glyphNames;
-type GlyphsWithAnchorsData = typeof bravuraMetadata.glyphsWithAnchors;
-type GlyphsWithAnchorsName = keyof GlyphsWithAnchorsData;
+//type GlyphNames = typeof glyphNames;
+//type GlyphsWithAnchorsData = typeof bravuraMetadata.glyphsWithAnchors;
+//type GlyphsWithAnchorsName = keyof GlyphsWithAnchorsData;
 export type Glyph = {
 	glyphName: string;
 	unicode?: string;

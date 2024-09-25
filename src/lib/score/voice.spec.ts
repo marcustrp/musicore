@@ -1,12 +1,11 @@
 import Fraction from 'fraction.js';
 import { afterEach, beforeAll, beforeEach, describe, expect, it, vi } from 'vitest';
-import { Bar } from '../core/bar';
-import { Key } from '../core/key';
-import { TimeSignature } from '../core/timeSignature';
-import { Note } from '../core/note';
-import { Voice } from './voice';
-import { BarArray } from './barArray';
-import { RhythmElement } from '../core/rhythmElement';
+import { Key } from '../core/key.js';
+import { TimeSignature } from '../core/timeSignature.js';
+import { Note } from '../core/note.js';
+import { Voice } from './voice.js';
+import { BarArray } from './barArray.js';
+import { RhythmElement } from '../core/rhythmElement.js';
 
 let voice: Voice;
 beforeAll(() => {

@@ -2,7 +2,7 @@ import { Note } from '../../../core/note.js';
 import { Rest } from '../../../core/rest.js';
 import { Scale } from '../../../core/scale.js';
 import { Score } from '../../score.js';
-import { ReportFunction } from '../abc.js';
+import { type ReportFunction } from '../abc.js';
 import { BarGenerator } from './bar.js';
 import { NoteGenerator } from './note.js';
 

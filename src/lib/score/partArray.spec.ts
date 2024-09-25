@@ -1,18 +1,15 @@
 import { beforeEach, describe, expect, it } from 'vitest';
-import { Clef } from '../core/clef';
-import { Part } from './part';
-import { BarArray } from './barArray';
-import PartArray from './partArray';
-import { Bar } from '../core/bar';
-import { TimeSignature } from '../core/timeSignature';
-import { Key } from '../core/key';
-import { Note } from '../core/note';
-import Fraction from 'fraction.js';
+import { Clef } from '../core/clef.js';
+import { Part } from './part.js';
+import { BarArray } from './barArray.js';
+import PartArray from './partArray.js';
+import { TimeSignature } from '../core/timeSignature.js';
+import { Key } from '../core/key.js';
 
 let barArray: BarArray;
 let partArray: PartArray;
 beforeEach(() => {
-	barArray = new BarArray(new TimeSignature(), new Key('c', 'major')); //{} as any as BarArray;
+	barArray = new BarArray(new TimeSignature(), new Key('c', 'major')); //{} as BarArray;
 	partArray = new PartArray(barArray);
 });
 
@@ -22,7 +19,7 @@ describe('createPartId()', () => {
 		expect(result).toBe('P1');
 	});
 	it('should create a new part id (one existing part)', () => {
-		partArray['_parts'] = [{ id: 'P1' } as any as Part];
+		partArray['_parts'] = [{ id: 'P1' } as Part];
 		const result = partArray['createPartId']();
 		expect(result).toBe('P2');
 	});
@@ -48,23 +45,23 @@ describe('addPart()', () => {
 
 describe('getPart()', () => {
 	it('should return the correct part', () => {
-		const part = { id: 'P1' } as any as Part;
+		const part = { id: 'P1' } as Part;
 		partArray['_parts'] = [part];
 		const result = partArray['getPart'](0);
 		expect(result).toBe(part);
 	});
 	it('should throw error if part does not exist (index >= partCount)', () => {
-		const part = { id: 'P1' } as any as Part;
+		const part = { id: 'P1' } as Part;
 		partArray['_parts'] = [part];
 		expect(() => partArray['getPart'](1)).toThrow();
 	});
 	it('should throw an error if partIndex below zero', () => {
-		const part = { id: 'P1' } as any as Part;
+		const part = { id: 'P1' } as Part;
 		partArray['_parts'] = [part];
 		expect(() => partArray['getPart'](-1)).toThrow();
 	});
 	it('should throw an error if partIndex is out of range', () => {
-		const part = { id: 'P1' } as any as Part;
+		const part = { id: 'P1' } as Part;
 		partArray['_parts'] = [part];
 		expect(() => partArray['getPart'](1)).toThrow();
 	});
@@ -75,7 +72,7 @@ describe('getPartById()', () => {
 	let parts: Part[];
 	beforeEach(() => {
 		partArray = new PartArray(barArray);
-		parts = [{ id: 'P1' } as any as Part, { id: 'P2' } as any as Part];
+		parts = [{ id: 'P1' } as Part, { id: 'P2' } as Part];
 		partArray['_parts'] = parts;
 	});
 	it('should return the first part', () => {
@@ -94,7 +91,7 @@ describe('getPartById()', () => {
 
 describe('getPartId()', () => {
 	beforeEach(() => {
-		const part = { id: 'P1' } as any as Part;
+		const part = { id: 'P1' } as Part;
 		partArray['_parts'] = [part];
 	});
 	it('should return the correct part id', () => {

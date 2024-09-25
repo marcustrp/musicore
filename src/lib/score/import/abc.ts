@@ -37,7 +37,7 @@ export class AbcImporter {
 			const tune = tunes[0];
 			this.initScore(tune);
 			let staffCreated = false;
-			tune.lines.forEach((line, lineIndex) => {
+			tune.lines.forEach((line) => {
 				if (line.columns) {
 					this.state.errors.push('line.columns not implemented');
 				}
@@ -51,7 +51,7 @@ export class AbcImporter {
 					this.state.errors.push('line.separator not implemented');
 				}
 				if (line.staff) {
-					line.staff.forEach((staff, staffIndex) => {
+					line.staff.forEach((staff) => {
 						staff.voices?.forEach((voice, voiceIndex) => {
 							this.state.voiceIndex = voiceIndex;
 							if (!staffCreated) {
@@ -66,8 +66,8 @@ export class AbcImporter {
 							}
 							if (voiceIndex >= this.score.parts.getPart(0).getVoiceCount())
 								this.score.parts.getPart(0).addVoice();
-							voice.forEach((item, itemindex) => {
-								this.parseElement(item, 0, staffIndex, voiceIndex);
+							voice.forEach((item) => {
+								this.parseElement(item); //), 0, staffIndex, voiceIndex);
 							});
 						});
 					});
@@ -104,13 +104,17 @@ export class AbcImporter {
 		if (tune.metaText) this.metaTextParser.parse(tune.metaText, this.score);
 	}
 
-	parseElement(item: abcjs.VoiceItem, partIndex: number, staffIndex: number, voiceIndex: number) {
+	/** @todo implement more... */
+	parseElement(
+		item: abcjs.VoiceItem /*, partIndex: number, staffIndex: number, voiceIndex: number*/,
+	) {
 		switch (item.el_type) {
 			case 'bar':
 				this.barParser.parse(item, this.score);
 				break;
 			case 'clef':
-			//const clef = new Clef(clefMapper[item.type].type, undefined, clefMapper[item.type].octave);
+				//const clef = new Clef(clefMapper[item.type].type, undefined, clefMapper[item.type].octave);
+				break;
 			case 'gap':
 				return;
 			case 'key':
@@ -121,7 +125,7 @@ export class AbcImporter {
 				break;
 			case 'note':
 				/** @abcjs incomplete type */
-				const note = this.noteParser.parse(item as abcjsTypes.VoiceItemNote_FIX, this.score);
+				this.noteParser.parse(item as abcjsTypes.VoiceItemNote_FIX, this.score);
 				break;
 			case 'overlay':
 				break;
@@ -131,7 +135,7 @@ export class AbcImporter {
 				break;
 			case 'style':
 				break;
-			case 'style':
+			case 'stem':
 				break;
 			case 'tempo':
 				break;

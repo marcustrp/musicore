@@ -1,8 +1,7 @@
 import { beforeEach, describe, expect, it } from 'vitest';
-import { Clef } from '../../core/clef';
-import { Note } from '../../core/note';
-import { Score } from '../score';
-import { FormAnalyser, FormData, JumpData } from './formAnalyser';
+import { Note } from '../../core/note.js';
+import { Score } from '../score.js';
+import { FormAnalyser, type FormData } from './formAnalyser.js';
 
 let parser: FormAnalyser;
 beforeEach(() => {

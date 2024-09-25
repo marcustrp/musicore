@@ -1,10 +1,10 @@
 import { it, expect, describe, beforeEach, vi } from 'vitest';
-import { Bar } from './bar';
-import { TimeSignature } from './timeSignature';
-import { Key } from './key';
-import { Note } from './note';
+import { Bar } from './bar.js';
+import { TimeSignature } from './timeSignature.js';
+import { Key } from './key.js';
+import { Note } from './note.js';
 import Fraction from 'fraction.js';
-import { DaCapo, Fine } from './data/directions';
+import { DaCapo, Fine } from './data/directions.js';
 
 describe('Bar', () => {
 	let standardBar: object;

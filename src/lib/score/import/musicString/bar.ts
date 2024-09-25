@@ -1,5 +1,5 @@
-import { Bar, BarlineStyle } from '../../../core/bar.js';
-import { Coda, DaCapo, Direction, Fine, Segno } from '../../../core/data/directions.js';
+import { type BarlineStyle } from '../../../core/bar.js';
+import { Coda, DaCapo, type Direction, Fine, Segno } from '../../../core/data/directions.js';
 import { Fermata } from '../../../core/data/notations.js';
 
 enum BarMatch {
@@ -41,7 +41,7 @@ export class BarlineParser {
     Identify musicstring bar item
 		*/
 
-		const myRegexp = /^(!(?!(?:!|!!)).*!)*(?:([|\.\|\[:\\]{1,10}[0-9-,]*)$|([\[\]|:\.\\]*))$/g;
+		const myRegexp = /^(!(?!(?:!|!!)).*!)*(?:([|.|[:\\]{1,10}[0-9-,]*)$|([[\]|:.\\]*))$/g;
 		//let myRegexp = /^(!(?!(?:!|!!)).*!)*(?:([|\.\|\[:\/]{1,10}[0-9-,]*)$|([\[\]|:\.\/]*))$/g;
 		const items = myRegexp.exec(item);
 

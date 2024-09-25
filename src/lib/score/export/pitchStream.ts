@@ -54,7 +54,7 @@ export class PitchStreamExporter {
 		}
 	}
 
-	includeNote(note: RhythmElement, settings: ExportSettings) {
+	includeNote(note: RhythmElement) {
 		return note instanceof Note && note.tie !== 'end' && note.tie !== 'continue';
 	}
 
@@ -63,7 +63,7 @@ export class PitchStreamExporter {
 		barIndexSequence.forEach((barIndex) => {
 			const notes = score.parts.getPart(settings.part).getVoice(settings.voice).getNotes(barIndex);
 			notes.forEach((note) => {
-				if (this.includeNote(note, settings)) pitchStream.push((note as Note).name);
+				if (this.includeNote(note)) pitchStream.push((note as Note).name);
 			});
 		});
 		return pitchStream;
@@ -74,7 +74,7 @@ export class PitchStreamExporter {
 		barIndexSequence.forEach((barIndex) => {
 			const notes = score.parts.getPart(settings.part).getVoice(settings.voice).getNotes(barIndex);
 			notes.forEach((note) => {
-				if (this.includeNote(note, settings)) pitchStream.push((note as Note).name.charAt(0));
+				if (this.includeNote(note)) pitchStream.push((note as Note).name.charAt(0));
 			});
 		});
 		return pitchStream;
@@ -88,7 +88,7 @@ export class PitchStreamExporter {
 		barIndexSequence.forEach((barIndex) => {
 			const notes = score.parts.getPart(settings.part).getVoice(settings.voice).getNotes(barIndex);
 			notes.forEach((note) => {
-				if (this.includeNote(note, settings))
+				if (this.includeNote(note))
 					pitchStream.push(
 						scale.getScaleNumberFromNote((note as Note).root, (note as Note).accidental),
 					);
@@ -111,8 +111,7 @@ export class PitchStreamExporter {
 				.getPart(settings.part)
 				.getVoice(settings.voice)
 				.getNoteByIndex(firstIndex);
-			if (note && this.includeNote(note, settings))
-				previous = nameToNumber[(note as Note).name.charAt(0)];
+			if (note && this.includeNote(note)) previous = nameToNumber[(note as Note).name.charAt(0)];
 			firstIndex++;
 			if (firstIndex > 10) {
 				throw new Error('No note found in first 10 notes');
@@ -122,7 +121,7 @@ export class PitchStreamExporter {
 		barIndexSequence.forEach((barIndex) => {
 			const notes = score.parts.getPart(settings.part).getVoice(settings.voice).getNotes(barIndex);
 			notes.forEach((note) => {
-				if (firstIndex === 0 && this.includeNote(note, settings)) {
+				if (firstIndex === 0 && this.includeNote(note)) {
 					const current = nameToNumber[(note as Note).name.charAt(0)];
 					const diff = current - previous;
 

@@ -1,7 +1,7 @@
 import Fraction from 'fraction.js';
 import { describe, expect, it, vi } from 'vitest';
-import { RhythmElement } from './rhythmElement';
-import ChordSymbol from './chordSymbol';
+import { RhythmElement } from './rhythmElement.js';
+import ChordSymbol from './chordSymbol.js';
 
 describe('RhythmElement', () => {
 	it('should create a simple instance', () => {
@@ -74,22 +74,22 @@ describe('RhythmElement.getChordSymbol', () => {
 		expect(note.getChordSymbol()).toBeUndefined();
 	});
 	it('should return first chord symbol if set', () => {
-		const chordSymbol = { text: 'C' } as any as ChordSymbol;
+		const chordSymbol = { text: 'C' } as unknown as ChordSymbol;
 
 		const note = new RhythmElement('q');
 		note['_chordSymbols'] = [chordSymbol];
 		expect(note.getChordSymbol()).toEqual(chordSymbol);
 	});
 	it('should return chord symbol by index', () => {
-		const chordSymbol1 = { text: 'C' } as any as ChordSymbol;
-		const chordSymbol2 = { text: 'D' } as any as ChordSymbol;
+		const chordSymbol1 = { text: 'C' } as unknown as ChordSymbol;
+		const chordSymbol2 = { text: 'D' } as unknown as ChordSymbol;
 
 		const note = new RhythmElement('q');
 		note['_chordSymbols'] = [chordSymbol1, chordSymbol2];
 		expect(note.getChordSymbol(1)).toEqual(chordSymbol2);
 	});
 	it('shoudl return undefined if index out of range', () => {
-		const chordSymbol = { text: 'C' } as any as ChordSymbol;
+		const chordSymbol = { text: 'C' } as unknown as ChordSymbol;
 
 		const note = new RhythmElement('q');
 		note['_chordSymbols'] = [chordSymbol];
@@ -104,7 +104,7 @@ describe('RhythmElement.getChordSymbolByPosition', () => {
 	});
 	it('should return chord symbol with offset but undefined level', () => {
 		const offset = new Fraction(1, 2);
-		const chordSymbol = { text: 'C', offset: offset } as any as ChordSymbol;
+		const chordSymbol = { text: 'C', offset: offset } as unknown as ChordSymbol;
 
 		const note = new RhythmElement('q');
 		note['_chordSymbols'] = [chordSymbol];
@@ -113,7 +113,7 @@ describe('RhythmElement.getChordSymbolByPosition', () => {
 	it('should return chord symbol with offset and level', () => {
 		const offset = new Fraction(1, 2);
 		const level = 1;
-		const chordSymbol = { text: 'C', offset: offset, level: level } as any as ChordSymbol;
+		const chordSymbol = { text: 'C', offset: offset, level: level } as unknown as ChordSymbol;
 
 		const note = new RhythmElement('q');
 		note['_chordSymbols'] = [chordSymbol];
@@ -121,14 +121,14 @@ describe('RhythmElement.getChordSymbolByPosition', () => {
 	});
 	it('should return chord symbol with level but undefined offset', () => {
 		const level = 1;
-		const chordSymbol = { text: 'C', level: level } as any as ChordSymbol;
+		const chordSymbol = { text: 'C', level: level } as unknown as ChordSymbol;
 
 		const note = new RhythmElement('q');
 		note['_chordSymbols'] = [chordSymbol];
 		expect(note.getChordSymbolByPosition(undefined, level)).toEqual(chordSymbol);
 	});
 	it('should return chord symbol with neither offset nor level', () => {
-		const chordSymbol = { text: 'C' } as any as ChordSymbol;
+		const chordSymbol = { text: 'C' } as unknown as ChordSymbol;
 
 		const note = new RhythmElement('q');
 		note['_chordSymbols'] = [chordSymbol];
@@ -136,7 +136,7 @@ describe('RhythmElement.getChordSymbolByPosition', () => {
 	});
 	it('should not match chord symbol with undefined offset when offset is set', () => {
 		const offset = new Fraction(1, 2);
-		const chordSymbol = { text: 'C' } as any as ChordSymbol;
+		const chordSymbol = { text: 'C' } as unknown as ChordSymbol;
 
 		const note = new RhythmElement('q');
 		note['_chordSymbols'] = [chordSymbol];
@@ -144,7 +144,7 @@ describe('RhythmElement.getChordSymbolByPosition', () => {
 	});
 	it('should return undefined if offset does not match', () => {
 		const offset = new Fraction(1, 2);
-		const chordSymbol = { text: 'C', offset: offset } as any as ChordSymbol;
+		const chordSymbol = { text: 'C', offset: offset } as unknown as ChordSymbol;
 
 		const note = new RhythmElement('q');
 		note['_chordSymbols'] = [chordSymbol];
@@ -153,7 +153,7 @@ describe('RhythmElement.getChordSymbolByPosition', () => {
 
 	it('should not match chord symbol with undefined level when level is set', () => {
 		const level = 1;
-		const chordSymbol = { text: 'C' } as any as ChordSymbol;
+		const chordSymbol = { text: 'C' } as unknown as ChordSymbol;
 
 		const note = new RhythmElement('q');
 		note['_chordSymbols'] = [chordSymbol];
@@ -162,7 +162,7 @@ describe('RhythmElement.getChordSymbolByPosition', () => {
 	it('should return undefined if level does not match', () => {
 		const offset = new Fraction(1, 2);
 		const level = 1;
-		const chordSymbol = { text: 'C', offset: offset, level: level } as any as ChordSymbol;
+		const chordSymbol = { text: 'C', offset: offset, level: level } as unknown as ChordSymbol;
 
 		const note = new RhythmElement('q');
 		note['_chordSymbols'] = [chordSymbol];

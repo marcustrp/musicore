@@ -1,8 +1,8 @@
 import { beforeEach, describe, expect, it } from 'vitest';
 import * as abcjs from 'abcjs';
-import { AbcImporter } from './abc';
-import { Note } from '../../core/note';
-import { Clef } from '../../core/clef';
+import { AbcImporter } from './abc.js';
+import { Note } from '../../core/note.js';
+import { Clef } from '../../core/clef.js';
 import Fraction from 'fraction.js';
 
 /**

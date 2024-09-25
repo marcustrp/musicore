@@ -24,16 +24,12 @@ export class AbcExporter {
 
 	export(score: Score) {
 		this.score = score;
-		try {
-			validateScore(score, this.addWarning, this.addError);
-			const headerGenerator = new HeaderGenerator(this.addWarning, this.addError);
-			const header = headerGenerator.getHeader(this.score);
-			const bodyGenerator = new BodyGenerator(this.addWarning, this.addError);
-			const body = bodyGenerator.getBody(score);
-			return `${header}\n${body}`;
-		} catch (error) {
-			throw error;
-		}
+		validateScore(score, this.addWarning, this.addError);
+		const headerGenerator = new HeaderGenerator(this.addWarning, this.addError);
+		const header = headerGenerator.getHeader(this.score);
+		const bodyGenerator = new BodyGenerator(this.addWarning, this.addError);
+		const body = bodyGenerator.getBody(score);
+		return `${header}\n${body}`;
 	}
 
 	private addError(message: string) {

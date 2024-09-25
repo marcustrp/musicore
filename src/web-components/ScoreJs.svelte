@@ -12,7 +12,7 @@
 />
 
 <script lang="ts">
-	import { MusicStringImporter, Note, type NoteAccidentals, type NoteName } from '$lib/index.js';
+	import { MusicStringImporter, type NoteName } from '$lib/index.js';
 	import Score from '$lib/engraver/Score.svelte';
 	import type { EngraverSettings } from '$lib/engraver/scoreEngraver.js';
 	import type { LayoutSettings } from '$lib/types.js';
@@ -148,9 +148,9 @@
 		renderEditorsOnHover: editorsOnHover === 'true' ? true : false,
 	};
 
-	function setAccidental(accidental: string) {
+	/*function setAccidental(accidental: string) {
 		layoutSettings.defaultAccidental = accidental as NoteAccidentals;
-	}
+	}*/
 </script>
 
 <!--<AccidentalSelector currentAccidental={layoutSettings.defaultAccidental || '#'} {setAccidental} />-->

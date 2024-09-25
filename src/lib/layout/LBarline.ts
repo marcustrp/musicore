@@ -45,7 +45,8 @@ export class LBarline implements LayoutObject {
 		this.lines = this.createLines(font, barline);
 	}
 
-	private createRepeatDots(repeat: number | string): ERepeatDots {
+	/** @todo implement */
+	private createRepeatDots(_repeat: number | string): ERepeatDots {
 		return { x: 0, y1: 0, y2: 0, r: 0 };
 	}
 

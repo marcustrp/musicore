@@ -18,7 +18,7 @@
 
 	var selected = $state(false);
 
-	function doSelect(e: MouseEvent) {
+	function doSelect(_e: MouseEvent) {
 		/*clearSelection.update(() => {return {}});
     selected = !selected;
     e.stopPropagation();*/

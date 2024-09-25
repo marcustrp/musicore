@@ -250,7 +250,7 @@ export class TimeSignature {
 					'note is at start of beam group and at least as long as two beam groups, which are in the same bar',
 				);
 				// note is at start of beam group and at least as long as two beam groups, which are in the same bar
-				let span = 2;
+				//let span = 2;
 				beamGroupIndex++;
 				let tmpGroupDuration = this.beamGroupDurations[
 					beamGroupIndex % this.beamGroupDurations.length
@@ -265,7 +265,7 @@ export class TimeSignature {
 					tmpGroupDuration = tmpGroupDuration.add(
 						this.beamGroupDurations[beamGroupIndex % this.beamGroupDurations.length],
 					);
-					span++;
+					//span++;
 				}
 				const noteType = Duration.getTypeAndDotsFromFraction(tmpGroupDuration);
 				clone =

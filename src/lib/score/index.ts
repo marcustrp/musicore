@@ -1,5 +1,5 @@
-import { Score } from './score';
+import { Score } from './score.js';
 export { Score };
 
-import { Voice } from './voice';
+import { Voice } from './voice.js';
 export { Voice };

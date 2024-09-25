@@ -1,4 +1,4 @@
-import { Accidentals, NoteAccidentals } from '../note.js';
+import { type NoteAccidentals } from '../note.js';
 
 /**
  *
@@ -67,9 +67,9 @@ const nameToNoteIndex: { [key: string]: number } = {};
 const noteNumberToNoteIndex: { [key: string]: number } = {};
 let curStep = 0;
 // loop through natural notes
-for (var i = 0; i < 7; i++) {
+for (let i = 0; i < 7; i++) {
 	// do bb, b, natural, # and x for all natural notes
-	for (var j = 0; j < 5; j++) {
+	for (let j = 0; j < 5; j++) {
 		const number = (12 + curStep + j - 2) % 12;
 		nameToNoteIndex[naturalNoteNames[i].name + getAccidental(j - 2)] = number;
 		noteNumberToNoteIndex[getAccidental(j - 2) + (i + 1)] = number;
@@ -108,9 +108,9 @@ const stepsToNumber = [1, 1, 2, 3, 3, 4, 4, 5, 6, 6, 7, 7];
 curStep = 0;
 let scaleStep = 0;
 let lastScaleNumber = 1;
-for (var i = 0; i < 7; i++) {
+for (let i = 0; i < 7; i++) {
 	// loop through white notes
-	for (var j = 0; j < 3; j++) {
+	for (let j = 0; j < 3; j++) {
 		// do b, # and natural for all white notes
 		curStep = j - 1;
 		lastScaleNumber = 1;

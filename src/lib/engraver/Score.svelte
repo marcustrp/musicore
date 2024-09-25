@@ -6,7 +6,7 @@
 	import StaffLine from './StaffLine.svelte';
 	import { ScoreEngraver, type EngraverSettings } from './scoreEngraver.js';
 
-	import { clearSelection, update } from './score.store.js';
+	import { clearSelection } from './score.store.js';
 	import Clef from './Clef.svelte';
 	import Bar from './Bar.svelte';
 	import TimeSignature from './TimeSignature.svelte';
@@ -14,7 +14,6 @@
 	import type { LayoutSettings } from '$lib/types.js';
 	import type { BBox } from '$lib/utils/bBox.js';
 	import type { EngravingData } from '$lib/sheetMusicLayout.js';
-	import type { ScoreEvent } from './events/types.js';
 	const clearSignal = $clearSelection;
 
 	type MyProps = {

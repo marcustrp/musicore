@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
-import { Key } from './key';
-import { KeyMode } from './data/modes';
-import { ClefType } from './clef';
+import { Key } from './key.js';
+import { type KeyMode } from './data/modes.js';
+import { type ClefType } from './clef.js';
 
 describe('getAccidentals', () => {
 	const modes = [
@@ -26,7 +26,10 @@ describe('getAccidentals', () => {
 
 describe('toggleAccidental', () => {
 	const clefs: ClefType[] = ['g', 'f'];
-	const clefAccidentalSharpPositions = { g: [0, 3, -1, 2, 5, 1, 4], f: [2, 5, 1, 4, 7, 3, 6] };
+	const clefAccidentalSharpPositions: { [key: string]: number[] } = {
+		g: [0, 3, -1, 2, 5, 1, 4],
+		f: [2, 5, 1, 4, 7, 3, 6],
+	};
 	for (const clef of clefs) {
 		it('should set key if custom accidentals are valid for key (' + clef + ')', () => {
 			// NOTE: actual key (here f) is not important for this test

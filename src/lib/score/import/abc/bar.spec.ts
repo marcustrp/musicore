@@ -1,13 +1,11 @@
 import { beforeEach, describe, expect, it } from 'vitest';
-import { Scale } from '../../../core/scale';
-import { AbcImportState } from '../abc';
-import { BarParser } from './bar';
-import * as abcjs from 'abcjs';
-import { Bar } from '../../../core/bar';
-import { Score } from '../../score';
-import { Key } from '../../../core/key';
-import { TimeSignature } from '../../../core/timeSignature';
-import * as direction from '../../../core/data/directions';
+import { Scale } from '../../../core/scale.js';
+import { AbcImportState } from '../abc.js';
+import { BarParser } from './bar.js';
+import { Score } from '../../score.js';
+import { Key } from '../../../core/key.js';
+import { TimeSignature } from '../../../core/timeSignature.js';
+import * as direction from '../../../core/data/directions.js';
 
 /**
  * @vitest-environment happy-dom

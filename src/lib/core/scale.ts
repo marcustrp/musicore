@@ -1,6 +1,12 @@
-import { ScaleType } from './data/modes.js';
+import { type ScaleType } from './data/modes.js';
 import { ScaleTypes } from './data/scales.js';
-import { NoteAccidentals, Note, NoteName, ScaleNumber, ScaleNumberNumbers } from './note.js';
+import {
+	type NoteAccidentals,
+	Note,
+	type NoteName,
+	type ScaleNumber,
+	type ScaleNumberNumbers,
+} from './note.js';
 
 export class Scale {
 	//root: { name: string; number: number };

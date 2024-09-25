@@ -1,7 +1,6 @@
 import Fraction from 'fraction.js';
 import { Duration } from './duration.js';
 import ChordSymbol from './chordSymbol.js';
-import { ClefType } from './clef.js';
 
 // musicXML type NoteType = '256th' | '128th' | '64th' | '32nd' | '16th' | 'eighth' | 'quarter' | 'half' | 'whole' | 'breve' | 'long'
 // MEI: 1, 2, 4 ... 1024, breve, long
@@ -37,7 +36,7 @@ export class RhythmElement {
 	stem?: {
 		direction: 'up' | 'down';
 		/** @todo Implement, see MEI 4.2.4.2.2. Stem Modifications */
-		//modification: '1slash' | '2slash' | '3slash' | '4slash' | '5slash' | '6slash' | '7slash' | '8slash' | 'sprech' | 'z'
+		//modification: '1slash' | '2slash' | '3slash' | '4slash' | '5slash' | '6slash' | '7slash' | '8slash' | 'sprech' | 'z'
 		/** @todo Implement, see MEI note@stem.with */
 		// joinWith: ...
 	};
@@ -143,12 +142,12 @@ export class RhythmElement {
 	}
 
 	/** @todo implement */
-	getChordSymbolsByOffset(offset: Fraction) {
+	getChordSymbolsByOffset(/**offset: Fraction*/) {
 		throw new Error('Not implemented');
 	}
 
 	/** @todo implement */
-	getChoordSymbolsByLevel(level: number) {
+	getChoordSymbolsByLevel(/**level: number*/) {
 		throw new Error('Not implemented');
 	}
 

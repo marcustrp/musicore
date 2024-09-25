@@ -1,7 +1,7 @@
 import Fraction from 'fraction.js';
 import { describe, expect, it, vi } from 'vitest';
-import { Duration } from './duration';
-import { NoteType } from './rhythmElement';
+import { Duration } from './duration.js';
+import { type NoteType } from './rhythmElement.js';
 
 describe('Duration.getFractionFromType', () => {
 	it('should return correct fraction for l', () => {
@@ -125,16 +125,16 @@ describe('Duration.getTypeAndDotsFromFraction()', () => {
 
 describe('Duration.getFraction()', () => {
 	it('should return correct fraction with no dots', () => {
-		vi.spyOn(Duration as any, 'getFractionFromType').mockReturnValueOnce(new Fraction(1, 4));
-		vi.spyOn(Duration as any, 'addDotsToFraction').mockReturnValueOnce(new Fraction(1, 4));
+		vi.spyOn(Duration, 'getFractionFromType').mockReturnValueOnce(new Fraction(1, 4));
+		vi.spyOn(Duration, 'addDotsToFraction').mockReturnValueOnce(new Fraction(1, 4));
 		const frac = new Fraction(1, 4);
 		const type: NoteType = 'q';
 		const result = Duration.getFraction(type);
 		expect(result).toEqual(frac);
 	});
 	it('should return correct fraction with one dot', () => {
-		vi.spyOn(Duration as any, 'getFractionFromType').mockReturnValueOnce(new Fraction(1, 4));
-		vi.spyOn(Duration as any, 'addDotsToFraction').mockReturnValueOnce(new Fraction(3, 8));
+		vi.spyOn(Duration, 'getFractionFromType').mockReturnValueOnce(new Fraction(1, 4));
+		vi.spyOn(Duration, 'addDotsToFraction').mockReturnValueOnce(new Fraction(3, 8));
 		const frac = new Fraction(3, 8);
 		const type: NoteType = 'q';
 		const result = Duration.getFraction(type, 1);

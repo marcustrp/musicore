@@ -57,7 +57,7 @@ export class BarParser {
 
 	private parseBarline(item: abcjs.VoiceItemBar, score: Score) {
 		/** @abcjs incomplete type */
-		const type = (item as any).type as string;
+		const type = item.type as string;
 		switch (type) {
 			case 'bar_thin':
 				score.bars.setBarline('regular', item.barNumber);
@@ -79,6 +79,7 @@ export class BarParser {
 				score.bars.setBarline('light-heavy', item.barNumber);
 				score.bars.setRepeatEnd(1);
 				if (type === 'bar_right_repeat') break;
+			// falls through
 			case 'bar_left_repeat':
 				score.bars.appendBar();
 				score.bars.setBarline('heavy-light', item.barNumber);

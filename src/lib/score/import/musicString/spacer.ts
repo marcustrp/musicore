@@ -1,5 +1,5 @@
 import { Note } from '../../../core/note.js';
-import { NoteType } from '../../../core/rhythmElement.js';
+import { type NoteType } from '../../../core/rhythmElement.js';
 
 export class Spacer extends Note {
 	get name() {

@@ -1,5 +1,5 @@
 import Fraction from 'fraction.js';
-import { NoteType, RhythmElement } from './rhythmElement.js';
+import { type NoteType, RhythmElement } from './rhythmElement.js';
 
 export class Rest extends RhythmElement {
 	/** Offset from default position. Each integer is the

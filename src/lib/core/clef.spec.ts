@@ -1,5 +1,5 @@
-import { it, expect, describe, beforeEach } from 'vitest';
-import { Clef, ClefType } from './clef';
+import { it, expect, describe } from 'vitest';
+import { Clef, type ClefType } from './clef.js';
 
 describe('Clef', () => {
 	it('should have correct default style', () => {
@@ -39,7 +39,7 @@ describe('Clef.setType', () => {
 			'should have correct style when set to ' + c.type + ', ' + c.symbol + ', ' + c.clefLine,
 			() => {
 				const clef = new Clef();
-				clef.setType(c.type as any as ClefType, c.clefLine);
+				clef.setType(c.type as ClefType, c.clefLine);
 				expect(clef.symbol).toBe(c.symbol);
 				expect(clef.symbol).toBe(c.symbol);
 				expect(clef.clefLine).toBe(c.clefLine);

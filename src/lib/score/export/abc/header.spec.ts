@@ -1,9 +1,9 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
-import { Clef, ClefType } from '../../../core/clef';
-import { Key } from '../../../core/key';
-import { TimeSignature } from '../../../core/timeSignature';
-import { Score } from '../../score';
-import { HeaderGenerator } from './header';
+import { Clef, type ClefType } from '../../../core/clef.js';
+import { Key } from '../../../core/key.js';
+import { TimeSignature } from '../../../core/timeSignature.js';
+import { Score } from '../../score.js';
+import { HeaderGenerator } from './header.js';
 
 let score: Score;
 let generator: HeaderGenerator;

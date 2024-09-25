@@ -1,10 +1,9 @@
 import { beforeEach, describe, expect, it } from 'vitest';
-import { Bar } from '../../../core/bar';
-import { Clef } from '../../../core/clef';
-import { Key } from '../../../core/key';
-import { TimeSignature } from '../../../core/timeSignature';
-import { Score } from '../../score';
-import { validateScore } from './validate';
+import { Bar } from '../../../core/bar.js';
+import { Key } from '../../../core/key.js';
+import { TimeSignature } from '../../../core/timeSignature.js';
+import { Score } from '../../score.js';
+import { validateScore } from './validate.js';
 
 let warnings: string[];
 const addWarning = (message: string) => {

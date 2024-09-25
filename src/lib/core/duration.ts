@@ -1,5 +1,5 @@
 import Fraction from 'fraction.js';
-import { NoteType } from './rhythmElement.js';
+import { type NoteType } from './rhythmElement.js';
 
 export class Duration {
 	/**

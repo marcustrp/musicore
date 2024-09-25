@@ -1,6 +1,6 @@
 import { capitalizeFirstChar } from '../../../utils/string.js';
-import { Creator, Score } from '../../score.js';
-import { ReportFunction } from '../abc.js';
+import { type Creator, Score } from '../../score.js';
+import { type ReportFunction } from '../abc.js';
 import { Bar } from '../../../core/bar.js';
 
 const supportedClefNames = [
@@ -165,12 +165,12 @@ L:${abcLengthUnit}`;
 
 	/**
 	 * Returns the length unit to be used
-	 * @param score
+	 * @param score (not implemented)
 	 * @returns
 	 *
 	 * @todo: optimize the used length unit
 	 */
-	private getLengthUnit(score: Score) {
+	private getLengthUnit(_score: Score) {
 		return '1/4';
 	}
 

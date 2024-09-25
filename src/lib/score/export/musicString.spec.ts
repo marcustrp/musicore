@@ -1,8 +1,7 @@
 import { beforeEach, expect, it } from 'vitest';
-import { Clef } from '../../core/clef';
-import { Note } from '../../core/note';
-import { Score } from '../score';
-import { MusicStringExporter } from './musicString';
+import { Note } from '../../core/note.js';
+import { Score } from '../score.js';
+import { MusicStringExporter } from './musicString.js';
 
 let exporter: MusicStringExporter;
 beforeEach(() => {

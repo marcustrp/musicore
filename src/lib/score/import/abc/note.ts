@@ -3,7 +3,6 @@ import Fraction from 'fraction.js';
 import * as abcjsTypes from '../../../utils/abcjs-types.js';
 import { Duration } from '../../../core/duration.js';
 import { Note } from '../../../core/note.js';
-import { NoteType } from '../../../core/rhythmElement.js';
 import { Score } from '../../score.js';
 import { AbcImportState } from '../abc.js';
 import * as mappers from './data/mappers.js';
@@ -44,11 +43,11 @@ export class NoteParser {
 			if (pitch.endTie) note.tie = 'end';
 			if (pitch.startSlur) {
 				note.slurs = [];
-				pitch.startSlur.forEach((slur) => note.slurs!.push({ type: 'start' }));
+				pitch.startSlur.forEach((_) => note.slurs!.push({ type: 'start' }));
 			}
 			if (pitch.endSlur) {
 				if (!note.slurs) note.slurs = [];
-				pitch.endSlur.forEach((slur) => note.slurs!.push({ type: 'end' }));
+				pitch.endSlur.forEach((_) => note.slurs!.push({ type: 'end' }));
 			}
 			notes.push(note);
 		});

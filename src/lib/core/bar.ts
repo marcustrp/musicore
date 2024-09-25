@@ -1,9 +1,9 @@
 import Fraction from 'fraction.js';
-import { Direction } from './data/directions.js';
+import { type Direction } from './data/directions.js';
 import { Key } from './key.js';
 import { TimeSignature } from './timeSignature.js';
 import { RhythmElement } from './rhythmElement.js';
-import { Accidentals, Note } from './note.js';
+import { type Accidentals, Note } from './note.js';
 import { Rest } from './rest.js';
 import { accidentalToStep, stepToAccidental } from './data/noteData.js';
 
@@ -49,7 +49,7 @@ export type SetKeyOptions = {
 	showKeySign?: boolean;
 };
 
-export type SetTimeSignatureOptions = {};
+export type SetTimeSignatureOptions = object;
 
 /**
  * A bar in a score.
@@ -145,7 +145,7 @@ export class Bar {
 	getMaxVoiceDuration() {
 		let maxDuration = new Fraction(0);
 		Object.entries(this.notes).forEach(([partId, parts]) => {
-			Object.entries(parts).forEach(([voiceId, notes]) => {
+			Object.keys(parts).forEach((voiceId) => {
 				const duration = this.getVoiceDuration(partId, voiceId);
 				if (duration.compare(maxDuration) > 0) maxDuration = duration;
 			});
@@ -169,9 +169,9 @@ export class Bar {
 	 *
 	 * @param timeSignature
 	 * @param options
-	 * @todo implement options
+	 * @todo implement options?: SetTimeSignatureOptions
 	 */
-	setTimeSignature(timeSignature: TimeSignature, options?: SetTimeSignatureOptions) {
+	setTimeSignature(timeSignature: TimeSignature) {
 		this._timeSignature = timeSignature;
 	}
 
@@ -254,8 +254,8 @@ export class Bar {
 
 	updatePrintedAccidentals() {
 		const currentNotenames = this.key.scale.getDiatonicNoteNames();
-		Object.entries(this.notes).forEach(([partId, parts]) => {
-			Object.entries(parts).forEach(([voiceId, notes]) => {
+		Object.entries(this.notes).forEach(([_, parts]) => {
+			Object.entries(parts).forEach(([_, notes]) => {
 				notes.forEach((rhythmElement) => {
 					if (rhythmElement instanceof Rest) return;
 					const note = rhythmElement as Note;

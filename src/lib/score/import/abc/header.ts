@@ -1,5 +1,5 @@
 import * as abcjs from 'abcjs';
-import { KeyMode } from '../../../core/data/modes.js';
+import { type KeyMode } from '../../../core/data/modes.js';
 import { Key } from '../../../core/key.js';
 import { TimeSignature } from '../../../core/timeSignature.js';
 import { AbcImportState } from '../abc.js';

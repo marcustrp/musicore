@@ -1,9 +1,8 @@
 import { beforeAll, beforeEach, describe, expect, it } from 'vitest';
-import { Key } from '../../core/key';
-import { Note } from '../../core/note';
-import { Rest } from '../../core/rest';
-import { Score } from '../score';
-import { ExportSettings, PitchStreamExporter } from './pitchStream';
+import { Key } from '../../core/key.js';
+import { Note } from '../../core/note.js';
+import { Score } from '../score.js';
+import { ExportSettings, PitchStreamExporter } from './pitchStream.js';
 
 let exporter: PitchStreamExporter;
 

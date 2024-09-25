@@ -1,10 +1,15 @@
 import Fraction from 'fraction.js';
 import { afterEach, beforeEach, describe, expect, it } from 'vitest';
-import { Clef } from '../../../core/clef';
-import { Key } from '../../../core/key';
-import { TimeSignature } from '../../../core/timeSignature';
-import { Scale } from '../../../core/scale';
-import { InformationData, InformationItem, InformationParser, KeyData } from './information';
+import { Clef } from '../../../core/clef.js';
+import { Key } from '../../../core/key.js';
+import { TimeSignature } from '../../../core/timeSignature.js';
+import { Scale } from '../../../core/scale.js';
+import {
+	type InformationData,
+	type InformationItem,
+	InformationParser,
+	type KeyData,
+} from './information.js';
 
 let informationParser: InformationParser;
 let errors: string[];

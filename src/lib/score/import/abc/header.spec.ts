@@ -1,10 +1,10 @@
 import { beforeEach, describe, expect, it } from 'vitest';
-import { Key } from '../../../core/key';
-import HeaderParser from './header';
+import { Key } from '../../../core/key.js';
+import HeaderParser from './header.js';
 import * as abcjs from 'abcjs';
-import { TimeSignature } from '../../../core/timeSignature';
-import { AbcImportState } from '../abc';
-import { Scale } from '../../../core/scale';
+import { TimeSignature } from '../../../core/timeSignature.js';
+import { AbcImportState } from '../abc.js';
+import { Scale } from '../../../core/scale.js';
 
 /**
  * @vitest-environment happy-dom
