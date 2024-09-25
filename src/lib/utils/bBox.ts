@@ -1,5 +1,3 @@
-import { type Glyph } from '../fonts/font.js';
-
 export class BBox {
 	x: number;
 	y: number;
@@ -35,11 +33,12 @@ export class BBox {
 	static fromObject(obj: { x: number; y: number; width: number; height: number }) {
 		return new BBox(obj.x, obj.y, obj.width, obj.height);
 	}
-	static fromGlyph(glyph?: Glyph) {
-		return glyph?.bBox ? glyph.bBox.clone() : new BBox();
-	}
 
 	clone() {
 		return new BBox(this.x, this.y, this.width, this.height);
+	}
+
+	static clone(bbox: BBox | undefined) {
+		return bbox ? bbox.clone() : new BBox();
 	}
 }

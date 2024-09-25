@@ -1,4 +1,4 @@
-import type { Glyph } from '$lib/fonts/font.js';
+import type { Glyph } from '$lib/fonts/types.js';
 import type { LayoutSettingsInternal } from '$lib/layout/types.js';
 import { BBox } from '$lib/utils/bBox.js';
 import type { LayoutObject } from './LayoutObject.js';
@@ -46,7 +46,7 @@ export class LLedgerLines implements LayoutObject {
 				x: 0,
 				y: 0,
 				length: 0,
-				width: settings.font.metadata.engravingDefaults.legerLineThickness * 250,
+				width: settings.font.metadata.legerLineThickness,
 			});
 		}
 
@@ -54,8 +54,8 @@ export class LLedgerLines implements LayoutObject {
 	}
 
 	layout(settings: LayoutSettingsInternal, glyph: Glyph, stafflines: LStaffLine[], x: number) {
-		const length = (glyph.horizAdvX ? parseInt(glyph.horizAdvX) : 0) + settings.staveSpace / 2;
-		this.x = x - (length - (glyph.horizAdvX ? parseInt(glyph.horizAdvX) : 0)) / 2;
+		const length = glyph.horizAdvX + settings.staveSpace / 2;
+		this.x = x - (length - glyph.horizAdvX) / 2;
 		const startY =
 			this.ledgerPosition === 'above' ?
 				stafflines[0].y - settings.staveSpace
@@ -64,7 +64,7 @@ export class LLedgerLines implements LayoutObject {
 		const offset = settings.staveSpace * (this.ledgerPosition === 'above' ? -1 : 1);
 
 		this.lines.forEach((line, i) => {
-			line.x = x - (length - (glyph.horizAdvX ? parseInt(glyph.horizAdvX) : 0)) / 2;
+			line.x = x - (length - glyph.horizAdvX) / 2;
 			line.y = startY + offset * i;
 			line.length = length;
 		});

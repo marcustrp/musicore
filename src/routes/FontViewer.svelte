@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Font } from '$lib/fonts/font.js';
+	import { Font } from './tools/font/font.js';
 	import SvgChar from '../lib/engraver/SvgChar.svelte';
 	import SvgFont from '../lib/engraver/SvgFont.svelte';
 

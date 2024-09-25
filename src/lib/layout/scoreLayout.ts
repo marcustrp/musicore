@@ -7,11 +7,14 @@ import { LBars, type BarsLayout } from './LBars.js';
 import { LNote } from './LNote.js';
 import { LRest } from './LRest.js';
 import LayoutDocument from './LayoutDocument.js';
-import { Font } from '../fonts/font.js';
+import { type Font } from '../fonts/types.js';
 import { LAccidental } from './LAccidental.js';
 import { BBox } from '../utils/bBox.js';
 import { type LayoutSettings, type LayoutSettingsInternal } from './types.js';
 import type { StaffLinesLayout } from './types.js';
+
+// currently font is always bravura
+import { bravura } from '$lib/fonts/bravura.js';
 
 export type LayoutData = {
 	document: { width: number; height: number };
@@ -72,7 +75,7 @@ export class SheetMusicLayout {
 		//data: LayoutData,
 		document: LayoutDocument = new LayoutDocument(),
 	) {
-		this.font = new Font('bravura');
+		this.font = bravura;
 		this.document = document;
 	}
 
@@ -82,7 +85,7 @@ export class SheetMusicLayout {
 			this.#layoutSettings.render?.keySignature === 'editor'
 		) {
 			const horizAdvX = LAccidental.getGlyph(this.#layoutSettings, '#').horizAdvX;
-			this.#layoutSettings.defaultAccidentalEditorWidth = horizAdvX ? parseInt(horizAdvX) : 0;
+			this.#layoutSettings.defaultAccidentalEditorWidth = horizAdvX;
 		}
 
 		score.updatePrintedAccidentals();

@@ -5,7 +5,7 @@ import {
 	type NoteName,
 	type NoteType,
 } from '$lib/index.js';
-import { type Glyph } from '../fonts/font.js';
+import { type Glyph } from '../fonts/types.js';
 import { type GlyphKey } from '../fonts/glyphKey.js';
 import { type LayoutSettingsInternal } from './types.js';
 import { LAccidental } from './LAccidental.js';
@@ -53,7 +53,7 @@ export class LNoteHead implements LayoutObject {
 				this.glyphName = 'noteheadBlack';
 				break;
 		}
-		this.glyph = settings.font.getGlyph(this.glyphName);
+		this.glyph = settings.font.glyphs[this.glyphName];
 
 		/*const pitchDiff = scale.getNotePitchDiffFromScale(note.root, note.accidental);
 		let addAccidental = '';

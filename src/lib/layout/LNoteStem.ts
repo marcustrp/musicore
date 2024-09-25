@@ -1,5 +1,5 @@
 import { type LayoutObject } from './LayoutObject.js';
-import { Font } from '../fonts/font.js';
+import { type Font } from '../fonts/types.js';
 import { type LayoutSettingsInternal } from './types.js';
 import { LNoteHead } from './LNoteHead.js';
 import { BBox } from '../utils/bBox.js';
@@ -18,7 +18,7 @@ export class LNoteStem implements LayoutObject {
 		this.x = x;
 		this.y = y;
 		this.length = length;
-		this.width = font.metadata.engravingDefaults.stemThickness * 250;
+		this.width = font.metadata.stemThickness;
 	}
 
 	getAverageNotePosition(notes: LNoteHead[], clef: ClefType) {
@@ -44,24 +44,16 @@ export class LNoteStem implements LayoutObject {
 		this.y = notes[0].y;
 		/** TODO fix so this hack is not needed... */
 		type TmpType = { stemUpSE: [number, number]; stemDownNW: [number, number] };
-		const item = settings.font.metadata.glyphsWithAnchors[
-			notes[0].glyphName as keyof typeof settings.font.metadata.glyphsWithAnchors
-		] as TmpType;
+		const item = settings.font.glyphs[notes[0].glyphName].anchors as TmpType;
 		if (this.getAverageNotePosition(notes, clef) >= 5) {
-			this.x =
-				this.getX(notes) +
-				item.stemUpSE[0] * 250 -
-				(settings.font.metadata.engravingDefaults.stemThickness * 250) / 2;
-			this.y += item.stemDownNW[1] * 250;
+			this.x = this.getX(notes) + item.stemUpSE[0] - settings.font.metadata.stemThickness / 2;
+			this.y += item.stemDownNW[1];
 			/*(note.glyph.horizAdvX ? parseInt(note.glyph.horizAdvX) : 0) -
-          (settings.font.metadata.engravingDefaults.stemThickness * 250) / 2;*/
+          (settings.font.metadata.engravingDefaults.stemThickness) / 2;*/
 		} else {
-			this.x =
-				this.getX(notes) +
-				item.stemDownNW[0] * 250 +
-				(settings.font.metadata.engravingDefaults.stemThickness * 250) / 2;
-			//this.x = x + (font.metadata.engravingDefaults.stemThickness * 250) / 2;
-			this.y += -item.stemDownNW[1] * 250 + this.length - yBetweenOuter;
+			this.x = this.getX(notes) + item.stemDownNW[0] + settings.font.metadata.stemThickness / 2;
+			//this.x = x + (font.metadata.engravingDefaults.stemThickness) / 2;
+			this.y += -item.stemDownNW[1] + this.length - yBetweenOuter;
 		}
 
 		this.bBox = BBox.fromObject({

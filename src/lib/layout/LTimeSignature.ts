@@ -1,5 +1,5 @@
 import { type TimeSignatureSymbol } from '$lib/index.js';
-import { Font, type Glyph } from '../fonts/font.js';
+import { type Font, type Glyph } from '../fonts/types.js';
 import { BBox } from '../utils/bBox.js';
 import { type LayoutObject } from './LayoutObject.js';
 import { LStaffLine } from './LStaffLine.js';
@@ -20,9 +20,9 @@ export class LTimeSignature implements LayoutObject {
 	) {
 		this.count = count;
 		this.unit = unit;
-		const glyph = this.font.getGlyph('timeSigCommon');
+		const glyph = this.font.glyphs['timeSigCommon'];
 		this.glyphs.push(glyph);
-		this.bBox = BBox.fromGlyph(glyph);
+		this.bBox = BBox.clone(glyph.bBox);
 	}
 
 	toObject() {
@@ -41,6 +41,6 @@ export class LTimeSignature implements LayoutObject {
 		this.x = x;
 		this.y = staffLines[2].y;
 		this.bBox.setXY(this.x, this.y);
-		return x + (this.glyphs[0].horizAdvX ? parseInt(this.glyphs[0].horizAdvX) : 0);
+		return x + this.glyphs[0].horizAdvX;
 	}
 }

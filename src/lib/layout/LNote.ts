@@ -104,7 +104,7 @@ export class LNote extends LRhythmElement {
 		});
 		// hack, in future needs to take into account notes with interval 1 or 2, where noteheads are shuffled to the side
 		// also, do not include accidental width here, see below
-		x += this.notes[0].glyph.horizAdvX ? parseInt(this.notes[0].glyph.horizAdvX) : 0;
+		x += this.notes[0].glyph.horizAdvX;
 		if (this.stem) this.stem.layout(settings, this.notes, this.clef);
 		this.layoutLedgerLines(settings, staffLines);
 

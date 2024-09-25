@@ -1,5 +1,5 @@
 import { type BarlineStyle } from '$lib/index.js';
-import { Font } from '../fonts/font.js';
+import { type Font } from '../fonts/types.js';
 import { type LayoutSettingsInternal } from './types.js';
 import { BBox } from '../utils/bBox.js';
 import { type LayoutObject } from './LayoutObject.js';
@@ -115,7 +115,7 @@ export class LBarline implements LayoutObject {
 				x,
 			);
 		this.lines.forEach((line, index) => {
-			if (index === 1) x += settings.font.metadata.engravingDefaults.barlineSeparation * 250;
+			if (index === 1) x += settings.font.metadata.barlineSeparation;
 			x = LBarline.layoutLine(settings.font, line, settings.staveSpace, staffLines, x);
 		});
 		if (this.endRepeat)
@@ -138,7 +138,7 @@ export class LBarline implements LayoutObject {
 		repeat.y1 = staffLines[1].y + staveSpace / 2;
 		repeat.y2 = staffLines[2].y + staveSpace / 2;
 		repeat.r = staveSpace / 2;
-		return x + font.metadata.engravingDefaults.barlineSeparation * 250;
+		return x + font.metadata.barlineSeparation;
 	}
 
 	static layoutLine(
@@ -150,9 +150,9 @@ export class LBarline implements LayoutObject {
 	) {
 		line.x = x;
 
-		line.width = font.metadata.engravingDefaults.thinBarlineThickness;
+		line.width = font.metadata.thinBarlineThickness;
 		if (line.style === 'heavy') {
-			line.width = font.metadata.engravingDefaults.thickBarlineThickness;
+			line.width = font.metadata.thickBarlineThickness;
 		} else if (line.style === 'none') {
 			line.width = 0;
 		}

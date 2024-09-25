@@ -37,3 +37,6 @@ const layoutData = $state(data);
 
 <br /><br />
 <a href="/examples">Examples</a>
+
+<br /><br />
+<a href="/tools/font">Create MusicoreFont</a>

@@ -1,4 +1,4 @@
-import { type Glyph } from '../fonts/font.js';
+import { type Glyph } from '../fonts/types.js';
 import { type LayoutSettingsInternal } from './types.js';
 import { BBox } from '../utils/bBox.js';
 import { LLedgerLines } from './LLedgerLines.js';
@@ -54,10 +54,7 @@ export class LColumnEditor implements LayoutObject {
 		this.glyph = glyph;
 		this._fromPosition = fromPosition;
 		this._toPosition = toPosition;
-		this.#width =
-			width ? width
-			: glyph.horizAdvX ? parseInt(glyph.horizAdvX)
-			: 0;
+		this.#width = width ? width : glyph.horizAdvX;
 		this.bBox = new BBox();
 		this._getText = getText;
 		if (drawLedgerLines) this.createLedgerLines(settings);

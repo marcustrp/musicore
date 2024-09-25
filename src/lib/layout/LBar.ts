@@ -1,5 +1,5 @@
 import { type BarlineStyle } from '$lib/index.js';
-import { Font } from '../fonts/font.js';
+import { type Font } from '../fonts/types.js';
 import { LClef } from './LClef.js';
 import { LNote } from './LNote.js';
 import { LRest, type RestLayout } from './LRest.js';

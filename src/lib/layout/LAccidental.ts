@@ -1,5 +1,5 @@
 import { type NoteAccidentals } from '$lib/index.js';
-import { type Glyph } from '../fonts/font.js';
+import { type Glyph } from '../fonts/types.js';
 import { type LayoutSettingsInternal } from './types.js';
 import { BBox } from '../utils/bBox.js';
 import { type LayoutObject } from './LayoutObject.js';
@@ -28,19 +28,19 @@ export class LAccidental implements LayoutObject {
 		this.position = position;
 		if (!type) type = settings.defaultAccidental;
 		this.glyph = LAccidental.getGlyph(settings, type);
-		this.bBox = BBox.fromGlyph(this.glyph);
+		this.bBox = BBox.clone(this.glyph.bBox);
 	}
 
 	static getGlyph(settings: LayoutSettingsInternal, type: NoteAccidentals) {
 		switch (type) {
 			case '#':
-				return settings.font.getGlyph('accidentalSharp');
+				return settings.font.glyphs['accidentalSharp'];
 				break;
 			case 'b':
-				return settings.font.getGlyph('accidentalFlat');
+				return settings.font.glyphs['accidentalFlat'];
 				break;
 			case 'n':
-				return settings.font.getGlyph('accidentalNatural');
+				return settings.font.glyphs['accidentalNatural'];
 				break;
 			default:
 				throw new Error(`Unsupported accidental type: ${type}`);
@@ -61,7 +61,7 @@ export class LAccidental implements LayoutObject {
 		this.x = x;
 		if (this.position !== undefined)
 			this.y = staffLines[0].y + this.position * (settings.staveSpace / 2);
-		x += this.glyph.horizAdvX ? parseInt(this.glyph.horizAdvX) : 0;
+		x += this.glyph.horizAdvX;
 		this.bBox.setXY(this.x + (this.glyph.bBox?.x || 0), this.y + (this.glyph.bBox?.y || 0));
 		return x;
 	}

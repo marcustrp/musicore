@@ -1,5 +1,5 @@
 import { type LayoutObject } from './LayoutObject.js';
-import { Font } from '../fonts/font.js';
+import { type Font } from '../fonts/types.js';
 import { BBox } from '../utils/bBox.js';
 
 export type StaffLineLayout = ReturnType<LStaffLine['toObject']>;
@@ -15,7 +15,7 @@ export class LStaffLine implements LayoutObject {
 		this.x = x;
 		this.y = y;
 		this.length = length;
-		this.thickness = font.metadata.engravingDefaults.staffLineThickness * 250;
+		this.thickness = font.metadata.staffLineThickness;
 		this.bBox = new BBox(x, y, this.length, this.thickness);
 	}
 

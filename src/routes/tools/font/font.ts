@@ -3,10 +3,10 @@
 import { bravura } from './bravura/bravura.js';
 //import { ash } from './ash/ash.js';
 
-import { type GlyphKey } from './glyphKey.js';
-import { glyphNames } from './bravura/glyphnames.js';
+import { type GlyphNames, glyphNames, type Glyph as MusicoreGlyph } from '$lib/fonts/types.js';
+import { glyphNames as bravuraGlyphNames } from './bravura/glyphnames.js';
 import { bravuraMetadata } from './bravura/bravura_metadata.js';
-import { BBox } from '../utils/bBox.js';
+import { BBox } from '$lib/utils/bBox.js';
 
 //type GlyphNames = typeof glyphNames;
 //type GlyphsWithAnchorsData = typeof bravuraMetadata.glyphsWithAnchors;
@@ -18,6 +18,8 @@ export type Glyph = {
 	d?: string;
 	bBox?: BBox;
 };
+
+export type GlyphData = MusicoreGlyph & { key: GlyphNames };
 
 export class Font {
 	fontData: Glyph[];
@@ -42,8 +44,8 @@ export class Font {
 		return this.metadata.glyphBBoxes[glyphKey];
 	}
 
-	getGlyph(glyphKey: GlyphKey) {
-		const glyphName = 'uni' + glyphNames[glyphKey].codepoint.substr(2);
+	getGlyph(glyphKey: GlyphNames) {
+		const glyphName = 'uni' + bravuraGlyphNames[glyphKey].codepoint.substr(2);
 		const glyph = this.fontData.find((g) => g.glyphName === glyphName);
 		if (!glyph) {
 			throw new Error(`Glyph ${glyphKey} not found in font ${this.fontName}`);
@@ -58,5 +60,30 @@ export class Font {
 			});
 		}
 		return glyph;
+	}
+
+	getAllGlyphs() {
+		const glyphs: GlyphData[] = [];
+		glyphNames.forEach((glyphKey) => {
+			const glyph = this.getGlyph(glyphKey);
+			const anchors =
+				glyphKey in this.metadata.glyphsWithAnchors ?
+					// @ts-expect-error: TS doesn't like the type of the object here...
+					(this.metadata.glyphsWithAnchors[glyphKey] as { [key: string]: [number, number] }[])
+				:	undefined;
+			glyphs.push({
+				key: glyphKey,
+				d: glyph.d || '',
+				horizAdvX: glyph.horizAdvX ? parseFloat(glyph.horizAdvX) : 0,
+				bBox: glyph.bBox || new BBox(),
+				// @ts-expect-error: TS doesn't like the type of the object here...
+				anchors: anchors,
+			});
+		});
+		return glyphs;
+	}
+
+	getEngravingDefaults() {
+		return this.metadata.engravingDefaults;
 	}
 }

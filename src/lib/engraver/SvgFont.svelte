@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { Glyph } from '$lib/fonts/font.js';
+	import type { Glyph } from '../../routes/tools/font/font.js';
 
 	type SvgData = {
 		setChar: (char: string) => void;

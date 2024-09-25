@@ -16,7 +16,7 @@ export type LedgerLineLayout = {
 };
 
 import { type NoteAccidentals, type KeyAccidental } from '$lib/index.js';
-import { Font } from '../fonts/font.js';
+import { type Font } from '../fonts/types.js';
 
 export type LayoutSettings = {
 	staffSize?: number;
