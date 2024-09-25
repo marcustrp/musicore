@@ -1,6 +1,6 @@
 import { beforeEach, describe, expect, it } from 'vitest';
-import { Note } from '../../core/note.js';
-import { Score } from '../score.js';
+import { Note } from '../core/note.js';
+import { Score } from '../score/score.js';
 import { FormAnalyser, type FormData } from './formAnalyser.js';
 
 let parser: FormAnalyser;

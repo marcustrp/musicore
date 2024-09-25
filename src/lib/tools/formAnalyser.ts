@@ -1,5 +1,5 @@
-import { Bar } from '../../core/bar.js';
-import { Score } from '../score.js';
+import { Bar } from '../core/bar.js';
+import { Score } from '../score/score.js';
 
 type JumpType = 'repeat' | 'ending' | 'segno' | 'coda';
 export type JumpData = { fromBar: number; toBar: number; type: JumpType };
