@@ -2,17 +2,18 @@ import Fraction from 'fraction.js';
 import { describe, expect, it, vi } from 'vitest';
 import { RhythmElement } from './rhythmElement.js';
 import ChordSymbol from './chordSymbol.js';
+import type { RhythmElementObject } from '$lib/test-types.js';
 
 describe('RhythmElement', () => {
 	it('should create a simple instance', () => {
-		const reObj = { _type: 'q' };
+		const expectedResult: RhythmElementObject = { type: 'q' };
 		const result = new RhythmElement('q');
-		expect(result).toEqual(reObj);
+		expect(result).toMatchObject(expectedResult);
 	});
 	it('should create an instance with dots', () => {
-		const reObj = { _type: 'q', _dots: 2 };
+		const expectedResult: RhythmElementObject = { type: 'q', dots: 2 };
 		const result = new RhythmElement('q', 2);
-		expect(result).toEqual(reObj);
+		expect(result).toMatchObject(expectedResult);
 	});
 });
 

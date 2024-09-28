@@ -2,6 +2,7 @@ import Fraction from 'fraction.js';
 import { beforeEach, describe, expect, it, vi, type MockInstance, afterEach } from 'vitest';
 import { TimeSignature } from './timeSignature.js';
 import { Note } from './note.js';
+import type { TimeSignatureObject } from '$lib/test-types.js';
 
 describe('setBeamGroupDuration()', () => {
 	let spy: MockInstance;
@@ -80,44 +81,44 @@ describe('TimeSignature', () => {
 		vi.restoreAllMocks();
 	});
 	it('should create a simple instance', () => {
-		const timeSignatureObj = {
+		const timeSignatureObj: TimeSignatureObject = {
 			count: 4,
 			unit: 4,
 			duration: new Fraction(4, 4),
-			_type: 'simple',
-			_beatsPerBar: 4,
+			type: 'simple',
+			beatsPerBar: 4,
 		};
 		const result = new TimeSignature();
 		expect(spy).toBeCalledWith();
-		expect(result).toEqual(timeSignatureObj);
+		expect(result).toMatchObject(timeSignatureObj);
 	});
 	it('should accept supported symbol "common"', () => {
-		const timeSignatureObj = {
+		const timeSignatureObj: TimeSignatureObject = {
 			count: 4,
 			unit: 4,
 			symbol: 'common',
 			duration: new Fraction(4, 4),
-			_type: 'simple',
-			_beatsPerBar: 4,
+			type: 'simple',
+			beatsPerBar: 4,
 		};
 		const result = new TimeSignature('common');
 		expect(spy).toBeCalledWith();
-		expect(result).toEqual(timeSignatureObj);
+		expect(result).toMatchObject(timeSignatureObj);
 	});
 	it('should accept supported symbol "cut"', () => {
 		// eslint-disable-next-line @typescript-eslint/no-explicit-any
 		vi.spyOn(TimeSignature.prototype as any, 'getBeatsPerBar').mockImplementationOnce(() => 2);
-		const timeSignatureObj2 = {
+		const timeSignatureObj2: TimeSignatureObject = {
 			count: 2,
 			unit: 2,
 			symbol: 'cut',
 			duration: new Fraction(2, 2),
-			_type: 'simple',
-			_beatsPerBar: 2,
+			type: 'simple',
+			beatsPerBar: 2,
 		};
 		const result2 = new TimeSignature('cut');
 		expect(spy).toBeCalledWith();
-		expect(result2).toEqual(timeSignatureObj2);
+		expect(result2).toMatchObject(timeSignatureObj2);
 	});
 });
 
@@ -154,6 +155,7 @@ describe('getNotesFromBeamGroup()', () => {
 			const note = new Note('q', 'c');
 			const expectedResult = { notes: [note], overflow: [] };
 			const result = timeSignature.getNotesFromBeamGroup(new Fraction(0), note);
+			note.id = result.notes[0].id;
 			expect(result).toEqual(expectedResult);
 		});
 		it('should return a quarter note at beat two', () => {
@@ -161,6 +163,7 @@ describe('getNotesFromBeamGroup()', () => {
 			const note = new Note('q', 'c');
 			const expectedResult = { notes: [note], overflow: [] };
 			const result = timeSignature.getNotesFromBeamGroup(new Fraction(1, 4), note);
+			note.id = result.notes[0].id;
 			expect(result).toEqual(expectedResult);
 		});
 		it('should return a half note at beat three', () => {
@@ -168,6 +171,7 @@ describe('getNotesFromBeamGroup()', () => {
 			const note = new Note('h', 'c');
 			const expectedResult = { notes: [note], overflow: [] };
 			const result = timeSignature.getNotesFromBeamGroup(new Fraction(2, 4), note);
+			note.id = result.notes[0].id;
 			expect(result).toEqual(expectedResult);
 		});
 		it('should return two tied eights at beat one "and"', () => {
@@ -180,6 +184,8 @@ describe('getNotesFromBeamGroup()', () => {
 			note2['_tie'] = 'end';
 			const expectedResult = { notes: [note1, note2], overflow: [] };
 			const result = timeSignature.getNotesFromBeamGroup(new Fraction(1, 8), addNote);
+			note1.id = result.notes[0].id;
+			note2.id = result.notes[1].id;
 			expect(result).toEqual(expectedResult);
 		});
 		it('should return 16-q-8. for a halv note at beat 1.4', () => {
@@ -193,6 +199,9 @@ describe('getNotesFromBeamGroup()', () => {
 			note3['_tie'] = 'end';
 			const expectedResult = { notes: [note1, note2, note3], overflow: [] };
 			const result = timeSignature.getNotesFromBeamGroup(new Fraction(3, 16), addNote);
+			note1.id = result.notes[0].id;
+			note2.id = result.notes[1].id;
+			note3.id = result.notes[2].id;
 			expect(result).toEqual(expectedResult);
 		});
 		it('should return halv note plus halv note overflow for whole note at beat 3', () => {
@@ -204,6 +213,8 @@ describe('getNotesFromBeamGroup()', () => {
 			note2['_tie'] = 'end';
 			const expectedResult = { notes: [note1], overflow: [note2] };
 			const result = timeSignature.getNotesFromBeamGroup(new Fraction(2, 4), addNote);
+			note1.id = result.notes[0].id;
+			note2.id = result.overflow[0].id;
 			expect(result).toEqual(expectedResult);
 		});
 		it('should return eight note at start of bar', () => {
@@ -211,6 +222,7 @@ describe('getNotesFromBeamGroup()', () => {
 			const addNote = new Note('8', 'c');
 			const expectedResult = { notes: [addNote], overflow: [] };
 			const result = timeSignature.getNotesFromBeamGroup(new Fraction(0), addNote);
+			addNote.id = result.notes[0].id;
 			expect(result).toEqual(expectedResult);
 		});
 		it('should return 32 plus overflow q and 8.. for a halv note at beat 4.4', () => {
@@ -224,6 +236,9 @@ describe('getNotesFromBeamGroup()', () => {
 			note3['_tie'] = 'end';
 			const expectedResult = { notes: [note1], overflow: [note2, note3] };
 			const result = timeSignature.getNotesFromBeamGroup(new Fraction(31, 32), addNote);
+			note1.id = result.notes[0].id;
+			note2.id = result.overflow[0].id;
+			note3.id = result.overflow[1].id;
 			expect(result).toEqual(expectedResult);
 		});
 	});
@@ -233,6 +248,7 @@ describe('getNotesFromBeamGroup()', () => {
 			const note = new Note('q', 'c', undefined, undefined, 1);
 			const expectedResult = { notes: [note], overflow: [] };
 			const result = timeSignature.getNotesFromBeamGroup(new Fraction(0), note);
+			note.id = result.notes[0].id;
 			expect(result).toEqual(expectedResult);
 		});
 		it('should return a q. note at beat four', () => {
@@ -240,6 +256,7 @@ describe('getNotesFromBeamGroup()', () => {
 			const note = new Note('q', 'c', undefined, undefined, 1);
 			const expectedResult = { notes: [note], overflow: [] };
 			const result = timeSignature.getNotesFromBeamGroup(new Fraction(3, 8), note);
+			note.id = result.notes[0].id;
 			expect(result).toEqual(expectedResult);
 		});
 		it('should return a h. note at beat one', () => {
@@ -247,6 +264,7 @@ describe('getNotesFromBeamGroup()', () => {
 			const note = new Note('h', 'c', undefined, undefined, 1);
 			const expectedResult = { notes: [note], overflow: [] };
 			const result = timeSignature.getNotesFromBeamGroup(new Fraction(0), note);
+			note.id = result.notes[0].id;
 			expect(result).toEqual(expectedResult);
 		});
 		it('should return a q., 8 on beat 1 for a h', () => {
@@ -258,6 +276,8 @@ describe('getNotesFromBeamGroup()', () => {
 			note2['_tie'] = 'end';
 			const expectedResult = { notes: [note1, note2], overflow: [] };
 			const result = timeSignature.getNotesFromBeamGroup(new Fraction(0), addNote);
+			note1.id = result.notes[0].id;
+			note2.id = result.notes[1].id;
 			expect(result).toEqual(expectedResult);
 		});
 		it('should return 8, 8 for a q on beat 1.3', () => {
@@ -269,6 +289,8 @@ describe('getNotesFromBeamGroup()', () => {
 			note2['_tie'] = 'end';
 			const expectedResult = { notes: [note1, note2], overflow: [] };
 			const result = timeSignature.getNotesFromBeamGroup(new Fraction(2, 8), addNote);
+			note1.id = result.notes[0].id;
+			note2.id = result.notes[1].id;
 			expect(result).toEqual(expectedResult);
 		});
 	});

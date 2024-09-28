@@ -5,32 +5,31 @@ import { Key } from './key.js';
 import { Note } from './note.js';
 import Fraction from 'fraction.js';
 import { DaCapo, Fine } from './data/directions.js';
+import type { BarObject } from '$lib/test-types.js';
 
 describe('Bar', () => {
-	let standardBar: object;
+	let standardBar: BarObject;
 	beforeEach(() => {
 		standardBar = {
 			barline: 'regular',
-			_duration: new Fraction(1),
+			duration: new Fraction(1),
 			startDuration: new Fraction(0),
-			_timeSignature: new TimeSignature(),
-			_key: new Key('c', 'major'),
+			timeSignature: { count: 4, unit: 4 },
+			key: { rootName: 'c', mode: 'major' },
 			showKeySign: false,
 			notes: {},
 		};
 	});
 	it('should have correct default style', () => {
-		const barline = new Bar(new TimeSignature(), new Key('c', 'major'));
-		//expect(barline.barline).toBe('regular');
-		expect(barline).toEqual(standardBar);
+		const bar = new Bar(new TimeSignature(), new Key('c', 'major'));
+		expect(bar).toMatchObject(standardBar);
 	});
 });
 
 describe('Bar.getVoiceDuration', () => {
+	/** @todo should mock Note.getDuration */
 	it('should return 0 if voice is empty', () => {
 		const bar = new Bar(new TimeSignature(), new Key('c', 'major'));
-		// @ts-expect-error: Redefining readonly property
-		bar.notes = { P1: { V1: [new Note('q', 'c')] } };
 
 		expect(bar.getVoiceDuration('P1', 'V2').valueOf()).equal(0);
 		expect(bar.getVoiceDuration('P2', 'V1').valueOf()).equal(0);
@@ -65,6 +64,7 @@ describe('Bar.getVoiceDuration', () => {
 });
 
 describe('Bar.getMaxVoiceDuration', () => {
+	/** @todo should mock Note.getDuration */
 	it('should return 0 if notes are empty (no parts in bar)', () => {
 		const bar = new Bar(new TimeSignature(), new Key('c', 'major'));
 		expect(bar.getMaxVoiceDuration().valueOf()).equal(0);

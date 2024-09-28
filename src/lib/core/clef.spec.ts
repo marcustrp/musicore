@@ -7,7 +7,7 @@ describe('Clef', () => {
 			symbol: 'g',
 		};
 		const clef = new Clef();
-		expect(clef).toEqual(standardClef);
+		expect(clef).toMatchObject(standardClef);
 	});
 	it('should set octaveChange if defined', () => {
 		const clef = new Clef('treble', undefined, 2);

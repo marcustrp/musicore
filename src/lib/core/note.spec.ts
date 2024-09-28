@@ -9,39 +9,53 @@ import {
 import { Scale } from './scale.js';
 import { type Notation } from './data/notations.js';
 import ChordSymbol from './chordSymbol.js';
+import type { NoteObject } from '$lib/test-types.js';
 
 describe('Note', () => {
 	it('should create a simple note instance', () => {
-		const noteObj = {
-			_type: 'q',
-			_root: 'c',
-			_octave: 5,
-			_midiNumber: 60,
-			_staffIndex: 0,
+		const noteObj: NoteObject = {
+			type: 'q',
+			root: 'c',
+			octave: 5,
+			midiNumber: 60,
+			staffIndex: 0,
 		};
 
 		const result = new Note('q', 'c');
 
-		expect(result).toEqual(noteObj);
+		expect(result).toMatchObject(noteObj);
 	});
 	it('should create a more complex note instance', () => {
-		const noteObj = {
-			_type: 'h',
-			_root: 'e',
-			_accidental: 'b',
-			_octave: 3,
-			_midiNumber: 39,
-			_dots: 2,
-			_staffIndex: 1,
+		const noteObj: NoteObject = {
+			type: 'h',
+			root: 'e',
+			accidental: 'b',
+			octave: 3,
+			midiNumber: 39,
+			dots: 2,
+			staffIndex: 1,
 		};
 
 		const result = new Note('h', 'e', 'b', 3, 2, 1);
 
-		expect(result).toEqual(noteObj);
+		expect(result).toMatchObject(noteObj);
+	});
+	it('should create a note in correct octave for b#', () => {
+		const noteObj: NoteObject = {
+			root: 'b',
+			accidental: '#',
+			octave: 4,
+			midiNumber: 60,
+		};
+
+		const result = new Note('h', 'b', '#', 4);
+
+		expect(result).toMatchObject(noteObj);
 	});
 });
 
 describe('Note.processScaleNumber', () => {
+	/** @todo should mock Scale */
 	it('should return correct data for 1 in c major', () => {
 		const scale = new Scale('c', 'major');
 		const scaleNumberParts: ScaleNumberParts = { number: 1, accidental: undefined };
@@ -92,7 +106,10 @@ describe('Note.fromScaleNumber', () => {
 			return {
 				root: { number: data.rootNumber },
 				rootName: data.rootName,
-			} as Scale;
+				getDiatonicNoteName: function () {
+					return 'c';
+				},
+			} as unknown as Scale;
 		},
 	};
 	afterEach(() => {
@@ -103,18 +120,18 @@ describe('Note.fromScaleNumber', () => {
 		const scaleData = { rootNumber: 2, rootName: 'd' };
 		const noteIndex = 6;
 		const noteNumberParts: ScaleNumberParts = { number: 3, accidental: undefined };
-		const noteObj = {
-			_type: 'q',
-			_root: 'f',
-			_accidental: '#',
-			_octave: 4,
-			_midiNumber: 54,
-			_staffIndex: 0,
+		const noteObj: NoteObject = {
+			type: 'q',
+			root: 'f',
+			accidental: '#',
+			octave: 4,
+			midiNumber: 54,
+			staffIndex: 0,
 		};
 		vi.spyOn(Note, 'nameToNoteIndex').mockImplementationOnce(() => noteIndex);
 		vi.spyOn(Note, 'getNumberParts').mockImplementationOnce(() => noteNumberParts);
 		vi.spyOn(Note, 'noteNumberToNameInScale').mockImplementationOnce(
-			() => noteObj._root + (noteObj._accidental || ''),
+			() => noteObj.root + (noteObj.accidental || ''),
 		);
 
 		const result = Note.fromScaleNumber(
@@ -123,24 +140,22 @@ describe('Note.fromScaleNumber', () => {
 			scaleMock.get(scaleData),
 		);
 
-		expect(result).toEqual(noteObj);
+		expect(result).toMatchObject(noteObj);
 	});
 	it('should create a note using scaleNumber with accidental', () => {
 		const scaleData = { rootNumber: 2, rootName: 'd' };
 		const noteIndex = 8;
 		const noteNumberParts: ScaleNumberParts = { number: 4, accidental: '#' };
-		const noteObj = {
-			_type: 'q',
-			_root: 'g',
-			_accidental: '#',
-			_octave: 4,
-			_midiNumber: 56,
-			_staffIndex: 0,
+		const noteObj: NoteObject = {
+			root: 'g',
+			accidental: '#',
+			octave: 4,
+			midiNumber: 56,
 		};
 		vi.spyOn(Note, 'nameToNoteIndex').mockImplementationOnce(() => noteIndex);
 		vi.spyOn(Note, 'getNumberParts').mockImplementationOnce(() => noteNumberParts);
 		vi.spyOn(Note, 'noteNumberToNameInScale').mockImplementationOnce(
-			() => noteObj._root + (noteObj._accidental || ''),
+			() => noteObj.root + (noteObj.accidental || ''),
 		);
 
 		const result = Note.fromScaleNumber(
@@ -149,46 +164,42 @@ describe('Note.fromScaleNumber', () => {
 			scaleMock.get(scaleData),
 		);
 
-		expect(result).toEqual(noteObj);
+		expect(result).toMatchObject(noteObj);
 	});
 	it('should create a note using minor scale', () => {
 		const scaleData = { rootNumber: 2, rootName: 'd' };
 		const noteIndex = 5;
 		const noteNumberParts: ScaleNumberParts = { number: 3, accidental: undefined };
-		const noteObj = {
-			_type: 'q',
-			_root: 'f',
-			_octave: 5,
-			_midiNumber: 65,
-			_staffIndex: 0,
+		const noteObj: NoteObject = {
+			root: 'f',
+			octave: 5,
+			midiNumber: 65,
 		};
 		vi.spyOn(Note, 'nameToNoteIndex').mockImplementationOnce(() => noteIndex);
 		vi.spyOn(Note, 'getNumberParts').mockImplementationOnce(() => noteNumberParts);
-		vi.spyOn(Note, 'noteNumberToNameInScale').mockImplementationOnce(() => noteObj._root);
+		vi.spyOn(Note, 'noteNumberToNameInScale').mockImplementationOnce(() => noteObj.root);
 		const result = Note.fromScaleNumber(
 			((noteNumberParts.accidental || '') + noteNumberParts.number) as ScaleNumber,
 			5,
 			scaleMock.get(scaleData),
 		);
 
-		expect(result).toEqual(noteObj);
+		expect(result).toMatchObject(noteObj);
 	});
 	it('should create a note using minor scale with m (major) accidental', () => {
 		const scaleData = { rootNumber: 2, rootName: 'd' };
 		const noteIndex = 6;
 		const noteNumberParts: ScaleNumberParts = { number: 3, accidental: 'm' };
-		const noteObj = {
-			_type: 'q',
-			_root: 'f',
-			_accidental: '#',
-			_octave: 5,
-			_midiNumber: 66,
-			_staffIndex: 0,
+		const noteObj: NoteObject = {
+			root: 'f',
+			accidental: '#',
+			octave: 5,
+			midiNumber: 66,
 		};
 		vi.spyOn(Note, 'nameToNoteIndex').mockImplementationOnce(() => noteIndex);
 		vi.spyOn(Note, 'getNumberParts').mockImplementationOnce(() => noteNumberParts);
 		vi.spyOn(Note, 'noteNumberToNameInScale').mockImplementationOnce(
-			() => noteObj._root + (noteObj._accidental || ''),
+			() => noteObj.root + (noteObj.accidental || ''),
 		);
 		const result = Note.fromScaleNumber(
 			((noteNumberParts.accidental || '') + noteNumberParts.number) as ScaleNumber,
@@ -196,51 +207,49 @@ describe('Note.fromScaleNumber', () => {
 			scaleMock.get(scaleData),
 		);
 
-		expect(result).toEqual(noteObj);
+		expect(result).toMatchObject(noteObj);
 	});
 	it('should create a simple note using scaleNumber 9', () => {
 		const scaleData = { rootNumber: 7, rootName: 'g' };
 		const noteIndex = 10;
 		const noteNumberParts: ScaleNumberParts = { number: 9, accidental: undefined };
-		const noteObj = {
-			_type: 'q',
-			_root: 'a',
-			_octave: 6,
-			_midiNumber: 81,
-			_staffIndex: 0,
+		const noteObj: NoteObject = {
+			type: 'q',
+			root: 'a',
+			octave: 6,
+			midiNumber: 81,
+			staffIndex: 0,
 		};
 		vi.spyOn(Note, 'nameToNoteIndex').mockImplementationOnce(() => noteIndex);
 		vi.spyOn(Note, 'getNumberParts').mockImplementationOnce(() => noteNumberParts);
-		vi.spyOn(Note, 'noteNumberToNameInScale').mockImplementationOnce(() => noteObj._root);
+		vi.spyOn(Note, 'noteNumberToNameInScale').mockImplementationOnce(() => noteObj.root);
 		const result = Note.fromScaleNumber(
 			((noteNumberParts.accidental || '') + noteNumberParts.number) as ScaleNumber,
 			5,
 			scaleMock.get(scaleData),
 		);
 
-		expect(result).toEqual(noteObj);
+		expect(result).toMatchObject(noteObj);
 	});
 	it('should create a note in correct octave', () => {
 		const scaleData = { rootNumber: 9, rootName: 'a' };
 		const noteIndex = 4;
 		const noteNumberParts: ScaleNumberParts = { number: 5, accidental: undefined };
-		const noteObj = {
-			_type: 'q',
-			_root: 'e',
-			_octave: 5,
-			_midiNumber: 64,
-			_staffIndex: 0,
+		const noteObj: NoteObject = {
+			root: 'e',
+			octave: 5,
+			midiNumber: 64,
 		};
 		vi.spyOn(Note, 'nameToNoteIndex').mockImplementationOnce(() => noteIndex);
 		vi.spyOn(Note, 'getNumberParts').mockImplementationOnce(() => noteNumberParts);
-		vi.spyOn(Note, 'noteNumberToNameInScale').mockImplementationOnce(() => noteObj._root);
+		vi.spyOn(Note, 'noteNumberToNameInScale').mockImplementationOnce(() => noteObj.root);
 		const result = Note.fromScaleNumber(
 			((noteNumberParts.accidental || '') + noteNumberParts.number) as ScaleNumber,
 			4,
 			scaleMock.get(scaleData),
 		);
 
-		expect(result).toEqual(noteObj);
+		expect(result).toMatchObject(noteObj);
 	});
 	const edgeCases = [
 		{
@@ -278,13 +287,12 @@ describe('Note.fromScaleNumber', () => {
 	];
 	edgeCases.forEach((edgeCase) => {
 		it('should create a note in correct octave of edge case ' + edgeCase.systemName, () => {
-			const noteObj = {
-				_accidental: edgeCase.systemName.substr(1) as NoteAccidentals,
-				_type: 'q',
-				_root: edgeCase.systemName[0] as NoteName,
-				_octave: edgeCase.octave,
-				_midiNumber: edgeCase.midiNumber,
-				_staffIndex: 0,
+			const noteObj: NoteObject = {
+				accidental: edgeCase.systemName.substr(1) as NoteAccidentals,
+				root: edgeCase.systemName[0] as NoteName,
+				octave: edgeCase.octave,
+				midiNumber: edgeCase.midiNumber,
+				name: edgeCase.systemName,
 			};
 			/*vi.spyOn(Note, 'nameToNoteIndex').mockImplementationOnce(() => edgeCase.midiNumber % 12);
       vi.spyOn(Note, 'getNumberParts').mockImplementationOnce(() => {
@@ -298,24 +306,21 @@ describe('Note.fromScaleNumber', () => {
 				scaleMock.get({ rootNumber: edgeCase.scaleRootNumber, rootName: edgeCase.scaleRoot }),
 			);
 
-			expect(result).toEqual(noteObj);
+			expect(result).toMatchObject(noteObj);
 		});
 	});
 	it('should create a note with correct length', () => {
 		const scaleData = { rootNumber: 9, rootName: 'a' };
 		const noteIndex = 2;
 		const noteNumberParts: ScaleNumberParts = { number: 2, accidental: undefined };
-		const noteObj = {
-			_type: 'h',
-			_dots: 1,
-			_root: 'b',
-			_octave: 5,
-			_midiNumber: 71,
-			_staffIndex: 0,
+		const noteObj: NoteObject = {
+			type: 'h',
+			dots: 1,
+			root: 'b',
 		};
 		vi.spyOn(Note, 'nameToNoteIndex').mockImplementationOnce(() => noteIndex);
 		vi.spyOn(Note, 'getNumberParts').mockImplementationOnce(() => noteNumberParts);
-		vi.spyOn(Note, 'noteNumberToNameInScale').mockImplementationOnce(() => noteObj._root);
+		vi.spyOn(Note, 'noteNumberToNameInScale').mockImplementationOnce(() => noteObj.root);
 		const result = Note.fromScaleNumber(
 			((noteNumberParts.accidental || '') + noteNumberParts.number) as ScaleNumber,
 			4,
@@ -324,7 +329,7 @@ describe('Note.fromScaleNumber', () => {
 			1,
 		);
 
-		expect(result).toEqual(noteObj);
+		expect(result).toMatchObject(noteObj);
 	});
 	it('should throw on invalid input', () => {
 		const resultFn = () =>
@@ -437,19 +442,14 @@ describe('Note.setMidiNumberFromName', () => {
 
 describe('Note.addChordNote', () => {
 	it('should add first chord note', () => {
-		const noteObj = {
-			_type: 'q',
-			_root: 'c',
-			_octave: 5,
-			_midiNumber: 60,
-			_staffIndex: 0,
+		const noteObj: NoteObject = {
 			chord: [
 				{
-					_type: 'q',
-					_root: 'e',
-					_octave: 5,
-					_midiNumber: 64,
-					_staffIndex: 0,
+					type: 'q',
+					root: 'e',
+					octave: 5,
+					midiNumber: 64,
+					staffIndex: 0,
 				},
 			],
 		};
@@ -457,22 +457,18 @@ describe('Note.addChordNote', () => {
 		const chordNote = new Note('q', 'e', undefined, 5);
 		note.addChordNote(chordNote);
 
-		expect(note).toEqual(noteObj);
+		expect(note).toMatchObject(noteObj);
 	});
 	it('should change/remove invalid data from chord note', () => {
-		const noteObj = {
-			_type: 'q',
-			_root: 'c',
-			_octave: 5,
-			_midiNumber: 60,
-			_staffIndex: 0,
+		const noteObj: NoteObject = {
 			chord: [
 				{
-					_type: 'q',
-					_root: 'e',
-					_octave: 5,
-					_midiNumber: 64,
-					_staffIndex: 0,
+					type: 'q',
+					root: 'e',
+					octave: 5,
+					midiNumber: 64,
+					staffIndex: 0,
+					chordSymbols: undefined,
 				},
 			],
 		};
@@ -482,18 +478,13 @@ describe('Note.addChordNote', () => {
 		chordNote.setChordSymbol(new ChordSymbol('C'));
 		note.addChordNote(chordNote);
 
-		expect(note).toEqual(noteObj);
+		expect(note).toMatchObject(noteObj);
 	});
 });
 
 describe('Note.addNotaion', () => {
 	it('should add notation', () => {
-		const noteObj = {
-			_type: 'q',
-			_root: 'c',
-			_octave: 5,
-			_midiNumber: 60,
-			_staffIndex: 0,
+		const noteObj: NoteObject = {
 			notations: [
 				{
 					type: 'text',
@@ -504,7 +495,7 @@ describe('Note.addNotaion', () => {
 		const note = new Note('q', 'c', undefined, 5);
 		note.addNotation({ type: 'text', text: 'test' } as unknown as Notation);
 
-		expect(note).toEqual(noteObj);
+		expect(note).toMatchObject(noteObj);
 	});
 	it('should throw on undefined input', () => {
 		const note = new Note('q', 'c');

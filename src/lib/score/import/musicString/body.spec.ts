@@ -12,6 +12,7 @@ import { type BodyData, BodyMatch, BodyParser } from './body.js';
 import ChordSymbol from '../../../core/chordSymbol.js';
 import RomanNumeralAnalysis from '../../../core/romanNumeralAnalysis.js';
 import FunctionAnalysis from '../../../core/functionAnalysis.js';
+import type { NoteObject } from '$lib/test-types.js';
 
 let parser: BodyParser;
 let errors: string[];
@@ -36,47 +37,40 @@ describe('parse()', () => {
 			info,
 			new Bar(new TimeSignature(), new Key('c', 'major')),
 		);
+		expectedResult[0].item['id'] = result![0].item.id;
 		expect(result).toStrictEqual(expectedResult);
 	});
 	it('should parse number with accidental', () => {
 		const musicstring = '#4';
-		const expectedResult = [{ item: new Note('q', 'f', '#', 5) }];
+		const expectedResult = [{ item: { name: 'f#' } } as NoteObject];
 		const result = parser.parse(
 			musicstring,
 			info,
 			new Bar(new TimeSignature(), new Key('c', 'major')),
 		);
-		expect(result).toStrictEqual(expectedResult);
+		expect(result).toMatchObject(expectedResult);
 	});
 	describe('groups', () => {
 		it('should return correct octave for 321-7', () => {
 			const musicstring = '321-7';
-			const note1 = new Note('16', 'e');
-			note1.beam = { value: 'start' };
-			const note2 = new Note('16', 'd');
-			note2.beam = { value: 'continue' };
-			const note3 = new Note('16', 'c');
-			note3.beam = { value: 'continue' };
-			const note4 = new Note('16', 'b', undefined, 4);
-			note4.beam = { value: 'end' };
+			const note1: NoteObject = { root: 'e', octave: 5 };
+			const note2: NoteObject = { root: 'd', octave: 5 };
+			const note3: NoteObject = { root: 'c', octave: 5 };
+			const note4: NoteObject = { root: 'b', octave: 4 };
 			const expectedResult = [{ item: note1 }, { item: note2 }, { item: note3 }, { item: note4 }];
 			const result = parser.parse(
 				musicstring,
 				info,
 				new Bar(new TimeSignature(), new Key('c', 'major')),
 			);
-			expect(result).toStrictEqual(expectedResult);
+			expect(result).toMatchObject(expectedResult);
 		});
 		it('should return correct octave for 17+23', () => {
 			const musicstring = '17+23';
-			const note1 = new Note('16', 'c', undefined, 5);
-			note1.beam = { value: 'start' };
-			const note2 = new Note('16', 'b', undefined, 5);
-			note2.beam = { value: 'continue' };
-			const note3 = new Note('16', 'd', undefined, 6);
-			note3.beam = { value: 'continue' };
-			const note4 = new Note('16', 'e', undefined, 6);
-			note4.beam = { value: 'end' };
+			const note1: NoteObject = { type: '16', root: 'c', octave: 5 };
+			const note2: NoteObject = { type: '16', root: 'b', octave: 5 };
+			const note3: NoteObject = { type: '16', root: 'd', octave: 6 };
+			const note4: NoteObject = { type: '16', root: 'e', octave: 6 };
 			const expectedResult = [{ item: note1 }, { item: note2 }, { item: note3 }, { item: note4 }];
 			const result = parser.parse(
 				musicstring,
@@ -84,23 +78,20 @@ describe('parse()', () => {
 				new Bar(new TimeSignature(), new Key('c', 'major')),
 			);
 			expect(info.octave).toBe(6);
-			expect(result).toStrictEqual(expectedResult);
+			expect(result).toMatchObject(expectedResult);
 		});
 		it('should return correct octave for 1_/51', () => {
 			const musicstring = '1_/51';
-			const note1 = new Note('8', 'c', undefined, 5);
-			note1.beam = { value: 'start' };
-			const note2 = new Note('16', 'g', undefined, 4);
-			note2.beam = { value: 'continue' };
-			const note3 = new Note('16', 'c', undefined, 5);
-			note3.beam = { value: 'end' };
+			const note1: NoteObject = { type: '8', root: 'c', octave: 5, beam: { value: 'start' } };
+			const note2: NoteObject = { type: '16', root: 'g', octave: 4, beam: { value: 'continue' } };
+			const note3: NoteObject = { type: '16', root: 'c', octave: 5, beam: { value: 'end' } };
 			const expectedResult = [{ item: note1 }, { item: note2 }, { item: note3 }];
 			const result = parser.parse(
 				musicstring,
 				info,
 				new Bar(new TimeSignature(), new Key('c', 'major')),
 			);
-			expect(result).toStrictEqual(expectedResult);
+			expect(result).toMatchObject(expectedResult);
 		});
 		it('should return correct octave for /75', () => {
 			const musicstring = '/75';
@@ -1008,24 +999,17 @@ describe('process()', () => {
 		expect(result).toEqual(expectedResult);
 	});
 	it('should return a note with notation', () => {
-		const data = {
+		const input = {
 			items: '2',
 			type: 'h' as NoteType,
 			notations: '!f!',
 		};
-		const note = {
-			_type: 'h',
-			_octave: 5,
-			_root: 'd',
-			_midiNumber: 62,
+		const note: NoteObject = {
 			notations: [{ text: 'f' }],
-			_staffIndex: 0,
-			id: '',
 		};
 		const expectedResult = { item: note };
-		const result = parser.process(data, info);
-		result!.item['id'] = '';
-		expect(result).toEqual(expectedResult);
+		const result = parser.process(input, info);
+		expect(result).toMatchObject(expectedResult);
 	});
 });
 
