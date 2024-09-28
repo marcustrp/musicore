@@ -1,7 +1,7 @@
 <!-- svelte-ignore options_missing_custom_element -->
 <svelte:options
 	customElement={{
-		tag: 'score-js',
+		tag: 'music-score',
 		shadow: 'none',
 		props: {
 			musicString: { reflect: true, type: 'String', attribute: 'music-string' },
@@ -14,7 +14,7 @@
 
 <script lang="ts">
 	import { MusicStringImporter, type NoteName } from '$lib/index.js';
-	import Score from '$lib/engraver/EScore.svelte';
+	import EScore from '$lib/engraver/EScore.svelte';
 	import type { EngraverSettings } from '$lib/engraver/scoreEngraver.js';
 	import type { LayoutSettings } from '$lib/layout/types.js';
 	import { BBox } from '$lib/utils/bBox.js';
@@ -54,7 +54,7 @@
 		editDisabled = disable;
 	};
 
-	let scoreComponent: Score;
+	let scoreComponent: EScore;
 	let editDisabled = $state(false);
 
 	$effect(() => {
@@ -155,7 +155,7 @@
 </script>
 
 <!--<AccidentalSelector currentAccidental={layoutSettings.defaultAccidental || '#'} {setAccidental} />-->
-<Score {score} {settings} {layoutSettings} bind:this={scoreComponent} />
+<EScore {score} {settings} {layoutSettings} bind:this={scoreComponent} />
 
 <style global lang="postcss">
 	@tailwind base;

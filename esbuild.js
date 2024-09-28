@@ -4,8 +4,8 @@ import sveltePreprocess from 'svelte-preprocess';
 
 esbuild
 	.build({
-		entryPoints: ['./src/web-components/ScoreJs.svelte'],
-		outfile: 'dist-js/ScoreJs.js',
+		entryPoints: ['./src/web-components/Musicore.svelte'],
+		outfile: 'dist-js/musicore.js',
 		bundle: true,
 		minify: true,
 		conditions: ['svelte'],
