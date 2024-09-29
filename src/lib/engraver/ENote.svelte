@@ -137,7 +137,9 @@
 							<path
 								onclick={(e) => doSelect(e)}
 								transform="rotate(180, {notehead.x},{notehead.y}) translate({notehead.x},{notehead.y}) scale(-1,1)"
-								fill={selected ? 'green' : 'black'}
+								fill={selected ? 'green'
+								: notehead.color ? notehead.color
+								: 'black'}
 								d={notehead.glyph.d}
 							/>
 						{/if}
@@ -161,7 +163,9 @@
 					<path
 						onclick={(e) => doSelect(e)}
 						transform="rotate(180, {notehead.x},{notehead.y}) translate({notehead.x},{notehead.y}) scale(-1,1)"
-						fill={selected ? 'green' : 'black'}
+						fill={selected ? 'green'
+						: notehead.color ? notehead.color
+						: 'black'}
 						d={note.notes[0].glyph.d}
 					/>
 				{/if}

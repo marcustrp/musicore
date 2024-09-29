@@ -11,6 +11,7 @@ import ChordSymbol from '../../../core/chordSymbol.js';
 import RomanNumeralAnalysis from '../../../core/romanNumeralAnalysis.js';
 import FunctionAnalysis from '../../../core/functionAnalysis.js';
 import { type InformationItem } from './information.js';
+import { Styles } from '$lib/core/styles.js';
 
 type NoteTypeMusicstring = '_' | '__' | NoteType;
 
@@ -177,7 +178,8 @@ export class BodyParser {
    */
 	match(item: string, bar: Bar) {
 		const myRegexp =
-			/([(]*)?(?:([1-9]):(?:([1-9]):)?(?:([1-9]):)?)?(!(?!(?:!|!!)).*!)*(?:`([^"]*)`)?(?:"([^"]*)")?(?:'([^']*)')?(?:´([^']*)´)?(?:\*([^*]*)\*)?(?:(__|[ldwhqestuv_])|(?:\[((?:(?:[+-]){0,2}(?:(?:bb|b|#|x|m)(?!x))?[1-9rxyi][IL]*){0,32})\](__|[ldwhqestuv_]))|(?:\[((?:(?:[+-/]){0,2}(?:(?:bb|b|#|x|m)(?!x))?[1-9rxyi][IL]*){0,32})\])|(?:((?:[+-/]){0,2}(?:(?:bb|b|#|x|m)(?!x))?[1-9rxyi][IL]*)(__|[ldwhqestuv_]))|((?:[+-/]){0,2}(?:(?:bb|b|#|x|m)(?!x))?[1-9rxyi][IL]*))([.]*)(=)?([)]*)?/g;
+			/([(]*)?(?:([1-9]):(?:([1-9]):)?(?:([1-9]):)?)?(!(?!(?:!|!!)).*!)*(?:`([^"]*)`)?(?:"([^"]*)")?(?:'([^']*)')?(?:´([^']*)´)?(?:\*([^*]*)\*)?(?:(__|[ldwhqestuv_](?:{[^}]*})?)|(?:\[((?:(?:[+-]){0,2}(?:(?:bb|b|#|x|m)(?!x))?[1-9rxyi][IL]*(?:{[^}]*})?){0,32})\](__|[ldwhqestuv_](?:{[^}]*})?))|(?:\[((?:(?:[+-/]){0,2}(?:(?:bb|b|#|x|m)(?!x))?[1-9rxyi][IL]*(?:{[^}]*})?){0,32})\])|(?:((?:[+-/]){0,2}(?:(?:bb|b|#|x|m)(?!x))?[1-9rxyi][IL]*(?:{[^}]*})?)(__|[ldwhqestuv_](?:{[^}]*})?))|((?:[+-/]){0,2}(?:(?:bb|b|#|x|m)(?!x))?[1-9rxyi][IL]*(?:{[^}]*})?))([.]*)(=)?([)]*)?/g;
+		//	/([(]*)?(?:([1-9]):(?:([1-9]):)?(?:([1-9]):)?)?(!(?!(?:!|!!)).*!)*(?:`([^"]*)`)?(?:"([^"]*)")?(?:'([^']*)')?(?:´([^']*)´)?(?:\*([^*]*)\*)?(?:(__|[ldwhqestuv_])|(?:\[((?:(?:[+-]){0,2}(?:(?:bb|b|#|x|m)(?!x))?[1-9rxyi][IL]*){0,32})\](__|[ldwhqestuv_]))|(?:\[((?:(?:[+-/]){0,2}(?:(?:bb|b|#|x|m)(?!x))?[1-9rxyi][IL]*){0,32})\])|(?:((?:[+-/]){0,2}(?:(?:bb|b|#|x|m)(?!x))?[1-9rxyi][IL]*)(__|[ldwhqestuv_]))|((?:[+-/]){0,2}(?:(?:bb|b|#|x|m)(?!x))?[1-9rxyi][IL]*))([.]*)(=)?([)]*)?/g;
 		//	/([\(]*)?(?:([1-9]):(?:([1-9]):)?(?:([1-9]):)?)?(!(?!(?:!|!!)).*!)*(?:\`([^\"]*)\`)?(?:\"([^\"]*)\")?(?:'([^']*)')?(?:´([^']*)´)?(?:\*([^\*]*)\*)?(?:(__|[ldwhqestuv_])|(?:\[((?:(?:[+-]){0,2}(?:(?:bb|b|#|x|m)(?!x))?[1-9rxyi][IL]*){0,32})\](__|[ldwhqestuv_]))|(?:\[((?:(?:[+-\/]){0,2}(?:(?:bb|b|#|x|m)(?!x))?[1-9rxyi][IL]*){0,32})\])|(?:((?:[+-\/]){0,2}(?:(?:bb|b|#|x|m)(?!x))?[1-9rxyi][IL]*)(__|[ldwhqestuv_]))|((?:[+-\/]){0,2}(?:(?:bb|b|#|x|m)(?!x))?[1-9rxyi][IL]*))([\.]*)(=)?([\)]*)?/g;
 		//  /([\(]*)?(?:([1-9]):(?:([1-9]):)?(?:([1-9]):)?)?(!(?!(?:!|!!)).*!)*(?:\`([^\"]*)\`)?(?:\"([^\"]*)\")?(?:'([^']*)')?(?:´([^']*)´)?(?:\*([^\*]*)\*)?(?:(__|[ldwhqestuv_])|(?:\[((?:(?:[+-]){0,2}(?:(?:bb|b|#|x|m)(?!x))?[1-9rxyi]){0,32})\](__|[ldwhqestuv_]))|(?:\[((?:(?:[+-\/]){0,2}(?:(?:bb|b|#|x|m)(?!x))?[1-9rxyi]){0,32})\])|(?:((?:[+-\/]){0,2}(?:(?:bb|b|#|x|m)(?!x))?[1-9rxyi])(__|[ldwhqestuv_]))|((?:[+-\/]){0,2}(?:(?:bb|b|#|x|m)(?!x))?[1-9rxyi]))([\.]*)(=)?([\)]*)?/g;
 		//  /([\(]*)?(?:([1-9]):(?:([1-9]):)?(?:([1-9]):)?)?(!(?!(?:!|!!)).*!)*(?:\`([^\"]*)\`)?(?:\"([^\"]*)\")?(?:'([^']*)')?(?:´([^']*)´)?(?:\*([^\*]*)\*)?(?:(__|[ldwhqestuv_])|(?:\[((?:(?:[+-]){0,2}(?:(?:bb|b|#|x|m)(?!x))?[1-9rxy]){0,32})\](__|[ldwhqestuv_]))|(?:\[((?:(?:[+-]){0,2}(?:(?:bb|b|#|x|m)(?!x))?[1-9rxy]){0,32})\])|(?:((?:[+-]){0,2}(?:(?:bb|b|#|x|m)(?!x))?[1-9rxy])(__|[ldwhqestuv_]))|((?:[+-]){0,2}(?:(?:bb|b|#|x|m)(?!x))?[1-9rxy]))([\.]*)(=)?([\)]*)?/g;
@@ -228,7 +230,7 @@ export class BodyParser {
 		if (items[BodyMatch.FUNCTION]) data.function = items[BodyMatch.FUNCTION];
 		if (items[BodyMatch.DOTS]) data.dots = items[BodyMatch.DOTS].length;
 		if (items[BodyMatch.TIE]) data.tie = true;
-		if (numberOrChord.indexOf('r') >= 0) data.rest = true;
+		if (numberOrChord.substring(-1) === 'r') data.rest = true;
 
 		if (items[BodyMatch.SLUR_START])
 			this.addSlurs(data, 'start', items[BodyMatch.SLUR_START].length);
@@ -476,11 +478,13 @@ export class BodyParser {
 			0: full match
 			1: octaveShift
 			2: scaleNumber
+			3: note properties
+			4: styles
    * @param data 
    * @returns 
    */
 	process(data: BodyData, info: InformationItem) {
-		const numberRegExp = /([+\-/]*)?([b#xm]{0,2}[0-9ryi])([IL]*)/g;
+		const numberRegExp = /([+\-/]*)?([b#xm]{0,2}[0-9ryi])([IL]*)(?:{([^}]*)})?/g;
 		data.type = data.type as NoteType;
 		// get scaleNumber (1, 2, b3 etc). If not set, default to 1
 		//let scaleNumber = items[5] || items[9] || '1';
@@ -528,6 +532,10 @@ export class BodyParser {
 						if (data.slurs) (item.item as Note).slurs = data.slurs;
 						if (pitch[2] === 'i' || pitch[3].includes('I')) (item.item as Note).invisible = true;
 						if (pitch[3].includes('L')) (item.item as Note).locked = true;
+						if (pitch[4]) {
+							const styles = Styles.processStyles(pitch[4]);
+							if (styles.color) (item.item as Note).color = { notehead: styles.color };
+						}
 					}
 				} else {
 					const chordNote = Note.fromScaleNumber(
@@ -542,6 +550,10 @@ export class BodyParser {
 					(item.item as Note).addChordNote(chordNote);
 					if (pitch[2] === 'i' || pitch[3].includes('I')) (item.item as Note).invisible = true;
 					if (pitch[3].includes('L')) chordNote.locked = true;
+					if (pitch[4]) {
+						const styles = Styles.processStyles(pitch[4]);
+						if (styles.color) (chordNote as Note).color = { notehead: styles.color };
+					}
 				}
 				this.addData(item.item as Note, data);
 				if (data.notations) this.processNotation(item.item as Note | Spacer, data.notations);

@@ -345,6 +345,17 @@ describe('match()', () => {
 			expect(parser.errors.length).toBe(1);
 			expect(parser.errors[0]).toBe('Missing start of slur');
 		});
+		it('should return color style for note', () => {
+			const musicString = '1{color:red}q';
+			const data = [
+				{
+					items: '1{color:red}',
+					type: 'q',
+				},
+			];
+			const result = parser.match(musicString, new Bar(new TimeSignature(), new Key('c', 'major')));
+			expect(result).toEqual(data);
+		});
 	});
 	describe('note groups', () => {
 		describe('2/4, 3/4, 4/4 and so on...', () => {
@@ -1006,6 +1017,44 @@ describe('process()', () => {
 		};
 		const note: NoteObject = {
 			notations: [{ text: 'f' }],
+		};
+		const expectedResult = { item: note };
+		const result = parser.process(input, info);
+		expect(result).toMatchObject(expectedResult);
+	});
+	it('should return a chord', () => {
+		const input = {
+			items: '1b35',
+			type: 'h' as NoteType,
+		};
+		const note: NoteObject = {
+			name: 'c',
+			chord: [{ name: 'eb' }, { name: 'g' }],
+		};
+		const expectedResult = { item: note };
+		const result = parser.process(input, info);
+		expect(result).toMatchObject(expectedResult);
+	});
+	it('should return a note with color', () => {
+		const input = {
+			items: '2{color:red}',
+			type: 'h' as NoteType,
+		};
+		const note: NoteObject = {
+			color: { notehead: 'red' },
+		};
+		const expectedResult = { item: note };
+		const result = parser.process(input, info);
+		expect(result).toMatchObject(expectedResult);
+	});
+	it('should return a chord with colors', () => {
+		const input = {
+			items: '2{color:red}4{color:green}6{color:blue}',
+			type: 'h' as NoteType,
+		};
+		const note: NoteObject = {
+			color: { notehead: 'red' },
+			chord: [{ color: { notehead: 'green' } }, { color: { notehead: 'blue' } }],
 		};
 		const expectedResult = { item: note };
 		const result = parser.process(input, info);

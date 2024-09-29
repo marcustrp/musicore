@@ -646,6 +646,19 @@ describe('parse', () => {
 			});
 		});
 	});
+	describe('styles', () => {
+		describe('notes', () => {
+			it('should add color to a note', () => {
+				const musicString = '1{color:red}w';
+				const note: NoteObject = {
+					color: { notehead: 'red' },
+				};
+				const score = importer.parse(musicString);
+				expect(importer.errors.length).toBe(0);
+				expect(score.parts.getPart(0).getVoice(0).getNotes()).toMatchObject([note]);
+			});
+		});
+	});
 
 	/*describe('tuplets, triplets', () => {
     it('should handle quarter triplet, 3:1 2 3', () => {
