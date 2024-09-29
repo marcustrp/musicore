@@ -14,19 +14,29 @@ Core music concepts: clef, key, time signature, note, rest, scale...
 
 ### Score
 
-The main part of musicore, the Score uses Core elements to create a music score representation. Includes importers & exporters for different music formats, analyse tools...
+The main part of musicore, the Score uses Core elements to create a music score representation. Includes
+importers & exporters for different music formats, analyse tools...
 
-## Layout
+### Layout
 
 Takes a Score and creates a layout object, which can be used by an engraver for printing sheet music.
 
-## Engraver
+### Engraver
 
 Print sheet music as an SVG, using data from Layout.
 
+### Exercises
+
+Music theory exercises (currently none available).
+
+### Web component
+
+The musicore library as a web component (currently partial and only for testing).
+
 ## References
 
-A list of books and other references used when developing this library. Code comments can refer to this list of references but using abbrevation of reference inside []. For example, [BB:153] means "Behind Bars, page 153"
+A list of books and other references used when developing this library. Code comments can refer to this list of
+references but using abbrevation of reference inside []. For example, [BB:153] means "Behind Bars, page 153".
 
 - Behind Bars (Elaine Gould) [BB]
 
