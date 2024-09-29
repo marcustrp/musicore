@@ -1047,6 +1047,18 @@ describe('process()', () => {
 		const result = parser.process(input, info);
 		expect(result).toMatchObject(expectedResult);
 	});
+	it('should return a note with color using short syntax', () => {
+		const input = {
+			items: '2{c:b}',
+			type: 'h' as NoteType,
+		};
+		const note: NoteObject = {
+			color: { notehead: 'blue' },
+		};
+		const expectedResult = { item: note };
+		const result = parser.process(input, info);
+		expect(result).toMatchObject(expectedResult);
+	});
 	it('should return a chord with colors', () => {
 		const input = {
 			items: '2{color:red}4{color:green}6{color:blue}',

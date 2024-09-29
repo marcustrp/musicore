@@ -15,8 +15,47 @@ export class Styles {
 
 	static setStyle(style: Style, key: string, value: string) {
 		switch (key) {
+			case 'c':
 			case 'color':
-				style.color = value;
+				const color = Styles.getColor(value);
+				style.color = color;
+		}
+	}
+
+	static getColor(value: string) {
+		switch (value) {
+			case 'r':
+				return 'red';
+			case 'g':
+				return 'green';
+			case 'b':
+				return 'blue';
+			case 'w':
+				return 'white';
+			case 's':
+				return 'silver';
+			case 'g':
+				return 'gray';
+			case 'p':
+				return 'purple';
+			case 'l':
+				return 'lime';
+			case 'y':
+				return 'yellow';
+			case 't':
+				return 'teal';
+			case 'a':
+				return 'aqua';
+			case 'm':
+				return 'maroon';
+			case 'f':
+				return 'fuchsia';
+			case 'o':
+				return 'orange';
+			case 'n':
+				return 'navy';
+			default:
+				return value;
 		}
 	}
 }
