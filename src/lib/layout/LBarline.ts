@@ -156,7 +156,6 @@ export class LBarline implements LayoutObject {
 		} else if (line.style === 'none') {
 			line.width = 0;
 		}
-		line.width *= 250;
 
 		line.height = staffLines[4].y - staffLines[0].y;
 		line.y = staffLines[0].y;
