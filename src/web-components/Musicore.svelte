@@ -5,6 +5,7 @@
 		shadow: 'none',
 		props: {
 			musicString: { reflect: true, type: 'String', attribute: 'music-string' },
+			exercise: { reflect: false, type: 'String' },
 			editorFrom: { reflect: false, type: 'String', attribute: 'editor-from' },
 			editorTo: { reflect: false, type: 'String', attribute: 'editor-to' },
 			editorsOnHover: { reflect: false, type: 'String', attribute: 'editors-on-hover' },
@@ -13,48 +14,52 @@
 />
 
 <script lang="ts">
-	import { MusicStringImporter, type NoteName } from '$lib/index.js';
-	import EScore from '$lib/engraver/EScore.svelte';
-	import type { EngraverSettings } from '$lib/engraver/scoreEngraver.js';
-	import type { LayoutSettings } from '$lib/layout/types.js';
-	import { BBox } from '$lib/utils/bBox.js';
-	import { noteAccidentalEventHandler, noteEventHandler } from '$lib/engraver/events/note.js';
-	import type { NoteAccidentalEvent, NoteEvent } from '$lib/engraver/events/types.js';
+	import {
+		MusicStringImporter,
+		type EngraverSettings,
+		type LayoutSettings,
+		type NoteName,
+	} from '$lib/index.js';
 	import { LNoteHead } from '$lib/layout/LNoteHead.js';
 	//import AccidentalSelector from './accidental-selector.svelte';
 	import { createEventDispatcher } from 'svelte';
+	import type {
+		NoteEvent,
+		NoteAccidentalEvent,
+		KeySignatureAccidentalEvent,
+	} from '$lib/engraver/events/types.js';
+
+	import NoteExercise from '$lib/exercises/NoteExercise.svelte';
+	import KeySignatureExercise from '$lib/exercises/KeySignatureExercise.svelte';
+	import EScore from '$lib/engraver/EScore.svelte';
+	import ScaleExercise from '$lib/exercises/ScaleExercise.svelte';
 
 	const dispatch = createEventDispatcher();
 
 	type Props = {
 		musicString: string;
+		exercise?: string;
 		data?: { [key: string]: string };
 		editorFrom?: string;
 		editorTo?: string;
 		editorsOnHover?: string;
 	};
-	const { musicString, data, editorFrom, editorTo, editorsOnHover }: Props = $props();
-	console.log('SVELTE musicString', musicString);
+	const { musicString, exercise, data, editorFrom, editorTo, editorsOnHover }: Props = $props();
+	let scoreComponent: NoteExercise | KeySignatureExercise = $state();
 
 	export const showAnswer = () => {
-		//scoreComponent.lockNote(0);
 		editDisabled = true;
-		scoreComponent.showNote(1);
-		scoreComponent.setNoteHeadColor(0, 'red');
-		showNoteName();
-		scoreComponent.refresh();
+		scoreComponent.showAnswer();
 	};
 
 	export const showNoteName = (show = true) => {
-		if (layoutSettings.render?.notes?.editorNote)
-			layoutSettings.render.notes.editorNote.showNoteName = show;
+		scoreComponent.showNoteName(show);
 	};
 
 	export const disableEdit = (disable = true) => {
 		editDisabled = disable;
 	};
 
-	let scoreComponent: EScore;
 	let editDisabled = $state(false);
 
 	$effect(() => {
@@ -69,19 +74,30 @@
 	});*/
 	let score = importer.parse(musicString); // $state(importer.parse(musicString));
 
-	// note. editorFrom becomes positionTo
-	const positionTo = LNoteHead.getPositionFromRoot(
-		editorFrom![0] as NoteName,
-		parseInt(editorFrom![1]),
-		score.parts.getPart(0).getClef(0, 0).type,
-	);
-	const positionFrom = LNoteHead.getPositionFromRoot(
-		editorTo![0] as NoteName,
-		parseInt(editorTo![1]),
-		score.parts.getPart(0).getClef(0, 0).type,
-	);
-	console.log('SVELTE editorFROM-TO', editorFrom, editorTo, positionFrom, positionTo);
+	const layoutSettings: LayoutSettings = {};
+	const settings: EngraverSettings = {};
 
+	// note. editorFrom becomes positionTo
+	const positionTo =
+		editorFrom ?
+			LNoteHead.getPositionFromRoot(
+				editorFrom[0] as NoteName,
+				parseInt(editorFrom[1]),
+				score.parts.getPart(0).getClef(0, 0).type,
+			)
+		:	0;
+	const positionFrom =
+		editorTo ?
+			LNoteHead.getPositionFromRoot(
+				editorTo[0] as NoteName,
+				parseInt(editorTo[1]),
+				score.parts.getPart(0).getClef(0, 0).type,
+			)
+		:	0;
+
+	function handleEvent(event: NoteEvent | NoteAccidentalEvent | KeySignatureAccidentalEvent) {
+		dispatch('scoreupdate', event);
+	}
 	/*
 	$effect.pre(() => {
 		// before DOM update
@@ -95,67 +111,30 @@
 	});
 	$inspect(musicString);*/
 
-	const layoutSettings: LayoutSettings = $state({
-		noteSpacing: {
-			type: 'fixed',
-			value: 2,
-		},
-		defaultAccidental: 'b',
-		render: {
-			keySignature: false,
-			clef: true,
-			timeSignature: false,
-			bars: true,
-			barlines: false,
-			notes: {
-				//editorAccidental: { types: ['b', '#'] },
-				editorNote: {
-					positionFrom: positionFrom !== undefined ? positionFrom : -4,
-					positionTo: positionTo !== undefined ? positionTo : 12,
-					showNoteName: false,
-				},
-			},
-		},
-	});
-	const settings: EngraverSettings = {
-		showBBoxes: false,
-		viewBoxMinimum: new BBox(0, -1000, 0, 3000),
-		events: {
-			note: (event: NoteEvent) => {
-				if (editDisabled) return false;
-				const eNote = LNoteHead.rootAndOctaveFromPosition(
-					event.position,
-					score.parts.getPart(0).getClef(0, 0).type,
-				);
-				if (eNote && (eNote.root !== event.note.root || eNote.octave !== event.note.octave))
-					event.note.invisible = true;
-				const hasUpdated = noteEventHandler(event);
-				if (hasUpdated) {
-					console.log('scoreupdate', event);
-					dispatch('scoreupdate', { detail: event });
-				}
-				return hasUpdated;
-			},
-			noteAccidental: (event: NoteAccidentalEvent) => {
-				if (editDisabled) return false;
-				const hasUpdated = noteAccidentalEventHandler(event);
-				if (hasUpdated) {
-					console.log('scoreupdate', event);
-					dispatch('scoreupdate', { detail: event });
-				}
-				return hasUpdated;
-			},
-		},
-		renderEditorsOnHover: editorsOnHover === 'true' ? true : false,
-	};
-
 	/*function setAccidental(accidental: string) {
 		layoutSettings.defaultAccidental = accidental as NoteAccidentals;
 	}*/
 </script>
 
-<!--<AccidentalSelector currentAccidental={layoutSettings.defaultAccidental || '#'} {setAccidental} />-->
-<EScore {score} {settings} {layoutSettings} bind:this={scoreComponent} />
+{#if exercise === 'NoteExercise'}
+	<NoteExercise
+		{score}
+		{positionFrom}
+		{positionTo}
+		{editDisabled}
+		editorsOnHover={editorsOnHover === 'true'}
+		onevent={(event) => handleEvent(event)}
+		bind:this={scoreComponent}
+	/>
+{:else if exercise === 'KeySignatureExercise'}
+	<KeySignatureExercise onevent={(event) => handleEvent(event)} bind:this={scoreComponent} />
+{:else if exercise === 'ScaleExercise'}
+	<ScaleExercise {score} onevent={(event) => handleEvent(event)} bind:this={scoreComponent} />
+{:else if exercise === 'default' || exercise === '' || exercise === undefined}
+	<EScore {score} {settings} {layoutSettings} />
+{:else}
+	Unknown exercise: {exercise}
+{/if}
 
 <style global lang="postcss">
 	@tailwind base;
