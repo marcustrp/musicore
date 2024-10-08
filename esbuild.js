@@ -1,9 +1,9 @@
-import esbuild from 'esbuild';
+import * as esbuild from 'esbuild';
 import sveltePlugin from 'esbuild-svelte';
 import sveltePreprocess from 'svelte-preprocess';
 
-esbuild
-	.build({
+let ctx = await esbuild
+	.context({
 		entryPoints: ['./src/web-components/Musicore.svelte'],
 		outfile: 'dist-js/musicore.js',
 		bundle: true,
@@ -23,3 +23,6 @@ esbuild
 		logLevel: 'info',
 	})
 	.catch(() => process.exit(1));
+
+await ctx.watch();
+console.log('watching...');
