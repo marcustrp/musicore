@@ -9,6 +9,7 @@ esbuild
 		bundle: true,
 		minify: true,
 		conditions: ['svelte'],
+		sourcemap: true,
 		plugins: [
 			sveltePlugin({
 				preprocess: sveltePreprocess({ sourceMap: false, postcss: true }),
