@@ -10,14 +10,23 @@
 
 	type Props = {
 		score: Score;
+		/** Staff size in mm, default is 18 */
+		staffSize?: number;
 		positionFrom?: number;
 		positionTo?: number;
 		editorsOnHover?: boolean;
 		editDisabled?: boolean;
 		onevent: (arg0: NoteEvent | NoteAccidentalEvent) => void;
 	};
-	const { score, editDisabled, positionFrom, positionTo, editorsOnHover, onevent }: Props =
-		$props();
+	const {
+		score,
+		staffSize,
+		editDisabled,
+		positionFrom,
+		positionTo,
+		editorsOnHover,
+		onevent,
+	}: Props = $props();
 
 	export const showAnswer = () => {
 		//scoreComponent.lockNote(0);
@@ -34,6 +43,7 @@
 	let scoreComponent: EScore;
 
 	const layoutSettings: LayoutSettings = $state({
+		staffSize: staffSize ? staffSize : 18,
 		noteSpacing: {
 			type: 'fixed',
 			value: 2,

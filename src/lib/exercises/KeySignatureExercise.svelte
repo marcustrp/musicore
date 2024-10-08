@@ -9,8 +9,10 @@
 
 	type Props = {
 		onevent: (arg0: KeySignatureAccidentalEvent) => void;
+		/** Staff size in mm, default is 18 */
+		staffSize?: number;
 	};
-	const { onevent }: Props = $props();
+	const { onevent, staffSize }: Props = $props();
 
 	const score = new Score();
 	score.parts.addPart();
@@ -18,6 +20,7 @@
 	let scoreComponent: EScore;
 
 	const layoutSettings: LayoutSettings = {
+		staffSize: staffSize ? staffSize : 18,
 		noteSpacing: {
 			type: 'fixed',
 			value: 4,

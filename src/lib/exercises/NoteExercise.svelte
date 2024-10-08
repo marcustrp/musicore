@@ -30,6 +30,8 @@
 	type Props = {
 		/** Score, should contain two whole notes */
 		score: Score;
+		/** Staff size in mm, default is 18 */
+		staffSize?: number;
 		positionFrom?: number;
 		positionTo?: number;
 		/** Always show editors (false) or only on hover (true) */
@@ -38,8 +40,15 @@
 		editDisabled?: boolean;
 		onevent: (arg0: NoteEvent | NoteAccidentalEvent) => void;
 	};
-	const { score, editDisabled, positionFrom, positionTo, editorsOnHover, onevent }: Props =
-		$props();
+	const {
+		score,
+		staffSize,
+		editDisabled,
+		positionFrom,
+		positionTo,
+		editorsOnHover,
+		onevent,
+	}: Props = $props();
 
 	/**
 	 * Show the answer
@@ -59,8 +68,7 @@
 	let scoreComponent: EScore;
 
 	const layoutSettings: LayoutSettings = $state({
-		/** @todo staffSize (scale) not working */
-		staffSize: 10,
+		staffSize: staffSize ? staffSize : 18,
 		noteSpacing: {
 			type: 'fixed',
 			value: 2,

@@ -5,6 +5,7 @@
 		shadow: 'none',
 		props: {
 			musicString: { reflect: true, type: 'String', attribute: 'music-string' },
+			staffSizeProp: { reflect: true, type: 'String', attribute: 'staff-size' },
 			exercise: { reflect: false, type: 'String' },
 			editorFrom: { reflect: false, type: 'String', attribute: 'editor-from' },
 			editorTo: { reflect: false, type: 'String', attribute: 'editor-to' },
@@ -38,13 +39,25 @@
 
 	type Props = {
 		musicString: string;
+		staffSizeProp?: string;
 		exercise?: string;
 		data?: { [key: string]: string };
 		editorFrom?: string;
 		editorTo?: string;
 		editorsOnHover?: string;
 	};
-	const { musicString, exercise, data, editorFrom, editorTo, editorsOnHover }: Props = $props();
+	const {
+		musicString,
+		staffSizeProp,
+		exercise,
+		data,
+		editorFrom,
+		editorTo,
+		editorsOnHover,
+	}: Props = $props();
+	let staffSize = $derived(
+		staffSizeProp && parseFloat(staffSizeProp) > 0 ? parseFloat(staffSizeProp) : 14,
+	);
 	let scoreComponent: NoteExercise | KeySignatureExercise = $state();
 
 	export const showAnswer = () => {
@@ -119,6 +132,7 @@
 {#if exercise === 'NoteExercise'}
 	<NoteExercise
 		{score}
+		{staffSize}
 		{positionFrom}
 		{positionTo}
 		{editDisabled}
