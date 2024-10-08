@@ -34,3 +34,8 @@ export { LNoteHead } from './layout/LNoteHead.js';
 
 export { BBox } from './utils/bBox.js';
 export { noteEventHandler, noteAccidentalEventHandler } from './engraver/events/note.js';
+
+export { default as NoteExercise } from './exercises/NoteExercise.svelte';
+export { default as EScore } from './engraver/EScore.svelte';
+
+export type { NoteAccidentalEvent, NoteEvent } from './engraver/events/types.js';
