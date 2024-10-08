@@ -27,7 +27,7 @@ Print sheet music as an SVG, using data from Layout.
 
 ### Exercises
 
-Music theory exercises (currently none available).
+Music theory exercises.
 
 ### Web component
 
