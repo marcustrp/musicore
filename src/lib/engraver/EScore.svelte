@@ -16,6 +16,9 @@
 	import type { EngravingData } from '$lib/layout/scoreLayout.js';
 	const clearSignal = $clearSelection;
 
+	// makes staff approx. 7mm high when using staffSize 7
+	const SVG_SIZE_DIVIDER = 17;
+
 	type MyProps = {
 		score: Score;
 		settings: EngraverSettings;
@@ -138,7 +141,9 @@
 
 <!-- svelte-ignore a11y_no_static_element_interactions -->
 <svg
-	style="width: {Math.floor(viewBox.width / 10)}px; height:{Math.floor(viewBox.height / 10)}px"
+	style="width: {Math.floor(
+		(viewBox.width / SVG_SIZE_DIVIDER) * engravingData.document.scale,
+	)}px; height:{Math.floor((viewBox.height / SVG_SIZE_DIVIDER) * engravingData.document.scale)}px"
 	viewBox="{viewBox.x},{viewBox.y},{viewBox.width},{viewBox.height}"
 	onmouseenter={() => svgHover(true)}
 	onmouseleave={() => svgHover(false)}
