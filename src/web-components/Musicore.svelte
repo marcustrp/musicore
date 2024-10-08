@@ -56,7 +56,7 @@
 		editorsOnHover,
 	}: Props = $props();
 	let staffSize = $derived(
-		staffSizeProp && parseFloat(staffSizeProp) > 0 ? parseFloat(staffSizeProp) : 14,
+		staffSizeProp && parseFloat(staffSizeProp) > 0 ? parseFloat(staffSizeProp) : undefined,
 	);
 	let scoreComponent: NoteExercise | KeySignatureExercise = $state();
 
