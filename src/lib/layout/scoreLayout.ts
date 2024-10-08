@@ -17,7 +17,6 @@ import type { StaffLinesLayout } from './types.js';
 import { bravura } from '$lib/fonts/bravura.js';
 
 export type LayoutData = {
-	document: { width: number; height: number };
 	staffLines: LStaffLines;
 	clef: LClef;
 	key: LKeySignature;
@@ -26,7 +25,7 @@ export type LayoutData = {
 };
 
 export type EngravingData = {
-	document: { width: number; height: number; bBox: BBox };
+	document: { scale: number; bBox: BBox };
 	staffLines?: StaffLinesLayout;
 	clef?: ClefLayout;
 	keySignature?: KeySignatureLayout;
@@ -66,7 +65,7 @@ export class SheetMusicLayout {
 		this._layoutData = value;
 	}
 
-	engravingData: EngravingData = { document: { width: 0, height: 0, bBox: new BBox() } };
+	engravingData: EngravingData = { document: { scale: 1, bBox: new BBox() } };
 
 	private callback?: (arg0: EngravingData) => void;
 
@@ -114,7 +113,6 @@ export class SheetMusicLayout {
     data.bars = bars;
     this._layoutData = data;*/
 		this._layoutData = {
-			document: { width: 0, height: 0 },
 			staffLines,
 			clef,
 			key,
@@ -185,12 +183,7 @@ export class SheetMusicLayout {
     });*/
 		this._layoutData.staffLines.layout(this.staveSpace, staffMargin, x);
 
-		this._layoutData.document.width = x * this.#layoutSettings.scale;
-		this._layoutData.document.height =
-			(this._layoutData.staffLines.lines[this._layoutData.staffLines.lines.length - 1].y + 50) *
-			this.#layoutSettings.scale;
-
-		this.engravingData.document = { ...this._layoutData.document, bBox: this.getBBox() };
+		this.engravingData.document = { scale: this.#layoutSettings.scale, bBox: this.getBBox() };
 		this.engravingData.staffLines = this._layoutData.staffLines.toObject();
 		this.engravingData.clef =
 			settings.render && settings.render.clef === false ?
