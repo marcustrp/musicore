@@ -20,7 +20,7 @@
 	let scoreComponent: EScore;
 
 	const layoutSettings: LayoutSettings = {
-		staffSize: staffSize ? staffSize : 18,
+		staffSize: staffSize ? staffSize : 25,
 		noteSpacing: {
 			type: 'fixed',
 			value: 4,
