@@ -41,6 +41,7 @@
 		console.log('handleEvent', type, data, noteIndex);
 		if (type === 'note' && engraver.settings.events?.note) {
 			const updated = engraver.settings.events.note({
+				eventType: 'note',
 				score: engraver.score,
 				settings: engraver.layoutSettings,
 				index: data.editorIndex,
@@ -52,6 +53,7 @@
 			if (updated) engraver.update();
 		} else if (type === 'accidental' && engraver.settings.events?.noteAccidental) {
 			const updated = engraver.settings.events.noteAccidental({
+				eventType: 'noteAccidental',
 				score: engraver.score,
 				settings: engraver.layoutSettings,
 				index: data.editorIndex,

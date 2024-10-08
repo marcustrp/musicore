@@ -18,6 +18,7 @@
 	function handleEvent(data: ColumnEditorEvent) {
 		if (!engraver.settings.events?.keySignature) return;
 		const updated = engraver.settings.events.keySignature({
+			eventType: 'keySignatureAccidental',
 			score: engraver.score,
 			settings: engraver.layoutSettings,
 			column: data.editorIndex,

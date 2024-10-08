@@ -8,6 +8,7 @@ import {
 } from '$lib/index.js';
 
 type BaseEvent = {
+	eventType: string;
 	score: Score;
 	settings: LayoutSettings;
 };
@@ -15,12 +16,14 @@ type BaseEvent = {
 export type KeySignatureAccidentalEvent = BaseEvent & {
 	//type: 'keySignature';
 	//index: number;
+	eventType: 'keySignatureAccidental';
 	position: number;
 	column: number;
 	accidental: KeyAccidental;
 	clef: ClefType;
 };
 export type NoteEvent = BaseEvent & {
+	eventType: 'note';
 	//type: 'note' | 'accidental';
 	position: number;
 	index: number;
@@ -29,6 +32,7 @@ export type NoteEvent = BaseEvent & {
 	note: Note;
 };
 export type NoteAccidentalEvent = BaseEvent & {
+	eventType: 'noteAccidental';
 	//type: 'note' | 'accidental';
 	position: number;
 	index: number;
