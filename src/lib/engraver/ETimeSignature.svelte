@@ -28,6 +28,7 @@
 <!-- svelte-ignore a11y_click_events_have_key_events -->
 <!-- svelte-ignore a11y_no_static_element_interactions -->
 <path
+	class="time-signature"
 	onclick={(e) => doSelect(e)}
 	transform="rotate(180, {timeSignature.x},{timeSignature.y}) translate({timeSignature.x},{timeSignature.y}) scale(-1,1)"
 	fill={selected ? 'green' : 'black'}

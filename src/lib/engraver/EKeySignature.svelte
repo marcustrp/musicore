@@ -30,31 +30,34 @@
 	}
 </script>
 
-{#if keySignature.editors && keySignature.editors.length > 0}
-	{#each keySignature.editors as editor, index}
-		{#if index < keySignature.accidentals.length && keySignature.accidentals[index].y !== undefined}
-			<path
-				class="accidental"
-				transform="rotate(180, {keySignature.accidentals[index].x},{keySignature.accidentals[index]
-					.y}) translate({keySignature.accidentals[index].x},{keySignature.accidentals[index]
-					.y}) scale(-1,1)"
-				fill="black"
-				d={keySignature.accidentals[index].glyph.d}
-			/>
-		{/if}
-		<EColumnEditor columnEditor={editor} editorIndex={index} event={handleEvent} />
-	{/each}
-{:else}
-	{#each keySignature.accidentals as accidental}
-		<g>
-			{#if accidental.y !== undefined}}
+<g class="key-signature">
+	{#if keySignature.editors && keySignature.editors.length > 0}
+		{#each keySignature.editors as editor, index}
+			{#if index < keySignature.accidentals.length && keySignature.accidentals[index].y !== undefined}
 				<path
 					class="accidental"
-					transform="rotate(180, {accidental.x},{accidental.y}) translate({accidental.x},{accidental.y}) scale(-1,1)"
+					transform="rotate(180, {keySignature.accidentals[index].x},{keySignature.accidentals[
+						index
+					].y}) translate({keySignature.accidentals[index].x},{keySignature.accidentals[index]
+						.y}) scale(-1,1)"
 					fill="black"
-					d={accidental.glyph.d}
+					d={keySignature.accidentals[index].glyph.d}
 				/>
 			{/if}
-		</g>
-	{/each}
-{/if}
+			<EColumnEditor columnEditor={editor} editorIndex={index} event={handleEvent} />
+		{/each}
+	{:else}
+		{#each keySignature.accidentals as accidental}
+			<g>
+				{#if accidental.y !== undefined}}
+					<path
+						class="accidental"
+						transform="rotate(180, {accidental.x},{accidental.y}) translate({accidental.x},{accidental.y}) scale(-1,1)"
+						fill="black"
+						d={accidental.glyph.d}
+					/>
+				{/if}
+			</g>
+		{/each}
+	{/if}
+</g>

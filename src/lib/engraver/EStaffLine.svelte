@@ -10,6 +10,7 @@
 </script>
 
 <line
+	class="staffline"
 	x1={staffLine.x}
 	y1={staffLine.y}
 	x2={staffLine.x + staffLine.length}

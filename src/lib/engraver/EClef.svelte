@@ -10,6 +10,7 @@
 </script>
 
 <path
+	class="clef"
 	transform="rotate(180, {clef.x},{clef.y}) translate({clef.x},{clef.y}) scale(-1,1)"
 	fill="black"
 	d={clef.glyph.d}
