@@ -33,10 +33,17 @@ const layoutData = $state(data);
   })*/
 </script>
 
+<svelte:head>
+	<script type="module" src="../dist-js/musicore.js"></script>
+</svelte:head>
+
 <a href="/editors">Editors</a>
 
 <br /><br />
 <a href="/examples">Examples</a>
+
+<br /><br />
+<a href="/webcomponent/default">Web component</a>
 
 <br /><br />
 <a href="/tools/font">Create MusicoreFont</a>
