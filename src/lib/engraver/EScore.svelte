@@ -17,7 +17,7 @@
 	const clearSignal = $clearSelection;
 
 	// makes staff approx. 7mm high when using staffSize 7
-	const SVG_SIZE_DIVIDER = 17;
+	const SVG_SIZE_DIVIDER = 28;
 
 	type MyProps = {
 		score: Score;
