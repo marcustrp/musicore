@@ -131,7 +131,7 @@ export class SheetMusicLayout {
 	 */
 	layout(settings?: LayoutSettings) {
 		if (!settings) settings = { staffSize: 7 };
-		this.staffSize = settings.staffSize!;
+		this.staffSize = settings.staffSize ? settings.staffSize : 7;
 		this.calculateStaveSpace();
 		this.#layoutSettings = {
 			...settings,
