@@ -937,6 +937,16 @@ describe('process()', () => {
 		rest['id'] = result!.item.id;
 		expect(result).toEqual(expectedResult);
 	});
+	it('should handle multiple octave shifts', () => {
+		const data = {
+			items: '+++++1',
+			type: 'q' as NoteType,
+		};
+		const expectedResult = { item: { octave: 7 } };
+		info.octave = 2;
+		const result = parser.process(data, info);
+		expect(result).toMatchObject(expectedResult);
+	});
 	it('should return a note with step (analysis)', () => {
 		const data = {
 			items: '2',

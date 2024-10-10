@@ -163,6 +163,12 @@ describe('parse', () => {
 		expect(score.parts.getPart(0).getVoice(0).getNotes()).toMatchObject(notes);
 		expect(score.bars.bars[0].key).toMatchObject(key);
 	});
+	it('should import music string with multiple octave changes', () => {
+		const musicString = '----1w +++++1w';
+		const expectedResult = [{ octave: 1 }, { octave: 6 }];
+		const score = importer.parse(musicString);
+		expect(score.bars.getNotes('P1', 'V1')).toMatchObject(expectedResult);
+	});
 	it('should import simple music string note field', () => {
 		const musicString = '@N`Hello world` 1';
 		const notes: NoteObject[] = [{ type: 'q', root: 'c' }];
