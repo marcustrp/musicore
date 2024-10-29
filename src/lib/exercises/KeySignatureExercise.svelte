@@ -6,16 +6,55 @@
 	import EScore from '$lib/engraver/EScore.svelte';
 	import { BBox } from '$lib/utils/bBox.js';
 	import type { KeySignatureAccidentalEvent } from '$lib/engraver/events/types.js';
+	import AccidentalSelector from './gui/AccidentalSelector.svelte';
+	import type { NoteAccidentals } from '$lib/core/note.js';
+	import { Key, type KeyAccidental } from '$lib/core/key.js';
 
 	type Props = {
+		score: Score;
+		/** Editors off, shown on hover or on (always shown) */
+		editorStyle?: 'off' | 'hover' | 'on';
 		onevent: (arg0: KeySignatureAccidentalEvent) => void;
 		/** Staff size in mm, default is 18 */
 		staffSize?: number;
 	};
-	const { onevent, staffSize }: Props = $props();
+	const { score, editorStyle, onevent, staffSize }: Props = $props();
 
-	const score = new Score();
-	score.parts.addPart();
+	export const showIncorrect = (questionKey: Key) => {
+		const key = score.bars.bars[0].key;
+		if (key.customAccidentals && key.customAccidentals.length > 0) {
+			key.customAccidentals.forEach((accidental, index) => {
+				const isValid =
+					accidental.position !== undefined &&
+					accidental.type === questionKey.accidentals.type &&
+					index < questionKey.accidentals.count &&
+					Key.isAccidentalValid(
+						accidental.type as KeyAccidental,
+						index,
+						accidental.position,
+						score.parts.getPart(0).getClef(0, 0).type,
+					);
+				key.setColor(index, isValid ? '' : 'red');
+			});
+			console.log('accccccc custom', key.customAccidentals);
+		} else {
+			for (let i = 0; i < key.accidentals.count; i++) {
+				const isValid =
+					key.accidentals.type == questionKey.accidentals.type && i < questionKey.accidentals.count;
+				key.setColor(i, isValid ? '' : 'red');
+				console.log('accccccc valid', isValid, i);
+			}
+		}
+		scoreComponent.refresh();
+	};
+
+	export const updateKeySignatureColor = (index: number, color: string) => {
+		const key = score.bars.bars[0].key;
+		key.setColor(index, color);
+	};
+
+	//const score = new Score();
+	//score.parts.addPart();
 
 	let scoreComponent: EScore;
 
@@ -44,7 +83,15 @@
 				return hasUpdated;
 			},
 		},
+		renderEditorsOnHover: editorStyle === 'hover',
 	};
+
+	function onAccidentalSelect(accidental: NoteAccidentals) {
+		layoutSettings.defaultAccidental = accidental;
+	}
 </script>
 
-<EScore {score} {settings} {layoutSettings} bind:this={scoreComponent} />
+<div>
+	<AccidentalSelector accidentals={['#', 'b']} onclick={onAccidentalSelect} />
+	<EScore {score} {settings} {layoutSettings} bind:this={scoreComponent} />
+</div>

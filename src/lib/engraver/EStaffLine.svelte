@@ -16,5 +16,6 @@
 	x2={staffLine.x + staffLine.length}
 	y2={staffLine.y}
 	stroke="black"
+	pathLength="1"
 	stroke-width={staffLine.thickness}
 />

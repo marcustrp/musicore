@@ -7,18 +7,20 @@
 			musicString: { reflect: true, type: 'String', attribute: 'music-string' },
 			staffSizeProp: { reflect: true, type: 'String', attribute: 'staff-size' },
 			exercise: { reflect: false, type: 'String' },
+			exerciseSettings: { reflect: false, type: 'String', attribute: 'exercise-settings' },
 			editorFrom: { reflect: false, type: 'String', attribute: 'editor-from' },
 			editorTo: { reflect: false, type: 'String', attribute: 'editor-to' },
-			editorsOnHover: { reflect: false, type: 'String', attribute: 'editors-on-hover' },
+			editorStyle: { reflect: false, type: 'String', attribute: 'editor-style' },
 		},
 	}}
 />
 
 <script lang="ts">
 	import {
+		Key,
 		MusicStringImporter,
-		type EngraverSettings,
-		type LayoutSettings,
+		type KeyMode,
+		type NoteAccidentals,
 		type NoteName,
 	} from '$lib/index.js';
 	import { LNoteHead } from '$lib/layout/LNoteHead.js';
@@ -32,8 +34,8 @@
 
 	import NoteExercise from '$lib/exercises/NoteExercise.svelte';
 	import KeySignatureExercise from '$lib/exercises/KeySignatureExercise.svelte';
-	import EScore from '$lib/engraver/EScore.svelte';
 	import ScaleExercise from '$lib/exercises/ScaleExercise.svelte';
+	import WebComponentScore from './WebComponentScore.svelte';
 
 	const dispatch = createEventDispatcher();
 
@@ -41,28 +43,62 @@
 		musicString: string;
 		staffSizeProp?: string;
 		exercise?: string;
+		exerciseSettings?: string;
 		data?: { [key: string]: string };
 		editorFrom?: string;
 		editorTo?: string;
-		editorsOnHover?: string;
+		/** off, hover or on */
+		editorStyle?: string;
 	};
 	const {
 		musicString,
 		staffSizeProp,
 		exercise,
+		exerciseSettings: exerciseSettingsProp,
 		data,
 		editorFrom,
 		editorTo,
-		editorsOnHover,
+		editorStyle: editorStyleProps,
 	}: Props = $props();
 	let staffSize = $derived(
 		staffSizeProp && parseFloat(staffSizeProp) > 0 ? parseFloat(staffSizeProp) : undefined,
 	);
 	let scoreComponent: NoteExercise | KeySignatureExercise = $state();
 
+	const editorStyle =
+		editorStyleProps === 'off' || editorStyleProps === 'hover' || editorStyleProps === 'on' ?
+			editorStyleProps
+		:	undefined;
+
+	const exerciseSettings: { accidentals?: NoteAccidentals[] } = {};
+	const exItems = exerciseSettingsProp?.split(';');
+	exItems?.forEach((item: string) => {
+		const setting = item.split(':');
+		if (setting && setting.length === 2) {
+			switch (setting[0]) {
+				case 'accidentals':
+					exerciseSettings.accidentals = [];
+					const accidentals = setting[1].split(',');
+					accidentals.forEach((accidental) => {
+						exerciseSettings.accidentals!.push(accidental as NoteAccidentals);
+					});
+					break;
+			}
+		}
+	});
+
 	export const showAnswer = () => {
 		editDisabled = true;
 		scoreComponent.showAnswer();
+	};
+
+	export const showIncorrect = (root: string, mode: KeyMode) => {
+		const key = new Key(root, mode);
+		scoreComponent.showIncorrect(key);
+	};
+
+	export const updateKeySignatureColor = (index: number, color: string) => {
+		scoreComponent.updateKeySignatureColor(index, color);
 	};
 
 	export const showNoteName = (show = true) => {
@@ -87,9 +123,6 @@
 	});*/
 	let score = importer.parse(musicString); // $state(importer.parse(musicString));
 
-	const layoutSettings: LayoutSettings = {};
-	const settings: EngraverSettings = {};
-
 	// note. editorFrom becomes positionTo
 	const positionTo =
 		editorFrom ?
@@ -109,24 +142,9 @@
 		:	0;
 
 	function handleEvent(event: NoteEvent | NoteAccidentalEvent | KeySignatureAccidentalEvent) {
+		/** @todo change to $host().dispatchEvent, https://svelte.dev/docs/svelte/$host */
 		dispatch('scoreupdate', event);
 	}
-	/*
-	$effect.pre(() => {
-		// before DOM update
-		musicString;
-		console.log('SVELTE musicString PRE updated', musicString);
-		untrack(() => (score = importer.parse(musicString)));
-	});
-	$effect(() => {
-		// after DOM update
-		console.log('SVELTE musicString updated', musicString);
-	});
-	$inspect(musicString);*/
-
-	/*function setAccidental(accidental: string) {
-		layoutSettings.defaultAccidental = accidental as NoteAccidentals;
-	}*/
 </script>
 
 {#if exercise === 'NoteExercise'}
@@ -136,16 +154,22 @@
 		{positionFrom}
 		{positionTo}
 		{editDisabled}
-		editorsOnHover={editorsOnHover === 'true'}
+		{editorStyle}
+		accidentals={exerciseSettings.accidentals}
 		onevent={(event) => handleEvent(event)}
 		bind:this={scoreComponent}
 	/>
 {:else if exercise === 'KeySignatureExercise'}
-	<KeySignatureExercise onevent={(event) => handleEvent(event)} bind:this={scoreComponent} />
+	<KeySignatureExercise
+		{score}
+		{editorStyle}
+		onevent={(event) => handleEvent(event)}
+		bind:this={scoreComponent}
+	/>
 {:else if exercise === 'ScaleExercise'}
 	<ScaleExercise {score} onevent={(event) => handleEvent(event)} bind:this={scoreComponent} />
 {:else if exercise === 'default' || exercise === '' || exercise === undefined}
-	<EScore {score} {settings} {layoutSettings} />
+	<WebComponentScore {score} />
 {:else}
 	Unknown exercise: {exercise}
 {/if}

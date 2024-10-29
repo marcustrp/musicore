@@ -11,7 +11,7 @@
 		{positionFrom}
 		{positionTo}
 		{editDisabled}
-		editorsOnHover="true"
+		editorStyle="hover"
 		onevent={(event) => handleEvent(event)}
 		bind:this={scoreComponent}
 	/>
@@ -26,6 +26,8 @@
 	import { BBox } from '$lib/utils/bBox.js';
 	import EScore from '$lib/engraver/EScore.svelte';
 	import type { Score } from '$lib/score/score.js';
+	import AccidentalSelector from './gui/AccidentalSelector.svelte';
+	import type { NoteAccidentals } from '$lib/core/note.js';
 
 	type Props = {
 		/** Score, should contain two whole notes */
@@ -34,10 +36,12 @@
 		staffSize?: number;
 		positionFrom?: number;
 		positionTo?: number;
-		/** Always show editors (false) or only on hover (true) */
-		editorsOnHover?: boolean;
+		/** Editors off, shown on hover or on (always shown) */
+		editorStyle?: 'off' | 'hover' | 'on';
 		/** Disable edit (but editors otherwise works) */
 		editDisabled?: boolean;
+		/** Array of accidentals to show in AccidentalSelector */
+		accidentals?: NoteAccidentals[];
 		onevent: (arg0: NoteEvent | NoteAccidentalEvent) => void;
 	};
 	const {
@@ -46,10 +50,10 @@
 		editDisabled,
 		positionFrom,
 		positionTo,
-		editorsOnHover,
+		editorStyle,
+		accidentals,
 		onevent,
 	}: Props = $props();
-
 	/**
 	 * Show the answer
 	 */
@@ -66,28 +70,31 @@
 	};
 
 	let scoreComponent: EScore;
-
+	console.log('editorStyle*', editorStyle);
 	const layoutSettings: LayoutSettings = $state({
 		staffSize: staffSize ? staffSize : 25,
 		noteSpacing: {
 			type: 'fixed',
 			value: 2,
 		},
-		defaultAccidental: 'b',
+		defaultAccidental: accidentals ? accidentals[0] : 'b',
 		render: {
 			keySignature: false,
 			clef: true,
 			timeSignature: false,
 			bars: true,
 			barlines: false,
-			notes: {
-				//editorAccidental: { types: ['b', '#'] },
-				editorNote: {
-					positionFrom: positionFrom !== undefined ? positionFrom : -4,
-					positionTo: positionTo !== undefined ? positionTo : 12,
-					showNoteName: false,
-				},
-			},
+			notes:
+				editorStyle !== 'off' ?
+					{
+						editorAccidental: accidentals ? { types: accidentals } : undefined,
+						editorNote: {
+							positionFrom: positionFrom !== undefined ? positionFrom : -4,
+							positionTo: positionTo !== undefined ? positionTo : 12,
+							showNoteName: false,
+						},
+					}
+				:	undefined,
 		},
 	});
 	const settings: EngraverSettings = {
@@ -117,13 +124,24 @@
 					console.log('scoreupdate', event);
 					//dispatch('scoreupdate', { detail: event });
 					onevent(event);
+					console.log('eeevent', event);
 				}
 				return hasUpdated;
 			},
 		},
-		renderEditorsOnHover: editorsOnHover,
+		renderEditorsOnHover: editorStyle === 'hover',
 	};
+
+	function onAccidentalSelect(accidental: NoteAccidentals) {
+		layoutSettings.defaultAccidental = accidental;
+	}
 </script>
 
-<!--<AccidentalSelector currentAccidental={layoutSettings.defaultAccidental || '#'} {setAccidental} />-->
-<EScore {score} {settings} {layoutSettings} bind:this={scoreComponent} />
+<div>
+	{#if accidentals}
+		<AccidentalSelector {accidentals} onclick={onAccidentalSelect} />
+	{/if}
+	<div>
+		<EScore {score} {settings} {layoutSettings} bind:this={scoreComponent} />
+	</div>
+</div>

@@ -4,7 +4,7 @@ import sveltePreprocess from 'svelte-preprocess';
 
 let ctx = await esbuild
 	.context({
-		entryPoints: ['./src/web-components/Musicore.svelte'],
+		entryPoints: ['./src/web-components/WebComponent.svelte'],
 		outfile: 'dist-js/musicore.js',
 		bundle: true,
 		minify: true,
