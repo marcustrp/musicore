@@ -131,9 +131,8 @@ export class Key {
 
 		let accidentalCount =
 			this._customAccidentals.length * (this._customAccidentals[0].type === '#' ? 1 : -1);
-		accidentalCount += modeOffsets[mode];
 		const rootAndCount = Object.entries(majorKeyAccidentals).find(
-			([_, accidental]) => accidental === accidentalCount,
+			([_, accidental]) => accidental === accidentalCount - modeOffsets[mode],
 		);
 		if (!rootAndCount) return undefined;
 		const keyObj = {

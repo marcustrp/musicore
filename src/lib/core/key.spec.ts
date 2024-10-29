@@ -113,6 +113,35 @@ describe('customAccidentalsToKey', () => {
 		expect(result?.accidentals.count).toBe(2);
 		expect(result?.accidentals.type).toBe('#');
 	});
+	it('should return an object for valid custom accidentals (minor sharp)', () => {
+		// NOTE: actual key (here f) is not important for this test
+		const key = new Key('f', 'minor');
+		key.customAccidentals = [
+			{ position: 0, type: '#' },
+			{ position: 3, type: '#' },
+			{ position: -1, type: '#' },
+		];
+		const result = key.customAccidentalsToKey('minor', 'treble');
+		expect(result).toBeDefined();
+		expect(result?.root).toBe('f#');
+		expect(result?.mode).toBe('minor');
+		expect(result?.accidentals.count).toBe(3);
+		expect(result?.accidentals.type).toBe('#');
+	});
+	it('should return an object for valid custom accidentals (minor flat)', () => {
+		// NOTE: actual key (here f) is not important for this test
+		const key = new Key('f', 'minor');
+		key.customAccidentals = [
+			{ position: 4, type: 'b' },
+			{ position: 1, type: 'b' },
+		];
+		const result = key.customAccidentalsToKey('minor', 'treble');
+		expect(result).toBeDefined();
+		expect(result?.root).toBe('g');
+		expect(result?.mode).toBe('minor');
+		expect(result?.accidentals.count).toBe(2);
+		expect(result?.accidentals.type).toBe('b');
+	});
 	it('should return undefined for invalid custom accidentals', () => {
 		// NOTE: actual key (here f) is not important for this test
 		const key = new Key('f', 'major');
