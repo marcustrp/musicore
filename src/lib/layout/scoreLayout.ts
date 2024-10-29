@@ -98,6 +98,7 @@ export class SheetMusicLayout {
 			score.bars.bars[0].key.mode,
 			score.bars.bars[0].key.accidentals,
 			score.bars.bars[0].key.customAccidentals,
+			score.bars.bars[0].key.colors,
 		);
 		const timeSignature = new LTimeSignature(
 			this.font,

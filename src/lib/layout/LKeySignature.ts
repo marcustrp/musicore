@@ -33,6 +33,7 @@ export class LKeySignature implements LayoutObject {
 		mode: KeyMode,
 		accidentals: KeyAccidentals,
 		customAccidentals: CustomKeyAccidental[],
+		colors: string[] | undefined,
 	) {
 		this.clef = clef;
 		this.root = root;
@@ -58,7 +59,12 @@ export class LKeySignature implements LayoutObject {
 					);
 				}
 				this.accidentals.push(
-					new LAccidental(settings, customAccidentals[i].position, customAccidentals[i].type),
+					new LAccidental(
+						settings,
+						customAccidentals[i].position,
+						customAccidentals[i].type,
+						colors && i <= colors.length ? colors[i] : undefined,
+					),
 				);
 			}
 			columnCount = customAccidentals.length;
@@ -80,7 +86,14 @@ export class LKeySignature implements LayoutObject {
 						),
 					);
 				}
-				this.accidentals.push(new LAccidental(settings, position, accidentals.type));
+				this.accidentals.push(
+					new LAccidental(
+						settings,
+						position,
+						accidentals.type,
+						colors && i <= colors.length ? colors[i] : undefined,
+					),
+				);
 			}
 			columnCount = accidentals.count;
 		}

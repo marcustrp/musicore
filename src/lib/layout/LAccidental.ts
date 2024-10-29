@@ -12,6 +12,7 @@ export class LAccidental implements LayoutObject {
 	position?;
 	glyph: Glyph;
 	bBox: BBox;
+	color?: string;
 
 	/**
 	 *
@@ -23,25 +24,32 @@ export class LAccidental implements LayoutObject {
 		settings: LayoutSettingsInternal,
 		position: number | undefined,
 		type: NoteAccidentals | undefined,
+		color?: string,
 	) {
 		this.type = type;
 		this.position = position;
 		if (!type) type = settings.defaultAccidental;
 		this.glyph = LAccidental.getGlyph(settings, type);
 		this.bBox = BBox.clone(this.glyph.bBox);
+		this.color = color;
 	}
 
 	static getGlyph(settings: LayoutSettingsInternal, type: NoteAccidentals) {
 		switch (type) {
 			case '#':
 				return settings.font.glyphs['accidentalSharp'];
-				break;
 			case 'b':
 				return settings.font.glyphs['accidentalFlat'];
-				break;
 			case 'n':
 				return settings.font.glyphs['accidentalNatural'];
-				break;
+			case 'bb':
+				return settings.font.glyphs['accidentalDoubleFlat'];
+			case 'x':
+				return settings.font.glyphs['accidentalDoubleSharp'];
+			case 'n#':
+				return settings.font.glyphs['accidentalNaturalSharp'];
+			case 'nb':
+				return settings.font.glyphs['accidentalNaturalFlat'];
 			default:
 				throw new Error(`Unsupported accidental type: ${type}`);
 		}
@@ -53,6 +61,7 @@ export class LAccidental implements LayoutObject {
 			y: this.position === undefined ? undefined : this.y, // position undefined = do not draw (probably an editor is active)
 			glyph: this.glyph,
 			bBox: this.bBox.toObject(),
+			color: this.color,
 		};
 	}
 

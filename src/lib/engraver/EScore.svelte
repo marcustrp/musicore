@@ -42,6 +42,8 @@
 		if (note && note instanceof Note) note.color = { notehead: color };
 	};
 
+	export const setKeySignatureColor = (index: number, color: string) => {};
+
 	export const refresh = () => {
 		scoreEngraver.update();
 	};

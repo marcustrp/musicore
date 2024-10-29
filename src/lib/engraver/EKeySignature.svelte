@@ -25,13 +25,14 @@
 			position: data.position,
 			accidental: data.data as KeyAccidental,
 			clef: clef,
+			key: engraver.score.bars.bars[0].key,
 		});
 		if (updated) engraver.update();
 	}
 </script>
 
 <g class="key-signature">
-	{#if keySignature.editors && keySignature.editors.length > 0}
+	{#if keySignature.editors && keySignature.editors.length > 0 && (engraver.settings.renderEditorsOnHover !== true || engraver.settings.hoverState === true)}}
 		{#each keySignature.editors as editor, index}
 			{#if index < keySignature.accidentals.length && keySignature.accidentals[index].y !== undefined}
 				<path
@@ -40,7 +41,9 @@
 						index
 					].y}) translate({keySignature.accidentals[index].x},{keySignature.accidentals[index]
 						.y}) scale(-1,1)"
-					fill="black"
+					fill={keySignature.accidentals[index].color ?
+						keySignature.accidentals[index].color
+					:	'black'}
 					d={keySignature.accidentals[index].glyph.d}
 				/>
 			{/if}
@@ -53,7 +56,7 @@
 					<path
 						class="accidental"
 						transform="rotate(180, {accidental.x},{accidental.y}) translate({accidental.x},{accidental.y}) scale(-1,1)"
-						fill="black"
+						fill={accidental.color ? accidental.color : 'black'}
 						d={accidental.glyph.d}
 					/>
 				{/if}

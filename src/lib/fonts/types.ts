@@ -26,9 +26,13 @@ export type Glyph = {
 };
 
 export const glyphNames = [
-	'accidentalFlat',
 	'accidentalNatural',
+	'accidentalNaturalSharp',
+	'accidentalNaturalFlat',
 	'accidentalSharp',
+	'accidentalFlat',
+	'accidentalDoubleSharp',
+	'accidentalDoubleFlat',
 	'cClef',
 	'fClef',
 	'gClef',
