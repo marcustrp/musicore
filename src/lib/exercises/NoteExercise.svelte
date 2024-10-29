@@ -69,8 +69,7 @@
 			layoutSettings.render.notes.editorNote.showNoteName = show;
 	};
 
-	let scoreComponent: EScore;
-	console.log('editorStyle*', editorStyle);
+	let scoreComponent: ReturnType<typeof EScore>;
 	const layoutSettings: LayoutSettings = $state({
 		staffSize: staffSize ? staffSize : 25,
 		noteSpacing: {

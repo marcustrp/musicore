@@ -1,6 +1,4 @@
 <script lang="ts">
-	import { Key } from '$lib/index.js';
-
 	let editorStyles = ['off', 'hover', 'on'];
 	let editorStyleIndex = $state(1);
 

@@ -53,10 +53,7 @@
 		key.setColor(index, color);
 	};
 
-	//const score = new Score();
-	//score.parts.addPart();
-
-	let scoreComponent: EScore;
+	let scoreComponent: ReturnType<typeof EScore>;
 
 	const layoutSettings: LayoutSettings = {
 		staffSize: staffSize ? staffSize : 25,

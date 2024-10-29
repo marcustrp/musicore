@@ -132,7 +132,7 @@ export class Key {
 		// check if type and position is valid
 		if (!this.customAccidentalsValid(clef)) return undefined;
 
-		let accidentalCount =
+		const accidentalCount =
 			this._customAccidentals.length * (this._customAccidentals[0].type === '#' ? 1 : -1);
 		const rootAndCount = Object.entries(majorKeyAccidentals).find(
 			([_, accidental]) => accidental === accidentalCount - modeOffsets[mode],

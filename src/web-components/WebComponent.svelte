@@ -78,8 +78,7 @@
 			switch (setting[0]) {
 				case 'accidentals':
 					exerciseSettings.accidentals = [];
-					const accidentals = setting[1].split(',');
-					accidentals.forEach((accidental) => {
+					setting[1].split(',').forEach((accidental) => {
 						exerciseSettings.accidentals!.push(accidental as NoteAccidentals);
 					});
 					break;

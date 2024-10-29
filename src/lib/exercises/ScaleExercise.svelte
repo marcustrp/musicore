@@ -28,19 +28,7 @@
 		onevent,
 	}: Props = $props();
 
-	export const showAnswer = () => {
-		//scoreComponent.lockNote(0);
-		scoreComponent.showNote(1);
-		scoreComponent.setNoteHeadColor(0, 'red');
-		showNoteName();
-		scoreComponent.refresh();
-	};
-	export const showNoteName = (show = true) => {
-		if (layoutSettings.render?.notes?.editorNote)
-			layoutSettings.render.notes.editorNote.showNoteName = show;
-	};
-
-	let scoreComponent: EScore;
+	let scoreComponent: ReturnType<typeof EScore>;
 
 	const layoutSettings: LayoutSettings = $state({
 		staffSize: staffSize ? staffSize : 25,

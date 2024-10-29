@@ -17,8 +17,7 @@ export class Styles {
 		switch (key) {
 			case 'c':
 			case 'color':
-				const color = Styles.getColor(value);
-				style.color = color;
+				style.color = Styles.getColor(value);
 		}
 	}
 
@@ -34,8 +33,6 @@ export class Styles {
 				return 'white';
 			case 's':
 				return 'silver';
-			case 'g':
-				return 'gray';
 			case 'p':
 				return 'purple';
 			case 'l':
