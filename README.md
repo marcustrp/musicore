@@ -4,6 +4,8 @@ Library for manipulating music scores, render sheet music, music theory exercise
 
 Importer for musicstring and ABC (using abcjs). Would like to support both MEI and MusicXML in the future.
 
+Project is in alpha phase. Focus currently is implementing things required for music theory exercises.
+
 _musicstring is a single-line music notation with some inspiration from ABC notation. Musicstring syntax specification can be found [here](https://github.com/marcustrp/musicstring)._
 
 ## Content
