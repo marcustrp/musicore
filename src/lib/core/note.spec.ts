@@ -725,3 +725,12 @@ describe('Note.noteIndexToNameInScale', () => {
 		expect(result).toBeUndefined();
 	});
 });
+
+describe('Note.setPrintedAccidental', () => {
+	it('Should update midinumber when accidental is changed', () => {
+		const noteObj = { _midiNumber: 61 };
+		const note = new Note('w', 'c', undefined, 5);
+		note.setPrintedAccidental('#');
+		expect(note).toMatchObject(noteObj);
+	});
+});

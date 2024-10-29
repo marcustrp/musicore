@@ -354,6 +354,7 @@ export class Note extends RhythmElement {
 	setPrintedAccidental(accidental: NoteAccidentals | undefined) {
 		this._accidental = accidental;
 		this.printedAccidental = { value: accidental as NoteAccidentals };
+		this.setMidiNumberFromName();
 		// TODO also update accidental if needed
 	}
 	removePrintedAccidental() {
@@ -365,6 +366,7 @@ export class Note extends RhythmElement {
 				:	(this.diatonicNoteName.substr(1) as NoteAccidentals),
 			);
 		}
+		this.setMidiNumberFromName();
 	}
 
 	setPitch(scale: Scale, name: NoteName, accidental?: NoteAccidentals, octave?: number) {
