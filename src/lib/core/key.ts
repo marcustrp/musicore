@@ -30,6 +30,8 @@ export class Key {
 	/** TODO was readonly, now updated in setAccidental */
 	accidentals: KeyAccidentals;
 
+	colors?: string[];
+
 	_mode: KeyMode;
 	get mode() {
 		return this._mode;
@@ -104,6 +106,7 @@ export class Key {
 			this._rootName = data.root[0] as NoteName;
 			this._rootAccidental = data.root.length > 1 ? (data.root[1] as Accidentals) : undefined;
 		}
+		if (this.colors) this.refreshColorArray();
 	}
 
 	keyToCustomAccidentals(clef: ClefType) {
@@ -150,13 +153,18 @@ export class Key {
 		let isValid = true;
 		const type = (this._customAccidentals![0].type as KeyAccidental) || '#';
 		this.customAccidentals.forEach((accidental, index) => {
-			// False if different type is used
-			if (accidental.type !== type) isValid = false;
-			const position = Key.getAccidentalPosition(type, index, clef);
-			// False if position is not valid
-			if (position !== accidental.position) isValid = false;
+			isValid =
+				isValid &&
+				accidental.position !== undefined &&
+				type === accidental.type &&
+				Key.isAccidentalValid(type, index, accidental.position, clef);
 		});
 		return isValid;
+	}
+
+	static isAccidentalValid(type: KeyAccidental, column: number, position: number, clef: ClefType) {
+		const validPosition = Key.getAccidentalPosition(type, column, clef);
+		return validPosition === position;
 	}
 
 	/**
@@ -190,6 +198,30 @@ export class Key {
 			return { count: 0 };
 		}
 		throw new Error('Not implemented for mode ' + mode);
+	}
+
+	setColor(index: number, color: string) {
+		const count =
+			this.customAccidentals && this.customAccidentals.length > 0 ?
+				this.customAccidentals.length
+			:	this.accidentals.count;
+		if (index >= count) return;
+		this.refreshColorArray();
+		if (this.colors) this.colors[index] = color;
+	}
+
+	private refreshColorArray() {
+		const count =
+			this.customAccidentals && this.customAccidentals.length > 0 ?
+				this.customAccidentals.length
+			:	this.accidentals.count;
+		if (!this.colors || this.colors.length !== count) {
+			const oldColors = this.colors || [];
+			this.colors = [];
+			for (let i = 0; i < count; i++) {
+				this.colors.push(i < oldColors.length ? oldColors[i] : '');
+			}
+		}
 	}
 
 	/** @todo Support modes (dorian etc) */

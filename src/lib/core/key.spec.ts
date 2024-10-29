@@ -149,6 +149,16 @@ describe('customAccidentalsToKey', () => {
 		const result = key.customAccidentalsToKey('major', 'treble');
 		expect(result).toBeUndefined();
 	});
+	it('should return undefined for invalid custom accidentals (where last is valid)', () => {
+		// NOTE: actual key (here f) is not important for this test
+		const key = new Key('d', 'major');
+		key.customAccidentals = [
+			{ position: 7, type: '#' },
+			{ position: 3, type: '#' },
+		];
+		const result = key.customAccidentalsToKey('major', 'treble');
+		expect(result).toBeUndefined();
+	});
 });
 
 describe('customAccidentalsValid', () => {
@@ -180,5 +190,25 @@ describe('customAccidentalsValid', () => {
 		const key = new Key('f', 'major');
 		key.customAccidentals = [{ position: 1, type: 'b' }];
 		expect(key.customAccidentalsValid('treble')).toBe(false);
+	});
+	it('should return false if invalid, but last is valid', () => {
+		const key = new Key('d', 'major');
+		key.customAccidentals = [
+			{ position: 1, type: '#' },
+			{ position: 3, type: '#' },
+		];
+		expect(key.customAccidentalsValid('treble')).toBe(false);
+	});
+});
+
+describe('isAccidentalValid', () => {
+	it('should return true for valid position (#)', () => {
+		expect(Key.isAccidentalValid('#', 0, 0, 'g')).toBe(true);
+	});
+	it('should return true for valid position (b)', () => {
+		expect(Key.isAccidentalValid('b', 1, 1, 'g')).toBe(true);
+	});
+	it('should return false for invalid position', () => {
+		expect(Key.isAccidentalValid('#', 1, 2, 'g')).toBe(false);
 	});
 });
