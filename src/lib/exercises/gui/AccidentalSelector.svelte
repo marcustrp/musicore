@@ -32,7 +32,6 @@
 			selectedGlyph = glyphName;
 			onclick(accidental as NoteAccidentals);
 		}
-		console.log('[unknown]', glyphName);
 	}
 </script>
 

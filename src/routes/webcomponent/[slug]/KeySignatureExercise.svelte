@@ -20,7 +20,6 @@
 
 			musicScore.addEventListener('scoreupdate', (e) => {
 				document.querySelector('#events').innerHTML += 'Event: ' + e.detail.eventType + '<br />';
-				console.log('scoreupdate', e);
 			});
 		});
 	</script>

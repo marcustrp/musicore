@@ -36,7 +36,6 @@
 					' (octave: ' +
 					e.detail.note.octave +
 					')<br />';
-				console.log('scoreupdate', e);
 			});
 		});
 	</script>

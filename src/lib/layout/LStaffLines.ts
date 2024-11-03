@@ -26,7 +26,6 @@ export class LStaffLines implements LayoutObject {
 	}
 
 	layout(staveSpace: number, staffMargin: number, x: number) {
-		console.log('LStaffLines.layout', staveSpace, staffMargin, x);
 		this.lines.forEach((staffLine) => {
 			//staffLine.y = staffMargin + staveSpace * index;
 			staffLine.length = x;

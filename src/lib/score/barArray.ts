@@ -266,9 +266,7 @@ export class BarArray {
 	 * This behavior will probably be changed
 	 */
 	convertToPickup(duration?: Fraction) {
-		console.log('convertToPickup', this.duration, duration, this.bars[0].duration);
 		const durChange = this.bars[0].setPickup(duration);
-		console.log('durChange', durChange, this.duration, this.duration.sub(durChange));
 		this.duration = this.duration.sub(durChange);
 	}
 	/**

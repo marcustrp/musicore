@@ -39,7 +39,6 @@ export class LClef implements LayoutObject {
 			default:
 				throw new Error(`Unsupported clef type: ${type}`);
 		}
-		console.log('LClef constructor', this.glyph);
 		this.bBox = BBox.clone(this.glyph.bBox);
 	}
 

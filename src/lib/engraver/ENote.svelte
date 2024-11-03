@@ -24,7 +24,6 @@
 
 	var selected = $state(false);
 	function doSelect(e: MouseEvent) {
-		console.log(note.id);
 		clearSelection.update(() => {
 			return {};
 		});
@@ -38,7 +37,6 @@
 	}
 
 	function handleEvent(type: 'note' | 'accidental', data: ColumnEditorEvent, noteIndex: number) {
-		console.log('handleEvent', type, data, noteIndex);
 		if (type === 'note' && engraver.settings.events?.note) {
 			const updated = engraver.settings.events.note({
 				eventType: 'note',

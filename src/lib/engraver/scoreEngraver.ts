@@ -8,16 +8,6 @@ import type {
 	NoteEvent,
 } from './events/types.js';
 
-/*
-const createLayout = (score: Score, settings: LayoutSettings = {}) => {
-	const scoreLayout = new SheetMusicLayout(score);
-	console.log('SETTINGS', settings);
-	scoreLayout.layout(settings);
-	return scoreLayout;
-};
-
-export { createLayout };*/
-
 /**
  * showBBoxes
  * viewBoxMinimum: Set default minimums for viewbox. It is for example useful to set
@@ -81,17 +71,4 @@ export class ScoreEngraver {
 		if (this.subscribed) this.scoreLayout.unregister();
 		this.callback = undefined;
 	}
-
-	/*eventHandler(event: ScoreEvent) {
-		console.log('eventHandler', event);
-		let updated = false;
-		if (event.type === 'keySignature') {
-			updated = keySignatureEventHandler(this.score, event);
-		} else if (event.type === 'note' || event.type === 'accidental') {
-			updated = noteEventHandler(event, this.score, this.layoutSettings.defaultAccidental);
-		}
-		//engravingData = scoreEngraver.update();
-		//console.log('NEW engraving', engravingData);
-		if (updated) this.onUpdate(this.update());
-	}*/
 }

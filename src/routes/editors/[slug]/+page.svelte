@@ -9,7 +9,6 @@
 		data: { slug: string };
 	};
 	const { data }: Props = $props();
-	console.log('data', data);
 	let showBBoxes = $state(false);
 
 	let display: Record<string, boolean> = $state({

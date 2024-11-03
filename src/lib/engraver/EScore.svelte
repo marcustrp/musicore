@@ -42,18 +42,16 @@
 		if (note && note instanceof Note) note.color = { notehead: color };
 	};
 
-	export const setKeySignatureColor = (index: number, color: string) => {};
+	export const setKeySignatureColor = (index: number, color: string) => {
+		/** @todo implement, (keysignatureexercise changes color, though, should use this instead?) */
+	};
 
 	export const refresh = () => {
 		scoreEngraver.update();
 	};
 
 	$effect(() => {
-		console.log('settings updated', settings);
 		scoreEngraver.updateSettings(settings);
-	});
-	$effect(() => {
-		console.log('SVELTE SCORE updated', score);
 	});
 	$effect(() => {
 		return () => {
@@ -64,12 +62,10 @@
 	setContext('engraver', scoreEngraver);
 
 	scoreEngraver.register((newData: EngravingData) => {
-		console.log('SVELTE EngravingData updated', newData);
 		engravingData = newData;
 	});
 	// first render (disable callback on this update), settings initial state with returned data
 	const eData = scoreEngraver.update(false);
-	console.log('engravingData', eData);
 	let engravingData = $state(eData);
 
 	type DebugBBox = {
@@ -112,7 +108,6 @@
 	}
 
 	function svgHover(hover: boolean) {
-		console.log('hover', hover);
 		scoreEngraver.settings.hoverState = hover;
 		/** @TODO should do layout (which update does), only rerun engraver... */
 		scoreEngraver.update();

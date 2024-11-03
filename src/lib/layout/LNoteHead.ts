@@ -54,33 +54,6 @@ export class LNoteHead implements LayoutObject {
 				break;
 		}
 		this.glyph = settings.font.glyphs[this.glyphName];
-
-		/*const pitchDiff = scale.getNotePitchDiffFromScale(note.root, note.accidental);
-		let addAccidental = '';
-		switch (pitchDiff) {
-			case -2:
-				addAccidental = 'bb';
-				break;
-			case -1:
-				addAccidental = 'b';
-				break;
-			case 0:
-				addAccidental = '';
-				break;
-			case 1:
-				addAccidental = '#';
-				break;
-			case 2:
-				addAccidental = 'x';
-				break;
-			default:
-				addAccidental = '';
-		}
-		const printedAccidental = pitchDiff
-			? (Note.systemNameAddAccidentals(note.name, addAccidental).substring(1) as NoteAccidentals) ||
-				'n'
-			: undefined;
-		console.log('PRINTACC', printedAccidental, pitchDiff, note.name, addAccidental);*/
 		if (note.printedAccidental?.value || settings.render?.notes?.editorAccidental)
 			this.setAccidental(settings, note.printedAccidental?.value, clef);
 	}

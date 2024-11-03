@@ -72,7 +72,6 @@ export class LKeySignature implements LayoutObject {
 			for (let i = 0; i < accidentals.count; i++) {
 				const type = accidentals.type ? accidentals.type : settings.defaultKeyAccidential;
 				const position = Key.getAccidentalPosition(type, i, clef);
-				console.log('KEYCLEF', clef, position);
 				if (settings.render?.keySignature === 'editor') {
 					this.editors.push(
 						new LColumnEditor(

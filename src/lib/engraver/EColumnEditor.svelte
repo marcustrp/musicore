@@ -19,8 +19,6 @@
 	};
 	const { columnEditor, editorIndex, event }: MyProps = $props();
 
-	console.log('####COLUMNEDITOR', columnEditor);
-
 	let hoverIndex = $state(-1);
 </script>
 

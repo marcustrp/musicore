@@ -161,7 +161,6 @@ export class RhythmElement {
 		} else {
 			const index = this.getChordSymbolIndexByPosition(chordSymbol.offset, chordSymbol.level);
 			if (index !== undefined && index >= 0) {
-				console.log('replace', index, this._chordSymbols[index], chordSymbol);
 				this._chordSymbols[index] = chordSymbol;
 			} else {
 				this._chordSymbols.push(chordSymbol);
@@ -239,7 +238,6 @@ export class RhythmElement {
 		};
 		if (noteIndex === 0) this.triplet.start = true;
 		if (noteIndex === noteCount - 1) this.triplet.end = true;
-		//console.log('setTriplet', this.triplet);
 	}
 
 	/**

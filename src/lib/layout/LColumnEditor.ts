@@ -81,7 +81,6 @@ export class LColumnEditor implements LayoutObject {
 					{ above: this.ledgerLines.above?.lines || [], below: this.ledgerLines.below?.lines || [] }
 				:	undefined,
 		};
-		console.log('LColumnEditor.toObject', data);
 		return data;
 	}
 
@@ -109,7 +108,6 @@ export class LColumnEditor implements LayoutObject {
 		this.layoutLedgerLines(settings, staffLines);
 
 		if (this._getText) {
-			console.log('LColumnEditor.layout', this.items);
 			this.#text = {
 				x: this.items[0].x + this.#width / 2,
 				y:

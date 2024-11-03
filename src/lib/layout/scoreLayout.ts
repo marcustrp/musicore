@@ -146,7 +146,6 @@ export class SheetMusicLayout {
 			font: this.font,
 			scale: this.staffSize / 7,
 		};
-		console.log('LAYOUTSETTINSG', this.#layoutSettings);
 		/** Setup everything each rendering... (for testing, need more optimized way later) */
 		this.setup(this.score);
 
@@ -257,13 +256,4 @@ export class SheetMusicLayout {
 	unregister() {
 		this.callback = undefined;
 	}
-
-	/*updateNote(id: string, octave: number) {
-		const note = this.score.parts.getPart(0).getVoice(0).getNoteById(id);
-		if (!note || !(note instanceof Note)) throw new Error('Note not found');
-		console.log('updateNote', note, octave);
-		note.octave = octave;
-		console.log('updateNote, score:', this.score);
-		if (this.callback) this.callback(this.layout(this.#layoutSettings));
-	}*/
 }
