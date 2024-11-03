@@ -1,4 +1,3 @@
-<!-- svelte-ignore options_missing_custom_element -->
 <svelte:options
 	customElement={{
 		tag: 'music-score',
@@ -63,7 +62,11 @@
 	let staffSize = $derived(
 		staffSizeProp && parseFloat(staffSizeProp) > 0 ? parseFloat(staffSizeProp) : undefined,
 	);
-	let scoreComponent: NoteExercise | KeySignatureExercise = $state();
+	let scoreComponent:
+		| ReturnType<typeof NoteExercise>
+		| ReturnType<typeof KeySignatureExercise>
+		| ReturnType<typeof ScaleExercise>
+		| undefined = $state();
 
 	const editorStyle =
 		editorStyleProps === 'off' || editorStyleProps === 'hover' || editorStyleProps === 'on' ?
@@ -88,20 +91,21 @@
 
 	export const showAnswer = () => {
 		editDisabled = true;
-		scoreComponent.showAnswer();
+		if (scoreComponent && 'showAnswer' in scoreComponent) scoreComponent.showAnswer();
 	};
 
 	export const showIncorrect = (root: string, mode: KeyMode) => {
 		const key = new Key(root, mode);
-		scoreComponent.showIncorrect(key);
+		if (scoreComponent && 'showIncorrect' in scoreComponent) scoreComponent.showIncorrect(key);
 	};
 
 	export const updateKeySignatureColor = (index: number, color: string) => {
-		scoreComponent.updateKeySignatureColor(index, color);
+		if (scoreComponent && 'updateKeySignatureColor' in scoreComponent)
+			scoreComponent.updateKeySignatureColor(index, color);
 	};
 
 	export const showNoteName = (show = true) => {
-		scoreComponent.showNoteName(show);
+		if (scoreComponent && 'showNoteName' in scoreComponent) scoreComponent.showNoteName(show);
 	};
 
 	export const disableEdit = (disable = true) => {
@@ -110,17 +114,13 @@
 
 	let editDisabled = $state(false);
 
-	$effect(() => {
-		console.log('SVELTE data updated', data);
-	});
-
 	const importer = new MusicStringImporter();
 	//const score = importer.parse('iw iLw');
 	/*let score = $derived.by(() => {
 		console.log('SVELTE musicString updated (score effect)', musicString);
 		return importer.parse(musicString);
 	});*/
-	let score = importer.parse(musicString); // $state(importer.parse(musicString));
+	let score = importer.parse(musicString);
 
 	// note. editorFrom becomes positionTo
 	const positionTo =
@@ -166,7 +166,12 @@
 		bind:this={scoreComponent}
 	/>
 {:else if exercise === 'ScaleExercise'}
-	<ScaleExercise {score} onevent={(event) => handleEvent(event)} bind:this={scoreComponent} />
+	<ScaleExercise
+		{score}
+		accidentals={exerciseSettings.accidentals || ['#', 'b']}
+		onevent={(event) => handleEvent(event)}
+		bind:this={scoreComponent}
+	/>
 {:else if exercise === 'default' || exercise === '' || exercise === undefined}
 	<WebComponentScore {score} />
 {:else}

@@ -1,5 +1,6 @@
 import type { LayoutSettings } from '$lib/layout/types.js';
 import {
+	Key,
 	Note,
 	Score,
 	type ClefType,
@@ -21,6 +22,7 @@ export type KeySignatureAccidentalEvent = BaseEvent & {
 	column: number;
 	accidental: KeyAccidental;
 	clef: ClefType;
+	key: Key;
 };
 export type NoteEvent = BaseEvent & {
 	eventType: 'note';

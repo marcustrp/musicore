@@ -14,16 +14,20 @@
 		score: Score;
 		/** Editors off, shown on hover or on (always shown) */
 		editorStyle?: 'off' | 'hover' | 'on';
+		/** Disable edit (but editors otherwise works) */
+		editDisabled?: boolean;
 		onevent: (arg0: KeySignatureAccidentalEvent) => void;
 		/** Staff size in mm, default is 18 */
 		staffSize?: number;
 	};
-	const { score, editorStyle, onevent, staffSize }: Props = $props();
+	const { score, editorStyle, editDisabled, onevent, staffSize }: Props = $props();
 
 	export const showIncorrect = (questionKey: Key) => {
 		const key = score.bars.bars[0].key;
-		if (key.customAccidentals && key.customAccidentals.length > 0) {
-			key.customAccidentals.forEach((accidental, index) => {
+		const clef = score.parts.getPart(0).getClef(0, 0);
+		const customAccidentals = key.getCustomAccidentals(clef.type);
+		if (customAccidentals.length > 0) {
+			customAccidentals.forEach((accidental, index) => {
 				const isValid =
 					accidental.position !== undefined &&
 					accidental.type === questionKey.accidentals.type &&
@@ -32,17 +36,15 @@
 						accidental.type as KeyAccidental,
 						index,
 						accidental.position,
-						score.parts.getPart(0).getClef(0, 0).type,
+						clef.type,
 					);
 				key.setColor(index, isValid ? '' : 'red');
 			});
-			console.log('accccccc custom', key.customAccidentals);
 		} else {
 			for (let i = 0; i < key.accidentals.count; i++) {
 				const isValid =
 					key.accidentals.type == questionKey.accidentals.type && i < questionKey.accidentals.count;
 				key.setColor(i, isValid ? '' : 'red');
-				console.log('accccccc valid', isValid, i);
 			}
 		}
 		scoreComponent.refresh();
@@ -72,13 +74,7 @@
 	const settings: EngraverSettings = {
 		viewBoxMinimum: new BBox(0, -600, 0, 2100),
 		events: {
-			keySignature: (event) => {
-				const hasUpdated = keySignatureEventHandler(event);
-				if (hasUpdated) {
-					onevent(event);
-				}
-				return hasUpdated;
-			},
+			keySignature: !editDisabled ? (event) => keySignatureEventHandler(event, onevent) : undefined,
 		},
 		renderEditorsOnHover: editorStyle === 'hover',
 	};

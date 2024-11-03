@@ -13,14 +13,12 @@
 			let disableEdit = false;
 
 			musicScore.addEventListener('scoreupdate', (e) => {
+				const details =
+					'note' in e.detail ?
+						e.detail.note.name + ' (octave: ' + e.detail.note.octave + ')'
+					:	e.position + ', ' + e.accidental;
 				document.querySelector('#events').innerHTML +=
-					'Event: ' +
-					e.detail.eventType +
-					' ' +
-					e.detail.note.name +
-					' (octave: ' +
-					e.detail.note.octave +
-					')<br />';
+					'Event: ' + e.detail.eventType + ' ' + details + '<br />';
 				console.log('scoreupdate', e);
 			});
 		});

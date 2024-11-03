@@ -2,25 +2,97 @@ import { LNoteHead } from '$lib/layout/LNoteHead.js';
 import type { NoteAccidentalEvent, NoteEvent } from './types.js';
 import { Note } from '$lib/index.js';
 
-export const noteEventHandler = (event: NoteEvent): boolean => {
+export type NoteEventHandlerSettings = {
+	maxNotes?: number;
+};
+
+/** ### Note event functions ### **/
+
+/**
+ * Handles a note click event
+ */
+export const noteEventHandler = (
+	event: NoteEvent,
+	dispatchEvent?: (arg0: NoteEvent) => void,
+	settings?: NoteEventHandlerSettings,
+): boolean => {
+	if (!settings) settings = {};
 	const note = event.note;
-	console.log(event.score.bars.bars[0]);
 	const data = LNoteHead.rootAndOctaveFromPosition(event.position, event.clef);
 	if (!data) return false;
-	const coreNote = new Note('q', data.root, undefined, data.octave);
-	if (note.invisible) {
+	const newNote = new Note(note.type, data.root, undefined, data.octave);
+	const action = getNoteAction(note, newNote, settings);
+
+	if (action.action === 'update') {
 		const scale = event.score.bars.bars[event.barIndex].key.scale;
-		note.setPitch(scale, coreNote.root, undefined, coreNote.octave);
-		note.invisible = false;
+		action.note.setPitch(scale, newNote.root, undefined, newNote.octave);
 	} else {
-		note.toggleNote(coreNote, 'invisible');
+		note.toggleNote(newNote, 'invisible');
 	}
+	note.invisible = false;
+	if (dispatchEvent) dispatchEvent(event);
 	return true;
 };
 
-export const noteAccidentalEventHandler = (event: NoteAccidentalEvent): boolean => {
+/** Returns what action to take (update/toggle) */
+const getNoteAction = (
+	currentNote: Note,
+	newNote: Note,
+	settings: NoteEventHandlerSettings,
+): { action: 'toggle' } | { action: 'update'; note: Note } => {
+	if (newNote.root === currentNote.root && newNote.octave === currentNote.octave) {
+		// clicked on existing note
+		return { action: 'toggle' };
+	} else {
+		// new note
+		if (currentNote.invisible) return { action: 'update', note: currentNote };
+		const noteCount = 1 + (currentNote.chord ? currentNote.chord?.length : 0);
+		// get nearest note, if maxnote is reached
+		const note =
+			settings.maxNotes && noteCount >= settings.maxNotes ?
+				getNearestNote(currentNote, newNote)
+			:	undefined;
+		if (note) {
+			// max notes reached, update nearest note
+			return { action: 'update', note: note };
+		} else {
+			return { action: 'toggle' };
+		}
+	}
+};
+
+/**
+ * Return nearest note to newNote (root note or in chord). If equal distance,
+ * lower note is returned
+ * @param currentNote
+ * @param newNote
+ * @returns
+ */
+const getNearestNote = (currentNote: Note, newNote: Note) => {
+	let index = 0;
+	const newPos = Math.abs(LNoteHead.getPositionFromRoot(newNote.root, newNote.octave, 'g'));
+	let distance = Math.abs(
+		LNoteHead.getPositionFromRoot(currentNote.root, currentNote.octave, 'g') - newPos,
+	);
+	currentNote.chord?.forEach((note, i) => {
+		if (Math.abs(LNoteHead.getPositionFromRoot(note.root, note.octave, 'g') - newPos) < distance) {
+			index = i + 1;
+			distance = Math.abs(LNoteHead.getPositionFromRoot(note.root, note.octave, 'g') - newPos);
+		}
+	});
+	return index === 0 ? currentNote : currentNote.chord![index - 1];
+};
+
+/** ### Note accidental event functions ### **/
+
+/** Handles a note accidental event */
+export const noteAccidentalEventHandler = (
+	event: NoteAccidentalEvent,
+	dispatchEvent?: (arg0: NoteAccidentalEvent) => void,
+): boolean => {
 	let note = event.note;
 	if (event.index > 0) {
+		// index > 0 means chord note[index - 1]
 		if (!note.chord || note.chord.length <= event.index - 1) throw new Error('Invalid chord index');
 		note = note.chord[event.index - 1];
 	}
@@ -30,51 +102,19 @@ export const noteAccidentalEventHandler = (event: NoteAccidentalEvent): boolean 
 		note.accidental === note.printedAccidental?.value &&
 		note.accidental === event.settings.defaultAccidental
 	) {
-		// remove printed accidental
+		// if printed accidental is same as the added one, remove accidental
 		note.removePrintedAccidental();
-		console.log('REMOVE PRINTED', note.accidental, note.printedAccidental);
 	} else {
-		console.log('ADD PRINTED', note.accidental, note.printedAccidental);
-		// add printed accidental
 		note.setPrintedAccidental(event.settings.defaultAccidental);
 	}
-	/*
-	if (note.accidental === note.printedAccidental?.value && !note.printedAccidental?.cautionary) {
-		console.log('SAMEEEEE');
-		note.accidental =
-			note.accidental === event.settings.defaultAccidental
-				? undefined
-				: event.settings.defaultAccidental === 'n'
-					? undefined
-					: event.settings.defaultAccidental;
-		note.printedAccidental = undefined;
-	} else if (note.printedAccidental && note.printedAccidental.cautionary) {
-		console.log('CAUTIONARYYYYY');
-		note.printedAccidental = undefined;
-	} else if (
-		note.printedAccidental &&
-		!(note.printedAccidental.value === 'n' && !note.accidental)
-	) {
-		console.log('NOT SAMEEEEE');
-		note.accidental =
-			event.settings.defaultAccidental === 'n' ? undefined : event.settings.defaultAccidental;
-		note.printedAccidental = undefined;
-		return true;
-	} else if (note.accidental === event.settings.defaultAccidental) {
-		console.log('SETTING DEFAULT');
-		note.printedAccidental = {
-			value: event.settings.defaultAccidental as NoteAccidentals,
-			cautionary: true
-		};
-	} else {
-		console.log('ELSE', note.accidental, event.settings.defaultAccidental);
-		note.accidental =
-			note.accidental === event.settings.defaultAccidental
-				? undefined
-				: event.settings.defaultAccidental === 'n'
-					? undefined
-					: event.settings.defaultAccidental;
-		note.printedAccidental = undefined;
-	}*/
+
+	if (dispatchEvent) dispatchEvent(event);
 	return true;
 };
+
+/** Exported only for testing currently... */
+const helpers = {
+	getNoteAction,
+	getNearestNote,
+};
+export { helpers };
