@@ -253,7 +253,8 @@ export class Bar {
 	}
 
 	updatePrintedAccidentals() {
-		const currentNotenames = this.key.scale.getDiatonicNoteNames();
+		//const currentNotenames = this.key.scale.getDiatonicNoteNames();
+		const currentNotenames = this.key.getNoteNames();
 		Object.entries(this.notes).forEach(([_, parts]) => {
 			Object.entries(parts).forEach(([_, notes]) => {
 				notes.forEach((rhythmElement) => {
@@ -267,7 +268,6 @@ export class Bar {
 						const diff =
 							(note.accidental ? accidentalToStep[note.accidental as Accidentals] : 0) -
 							(item.length > 1 ? accidentalToStep[item[1] as Accidentals] : 0);
-						console.log('updatePrintedAccidentals', note.name, item, diff, stepToAccidental[diff]);
 						const newAccidental = Note.systemNameAddAccidentals(
 							item,
 							stepToAccidental[diff],
@@ -275,7 +275,6 @@ export class Bar {
 						note.printedAccidental = {
 							value: newAccidental === '' ? 'n' : (newAccidental as Accidentals),
 						};
-						console.log('updatePrintedAccidentals 2', newAccidental, note.printedAccidental);
 						currentNotenames[index] = currentNotenames[index][0] + newAccidental;
 					}
 				});

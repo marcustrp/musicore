@@ -146,8 +146,8 @@ describe('getClef()', () => {
 		const clefs: { clef: ClefType; line?: number; expect: string }[] = [
 			{ clef: 'g', expect: 'treble' },
 			{ clef: 'treble', expect: 'treble' }, // G2
-			{ clef: 'g', line: 1, expect: 'G1' }, // french violin
-			{ clef: 'f', line: 5, expect: 'F5' }, // sub bass
+			{ clef: 'g', line: 0, expect: 'G1' }, // french violin
+			{ clef: 'f', line: 4, expect: 'F5' }, // sub bass
 			{ clef: 'f', expect: 'bass' }, // F4
 			{ clef: 'baritone', expect: 'baritone' }, // F3
 			{ clef: 'tenor', expect: 'tenor' },
@@ -162,7 +162,7 @@ describe('getClef()', () => {
 			const clef = clefs[i];
 			it(`should return correctly parse clef '${clef.clef}'`, () => {
 				score = new Score();
-				score.parts.addPart(new Clef(clef.clef, clef.line ? clef.line : undefined));
+				score.parts.addPart(new Clef(clef.clef, clef.line !== undefined ? clef.line : undefined));
 				const result = generator['getClef'](score);
 				expect(result).toBe(clef.expect);
 			});

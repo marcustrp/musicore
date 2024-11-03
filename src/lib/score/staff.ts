@@ -2,10 +2,10 @@ import { Clef } from '../core/clef.js';
 import { BarArray } from './barArray.js';
 
 export class Staff {
-	//clef: Clef[] = [];
 	constructor(
 		public clef: Clef,
 		private bars: BarArray,
+		public staffLines = 5,
 	) {
 		//this.addClef(clef);
 	}

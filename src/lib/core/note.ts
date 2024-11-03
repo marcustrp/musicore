@@ -74,8 +74,9 @@ export class Note extends RhythmElement {
 	get diatonicNoteName() {
 		return this._diatonicNoteName;
 	}
-	setDiatonicNoteName(scale: Scale) {
-		this._diatonicNoteName = scale.getDiatonicNoteName(this._root);
+	/** Use string if for example using custom key that cannot be converted to scale */
+	setDiatonicNoteName(scale: Scale | string) {
+		this._diatonicNoteName = scale instanceof Scale ? scale.getDiatonicNoteName(this._root) : scale;
 	}
 
 	/** @todo Should multiple printedAccidentals be supported? */
@@ -396,12 +397,16 @@ export class Note extends RhythmElement {
 
 	/**
 	 * Adds a note if does not exist in the chord already, or removes it if it does.
+	 * If note is invisible, it is shown
 	 * @param note
 	 */
 	toggleNote(note: Note, whenLastIsRemoved: 'rest' | 'invisible' = 'rest') {
 		if (this._root === note.root && this._octave === note.octave) {
-			// chord should never be of length 0 (should be undefined then), but add check just in case
-			if (this.chord && this.chord.length > 0) {
+			if (this.invisible === true) {
+				// click on an invicible note, make it visible
+				this.invisible = false;
+			} else if (this.chord && this.chord.length > 0) {
+				// above check: chord should never be of length 0 (should be undefined then), but add check just in case
 				// main note is removed, move first chord note to main note and remove it from chord
 				this._root = this.chord[0].root;
 				this._accidental = this.chord[0].accidental;
@@ -430,7 +435,6 @@ export class Note extends RhythmElement {
 		} else {
 			this.addChordNote(note);
 		}
-
 		if (this.chord && this.chord.length === 0) this.chord = undefined;
 	}
 

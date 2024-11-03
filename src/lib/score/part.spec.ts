@@ -24,6 +24,7 @@ describe('constructor()', () => {
 				{
 					clef: clef,
 					bars: barArray,
+					staffLines: 5,
 				},
 			],
 			voices: [
@@ -50,10 +51,12 @@ describe('addStaff', () => {
 		const staffObj = {
 			clef: clef,
 			bars: barArray,
+			staffLines: 5,
 		};
 		const staffObj2 = {
 			clef: clef2,
 			bars: barArray,
+			staffLines: 5,
 		};
 
 		const part = new Part('P1', clef, barArray);

@@ -1,4 +1,4 @@
-import { type ClefType } from './clef.js';
+import { Clef, type ClefType } from './clef.js';
 import { majorKeyAccidentals, modeOffsets, keySignaturePosition } from './data/keys.js';
 import { type KeyMode } from './data/modes.js';
 import { type Accidentals, Note, type NoteName } from './note.js';
@@ -6,7 +6,16 @@ import { Scale } from './scale.js';
 
 export type KeyAccidental = '#' | 'b';
 export type KeyAccidentals = { count: number; type?: KeyAccidental };
+/** position 0 is top line in g clef */
 export type CustomKeyAccidental = { position?: number; type: Accidentals };
+
+/**
+ * key
+ * - how handle root when changing accidentals, esp. custom?
+ * - scale should support custom accidentals (getting root and mode from key with cust.acc. should work, or at least not return something wrong)
+ * - currently both scale and key have method for getting notes...
+ */
+
 export class Key {
 	private _rootName: NoteName;
 	get rootName() {
@@ -20,15 +29,12 @@ export class Key {
 		return this._rootName + (this._rootAccidental || '');
 	}
 
-	private _customAccidentals?: CustomKeyAccidental[];
-	get customAccidentals() {
-		return this._customAccidentals ? this._customAccidentals : [];
-	}
-	set customAccidentals(value: CustomKeyAccidental[]) {
-		this._customAccidentals = value;
-	}
+	#customAccidentals?: CustomKeyAccidental[];
 	/** TODO was readonly, now updated in setAccidental */
-	accidentals: KeyAccidentals;
+	#accidentals: KeyAccidentals;
+	get accidentals() {
+		return this.#accidentals;
+	}
 
 	colors?: string[];
 
@@ -41,7 +47,7 @@ export class Key {
 	}
 
 	get isValid() {
-		return this._customAccidentals && this._customAccidentals.length > 0 ? false : true;
+		return this.#customAccidentals && this.#customAccidentals.length > 0 ? false : true;
 	}
 
 	constructor(root: string, mode: KeyMode) {
@@ -53,7 +59,39 @@ export class Key {
 		if (accidental) this._rootAccidental = accidental;
 
 		this._mode = mode;
-		this.accidentals = Key.getAccidentals(mode, root);
+		this.#accidentals = Key.getAccidentals(mode, root);
+	}
+
+	getCustomAccidentals(clef: ClefType) {
+		if (!this.#customAccidentals) return [];
+		// customAccidentals always stored with regard to g clef
+		if (clef === 'g' || clef === 'treble') return this.#customAccidentals;
+		const customAccidentals: CustomKeyAccidental[] = [];
+		this.#customAccidentals.forEach((a) => {
+			customAccidentals.push({
+				position:
+					a.position === undefined ? undefined : a.position + new Clef(clef).getOffsetToTreble(),
+				type: a.type,
+			});
+		});
+		return customAccidentals ? customAccidentals : [];
+	}
+
+	/**
+	 * Sets custom accidentals. Will be converted to key if possible.
+	 * @param value
+	 * @param mode Needed when trying to convert to key
+	 */
+	setCustomAccidentals(value: CustomKeyAccidental[], mode: KeyMode) {
+		this.#customAccidentals = value;
+		this.convertCustomAccidentalsToKey(mode);
+	}
+
+	/** @todo find another way to do unit test instead of this extra function... */
+	private testSetCustomAccidentals(value: CustomKeyAccidental[]) {
+		this.#customAccidentals = value;
+		// test function does not try to convert to key, to support testing of
+		// underlying functions...
 	}
 
 	/**
@@ -63,77 +101,110 @@ export class Key {
 	 * @param column
 	 * @param position
 	 * @param type
+	 * @param mode Needed when trying to convert to key
 	 * @param clef
-	 * @returns
+	 * @returns true of accidental added, false if removed
 	 */
-	toggleAccidental(column: number, position: number, type: Accidentals, clef: ClefType = 'g') {
-		if (!this._customAccidentals) {
-			this._customAccidentals = this.keyToCustomAccidentals(clef);
+	toggleAccidental(
+		column: number,
+		position: number,
+		type: Accidentals,
+		mode: KeyMode,
+		clef: ClefType = 'g',
+	) {
+		let added = true;
+		if (!this.#customAccidentals) {
+			this.#customAccidentals = this.keyToCustomAccidentals();
 		}
-		if (column < 0 || column > this._customAccidentals.length) throw new Error('Invalid column');
-		if (column === this._customAccidentals.length) {
-			this._customAccidentals.push({ position, type });
+		if (column < 0 || column > this.#customAccidentals.length) throw new Error('Invalid column');
+
+		// position is always with regard to treble clef
+		position -= new Clef(clef).getOffsetToTreble();
+
+		if (column === this.#customAccidentals.length) {
+			this.#customAccidentals.push({ position, type });
 		} else if (
-			this._customAccidentals[column].position === position &&
-			this._customAccidentals[column].type === type
+			this.#customAccidentals[column].position === position &&
+			this.#customAccidentals[column].type === type
 		) {
-			if (column === this._customAccidentals.length - 1) {
+			added = false;
+			if (column === this.#customAccidentals.length - 1) {
 				// Remove last accidental (will be cleared later)
-				this._customAccidentals[column] = { position: undefined, type: '#' };
+				this.#customAccidentals[column] = { position: undefined, type: '#' };
 			} else {
 				// Remove accidental (leave empty column)
-				this._customAccidentals[column] = { position: undefined, type: '#' };
+				this.#customAccidentals[column] = { position: undefined, type: '#' };
 				// no need to check if valid, as it cannot be valid
 				// when having an empty column
-				return;
+				return false;
 			}
 			// remove empty columns form the end
-			for (let i = this._customAccidentals.length - 1; i >= 0; i--) {
-				if (this._customAccidentals[i].position === undefined) {
-					this._customAccidentals.pop();
+			for (let i = this.#customAccidentals.length - 1; i >= 0; i--) {
+				if (this.#customAccidentals[i].position === undefined) {
+					this.#customAccidentals.pop();
 				} else {
 					break;
 				}
 			}
 		} else {
-			this._customAccidentals[column] = { position, type };
+			this.#customAccidentals[column] = {
+				position: position,
+				type,
+			};
+			added = true;
 		}
-		const data = this.customAccidentalsToKey(this._mode, clef);
-		if (data) {
-			// Remove custom accidentals and use key signature
-			this._customAccidentals = undefined;
-			this.accidentals = data.accidentals;
-			this._rootName = data.root[0] as NoteName;
-			this._rootAccidental = data.root.length > 1 ? (data.root[1] as Accidentals) : undefined;
-		}
+		this.convertCustomAccidentalsToKey(mode);
 		if (this.colors) this.refreshColorArray();
+		return added;
 	}
 
-	keyToCustomAccidentals(clef: ClefType) {
+	keyToCustomAccidentals() {
 		const custom: CustomKeyAccidental[] = [];
 		for (let i = 0; i < this.accidentals.count; i++) {
 			const type = this.accidentals.type || '#';
-			const position = Key.getAccidentalPosition(type, i, clef);
+			const position = Key.getAccidentalPosition(type, i, 'g');
 			custom.push({ position, type });
 		}
 		return custom;
 	}
 
-	customAccidentalsToKey(mode: KeyMode, clef: ClefType) {
-		if (!this._customAccidentals || this.customAccidentals.length === 0) {
-			/** TODO: support other modes than major/minor */
+	convertCustomAccidentalsToKey(mode: KeyMode) {
+		const data = this.customAccidentalsToKey(mode);
+		if (data) {
+			// Remove custom accidentals and use key signature
+			this.#customAccidentals = undefined;
+			this.#accidentals = data.accidentals;
+			this._rootName = data.root[0] as NoteName;
+			this._rootAccidental = data.root.length > 1 ? (data.root[1] as Accidentals) : undefined;
+			this._mode = mode;
+		} else {
+			this._mode = 'custom';
+		}
+		return data !== undefined;
+	}
+
+	/**
+	 *
+	 * @param mode
+	 * @param clef
+	 * @returns object if custom accidentals match key signature, otherwise undefined
+	 * @todo support other modes than major/minor
+	 */
+	customAccidentalsToKey(mode: KeyMode) {
+		if (!this.#customAccidentals || this.#customAccidentals.length === 0) {
+			// no custom accidentals set, just return
 			return {
-				root: mode === 'major' ? 'c' : 'a',
-				mode,
+				root: this.root,
+				mode: this.mode,
 				accidentals: <KeyAccidentals>{ count: 0, type: '#' },
 			};
 		}
 
 		// check if type and position is valid
-		if (!this.customAccidentalsValid(clef)) return undefined;
+		if (!this.customAccidentalsValid()) return undefined;
 
 		const accidentalCount =
-			this._customAccidentals.length * (this._customAccidentals[0].type === '#' ? 1 : -1);
+			this.#customAccidentals.length * (this.#customAccidentals[0].type === '#' ? 1 : -1);
 		const rootAndCount = Object.entries(majorKeyAccidentals).find(
 			([_, accidental]) => accidental === accidentalCount - modeOffsets[mode],
 		);
@@ -141,7 +212,7 @@ export class Key {
 		const keyObj = {
 			accidentals: <KeyAccidentals>{
 				count: Math.abs(accidentalCount),
-				type: this._customAccidentals[0].type,
+				type: this.#customAccidentals[0].type,
 			},
 			root: rootAndCount[0],
 			mode: mode,
@@ -149,15 +220,16 @@ export class Key {
 		return keyObj;
 	}
 
-	customAccidentalsValid(clef: ClefType) {
+	customAccidentalsValid() {
+		if (!this.#customAccidentals) return true;
 		let isValid = true;
-		const type = (this._customAccidentals![0].type as KeyAccidental) || '#';
-		this.customAccidentals.forEach((accidental, index) => {
+		const type = (this.#customAccidentals![0].type as KeyAccidental) || '#';
+		this.#customAccidentals.forEach((accidental, index) => {
 			isValid =
 				isValid &&
 				accidental.position !== undefined &&
 				type === accidental.type &&
-				Key.isAccidentalValid(type, index, accidental.position, clef);
+				Key.isAccidentalValid(type, index, accidental.position, 'g');
 		});
 		return isValid;
 	}
@@ -168,21 +240,14 @@ export class Key {
 	}
 
 	/**
-	 * Get position in sheet music, where position 0 is at top line (of normal 5 line staff)
+	 * Get position in sheet music, where position 0 is at bottom line
 	 * @param type
 	 * @param column
 	 * @returns
 	 */
 	static getAccidentalPosition(type: KeyAccidental, column: number, clef?: ClefType) {
 		const position = keySignaturePosition[type][column];
-		if (!clef || clef === 'treble' || clef === 'g') {
-			return position;
-		} else if (clef === 'bass' || clef === 'f') {
-			return position + 2;
-		} else if (clef === 'alto') {
-			return position + 1;
-		}
-		throw new Error('Clef not supported: ' + clef);
+		return position + new Clef(clef).getOffsetToTreble();
 	}
 
 	/** @todo Support modes (dorian etc) */
@@ -200,10 +265,24 @@ export class Key {
 		throw new Error('Not implemented for mode ' + mode);
 	}
 
+	/** Get note names for c-b with accidentals */
+	getNoteNames() {
+		const notes = ['c', 'd', 'e', 'f', 'g', 'a', 'b'];
+		const accidentals =
+			this.#customAccidentals ? this.#customAccidentals : this.keyToCustomAccidentals();
+		accidentals.forEach((data) => {
+			if (data.position === undefined) return;
+			// convert position of accidental to index (c=0,b=6)
+			const index = Math.abs((data.position * -1 + 10) % 7);
+			notes[index] += data.type;
+		});
+		return notes;
+	}
+
 	setColor(index: number, color: string) {
 		const count =
-			this.customAccidentals && this.customAccidentals.length > 0 ?
-				this.customAccidentals.length
+			this.#customAccidentals && this.#customAccidentals.length > 0 ?
+				this.#customAccidentals.length
 			:	this.accidentals.count;
 		if (index >= count) return;
 		this.refreshColorArray();
@@ -212,8 +291,8 @@ export class Key {
 
 	private refreshColorArray() {
 		const count =
-			this.customAccidentals && this.customAccidentals.length > 0 ?
-				this.customAccidentals.length
+			this.#customAccidentals && this.#customAccidentals.length > 0 ?
+				this.#customAccidentals.length
 			:	this.accidentals.count;
 		if (!this.colors || this.colors.length !== count) {
 			const oldColors = this.colors || [];

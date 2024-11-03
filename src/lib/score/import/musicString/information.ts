@@ -63,6 +63,8 @@ const clefType: { [key in ClefTypes]: ClefType } = {
 /** @todo update inHeaderOnly */
 const inHeaderOnly = ['T'];
 
+export type StaffLineData = { count: number; hidden?: boolean };
+
 export type InformationItem = {
 	key?: Key;
 	scale?: Scale;
@@ -70,6 +72,7 @@ export type InformationItem = {
 	timeSignature?: TimeSignature;
 	clef?: Clef;
 	octave?: number;
+	staffLines?: StaffLineData;
 	title?: string;
 	books?: string[];
 	discography?: string[];
@@ -100,7 +103,7 @@ export class InformationParser {
 				ignore = false;
 			}
 			let data:
-				| InformationData<string | number | TimeSignature | Clef | KeyData | Scale>
+				| InformationData<string | number | TimeSignature | Clef | KeyData | Scale | StaffLineData>
 				| undefined;
 			/** @todo: Group (G), History (H), Parts (P) */
 			/** @todo improve tempo (Q) parsing, see ABC */
@@ -148,6 +151,13 @@ export class InformationParser {
 						item.key = (data.data as KeyData).key;
 						item.scale = (data.data as KeyData).scale;
 						item.inputScale = (data.data as KeyData).inputScale;
+					}
+					break;
+				case 'L':
+					data = this.getStaffLines(input);
+					if (data?.data) {
+						item.staffLines = { count: (data.data as StaffLineData).count };
+						if ((data.data as StaffLineData).hidden === true) item.staffLines.hidden = true;
 					}
 					break;
 				case 'M':
@@ -252,6 +262,21 @@ export class InformationParser {
 		return inputScales[mode];
 	}
 
+	private getStaffLines(input: string) {
+		const match = /^L(\d)?(h)?/g.exec(input);
+		if (match) {
+			const data: InformationData<StaffLineData> = {
+				data: { count: match[1] ? parseInt(match[1]) : 5 },
+				length: match[1].length,
+			};
+			if (match[2] && match[2] === 'h') {
+				data.data.hidden = true;
+				data.length++;
+			}
+			return data;
+		}
+	}
+
 	private getTimeSignature(input: string) {
 		const match = /^M(?:([CcTt])|(?:([0-9]{1,2})\/([0-9]{1,2}))|(?:([1-9])([1248]))|([1-9]))/g.exec(
 			input,
@@ -332,7 +357,6 @@ export class InformationParser {
 		staffLines?: number,
 	) {
 		const clef = new Clef(type, line, octaveChange);
-		if (staffLines && staffLines >= 0) clef.staffLines = staffLines;
 		const data: InformationData<Clef> = { length, data: clef };
 		return data;
 	}

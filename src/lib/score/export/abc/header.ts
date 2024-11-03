@@ -136,22 +136,22 @@ L:${abcLengthUnit}`;
 		if (supportedClefSymbols.includes(clef.symbol)) {
 			switch (clef.symbol) {
 				case 'g':
-					if (!clef.clefLine) {
+					if (clef.clefLineIsDefault()) {
 						return 'treble';
 					} else {
-						return 'G' + clef.clefLine;
+						return 'G' + (clef.clefLine + 1);
 					}
 				case 'f':
-					if (!clef.clefLine) {
+					if (clef.clefLineIsDefault()) {
 						return 'bass';
 					} else {
-						return 'F' + clef.clefLine;
+						return 'F' + (clef.clefLine + 1);
 					}
 				case 'c':
-					if (!clef.clefLine) {
+					if (clef.clefLineIsDefault()) {
 						return 'alto';
 					} else {
-						return 'C' + clef.clefLine;
+						return 'C' + (clef.clefLine + 1);
 					}
 				case 'none':
 				case 'perc':

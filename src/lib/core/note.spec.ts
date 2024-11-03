@@ -734,3 +734,25 @@ describe('Note.setPrintedAccidental', () => {
 		expect(note).toMatchObject(noteObj);
 	});
 });
+
+describe('Note.toggleNote', () => {
+	it('Should make note invisible if whenLastIsRemoved = invisible', () => {
+		const expectedResult = {
+			invisible: true,
+		};
+		const note = new Note('w', 'c');
+		const clickedNote = new Note('w', 'c');
+		note.toggleNote(clickedNote, 'invisible');
+		expect(note).toMatchObject(expectedResult);
+	});
+	it('Should make invisible not visible', () => {
+		const expectedResult = {
+			invisible: false,
+		};
+		const note = new Note('w', 'c');
+		const clickedNote = new Note('w', 'c');
+		note.invisible = true;
+		note.toggleNote(clickedNote);
+		expect(note).toMatchObject(expectedResult);
+	});
+});

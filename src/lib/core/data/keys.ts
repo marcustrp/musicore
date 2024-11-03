@@ -56,6 +56,7 @@ const majorKeyAccidentals: KeySignatureData = {
 	bb: -2,
 	b: 5,
 };
+/** Offset in number of accidentals, where # are positive and b are negative */
 const modeOffsets: { [key: string]: number } = {
 	major: 0,
 	minor: -3,
@@ -69,7 +70,7 @@ const modeOffsets: { [key: string]: number } = {
 };
 
 /**
- * Position 0 is at top line (of normal 5 line staff)
+ * Position 0 is at top line
  */
 const keySignaturePosition: { [key: string]: number[] } = {
 	'#': [0, 3, -1, 2, 5, 1, 4],
