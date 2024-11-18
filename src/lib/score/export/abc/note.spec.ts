@@ -26,6 +26,17 @@ beforeEach(() => {
 	generator = new NoteGenerator(addWarning, throwError);
 });
 
+describe('getGraceNotes()', () => {
+	it('should return correct value for grace note', () => {
+		const note = new Note('q', 'c');
+		note.graceNotes = [new Note('16', 'd', undefined, 5), new Note('16', 'e', undefined, 5)];
+		note.graceType = 'unacc';
+		const result = generator['getGraceNotes'](note, ['c', 'd', 'e']);
+		_checkWarning(warnings);
+		expect(result).toBe('{DE}');
+	});
+});
+
 describe('getNoteDecorations()', () => {
 	describe('should return correct decoration for all possible values without duration', () => {
 		const data: { notation: Notations.Notation; decoration: string }[] = [

@@ -12,6 +12,7 @@ import RomanNumeralAnalysis from '../../../core/romanNumeralAnalysis.js';
 import FunctionAnalysis from '../../../core/functionAnalysis.js';
 import { type InformationItem } from './information.js';
 import { Styles } from '$lib/core/styles.js';
+import { GraceProcessor } from './grace.js';
 
 type NoteTypeMusicstring = '_' | '__' | NoteType;
 
@@ -27,6 +28,7 @@ export enum BodyMatch {
 	LYRICS,
 	SOLFA, // solfa
 	FUNCTION, // function (analysis)
+	GRACE,
 	LENGTH, // length
 	CHORD_NOTES, // chord, // [octaveShift and scaleNumber] (string without [], i.e. 13#5+1)
 	LENGTH_2, // length
@@ -91,6 +93,7 @@ export type BodyData = {
 	lyrics?: string;
 	solfa?: string;
 	function?: string;
+	grace?: string;
 	notations?: string;
 	beam?: BeamValue;
 	slurs?: { type: 'start' | 'end'; index: number }[];
@@ -178,7 +181,8 @@ export class BodyParser {
    */
 	match(item: string, bar: Bar) {
 		const myRegexp =
-			/([(]*)?(?:([1-9]):(?:([1-9]):)?(?:([1-9]):)?)?(!(?!(?:!|!!)).*!)*(?:`([^"]*)`)?(?:"([^"]*)")?(?:'([^']*)')?(?:´([^']*)´)?(?:\*([^*]*)\*)?(?:(__|[ldwhqestuv_](?:{[^}]*})?)|(?:\[((?:(?:[+-]){0,2}(?:(?:bb|b|#|x|m)(?!x))?[1-9rxyi][IL]*(?:{[^}]*})?){0,32})\](__|[ldwhqestuv_](?:{[^}]*})?))|(?:\[((?:(?:[+-/])*(?:(?:bb|b|#|x|m)(?!x))?[1-9rxyi][IL]*(?:{[^}]*})?){0,32})\])|(?:((?:[+-/])*(?:(?:bb|b|#|x|m)(?!x))?[1-9rxyi][IL]*(?:{[^}]*})?)(__|[ldwhqestuv_](?:{[^}]*})?))|((?:[+-/])*(?:(?:bb|b|#|x|m)(?!x))?[1-9rxyi][IL]*(?:{[^}]*})?))([.]*)(=)?([)]*)?/g;
+			/([(]*)?(?:([1-9]):(?:([1-9]):)?(?:([1-9]):)?)?(!(?!(?:!|!!)).*!)*(?:`([^"]*)`)?(?:"([^"]*)")?(?:'([^']*)')?(?:´([^']*)´)?(?:\*([^*]*)\*)?(?:<([^>]*)\>)?(?:(__|[ldwhqestuv_](?:{[^}]*})?)|(?:\[((?:(?:[+-]){0,2}(?:(?:bb|b|#|x|m)(?!x))?[1-9rxyi][IL]*(?:{[^}]*})?){0,32})\](__|[ldwhqestuv_](?:{[^}]*})?))|(?:\[((?:(?:[+-/])*(?:(?:bb|b|#|x|m)(?!x))?[1-9rxyi][IL]*(?:{[^}]*})?){0,32})\])|(?:((?:[+-/])*(?:(?:bb|b|#|x|m)(?!x))?[1-9rxyi][IL]*(?:{[^}]*})?)(__|[ldwhqestuv_](?:{[^}]*})?))|((?:[+-/])*(?:(?:bb|b|#|x|m)(?!x))?[1-9rxyi][IL]*(?:{[^}]*})?))([.]*)(=)?([)]*)?/g;
+		//	/([(]*)?(?:([1-9]):(?:([1-9]):)?(?:([1-9]):)?)?(!(?!(?:!|!!)).*!)*(?:`([^"]*)`)?(?:"([^"]*)")?(?:'([^']*)')?(?:´([^']*)´)?(?:\*([^*]*)\*)?(?:(__|[ldwhqestuv_](?:{[^}]*})?)|(?:\[((?:(?:[+-]){0,2}(?:(?:bb|b|#|x|m)(?!x))?[1-9rxyi][IL]*(?:{[^}]*})?){0,32})\](__|[ldwhqestuv_](?:{[^}]*})?))|(?:\[((?:(?:[+-/])*(?:(?:bb|b|#|x|m)(?!x))?[1-9rxyi][IL]*(?:{[^}]*})?){0,32})\])|(?:((?:[+-/])*(?:(?:bb|b|#|x|m)(?!x))?[1-9rxyi][IL]*(?:{[^}]*})?)(__|[ldwhqestuv_](?:{[^}]*})?))|((?:[+-/])*(?:(?:bb|b|#|x|m)(?!x))?[1-9rxyi][IL]*(?:{[^}]*})?))([.]*)(=)?([)]*)?/g;
 		//	/([(]*)?(?:([1-9]):(?:([1-9]):)?(?:([1-9]):)?)?(!(?!(?:!|!!)).*!)*(?:`([^"]*)`)?(?:"([^"]*)")?(?:'([^']*)')?(?:´([^']*)´)?(?:\*([^*]*)\*)?(?:(__|[ldwhqestuv_])|(?:\[((?:(?:[+-]){0,2}(?:(?:bb|b|#|x|m)(?!x))?[1-9rxyi][IL]*){0,32})\](__|[ldwhqestuv_]))|(?:\[((?:(?:[+-/]){0,2}(?:(?:bb|b|#|x|m)(?!x))?[1-9rxyi][IL]*){0,32})\])|(?:((?:[+-/]){0,2}(?:(?:bb|b|#|x|m)(?!x))?[1-9rxyi][IL]*)(__|[ldwhqestuv_]))|((?:[+-/]){0,2}(?:(?:bb|b|#|x|m)(?!x))?[1-9rxyi][IL]*))([.]*)(=)?([)]*)?/g;
 		//	/([\(]*)?(?:([1-9]):(?:([1-9]):)?(?:([1-9]):)?)?(!(?!(?:!|!!)).*!)*(?:\`([^\"]*)\`)?(?:\"([^\"]*)\")?(?:'([^']*)')?(?:´([^']*)´)?(?:\*([^\*]*)\*)?(?:(__|[ldwhqestuv_])|(?:\[((?:(?:[+-]){0,2}(?:(?:bb|b|#|x|m)(?!x))?[1-9rxyi][IL]*){0,32})\](__|[ldwhqestuv_]))|(?:\[((?:(?:[+-\/]){0,2}(?:(?:bb|b|#|x|m)(?!x))?[1-9rxyi][IL]*){0,32})\])|(?:((?:[+-\/]){0,2}(?:(?:bb|b|#|x|m)(?!x))?[1-9rxyi][IL]*)(__|[ldwhqestuv_]))|((?:[+-\/]){0,2}(?:(?:bb|b|#|x|m)(?!x))?[1-9rxyi][IL]*))([\.]*)(=)?([\)]*)?/g;
 		//  /([\(]*)?(?:([1-9]):(?:([1-9]):)?(?:([1-9]):)?)?(!(?!(?:!|!!)).*!)*(?:\`([^\"]*)\`)?(?:\"([^\"]*)\")?(?:'([^']*)')?(?:´([^']*)´)?(?:\*([^\*]*)\*)?(?:(__|[ldwhqestuv_])|(?:\[((?:(?:[+-]){0,2}(?:(?:bb|b|#|x|m)(?!x))?[1-9rxyi]){0,32})\](__|[ldwhqestuv_]))|(?:\[((?:(?:[+-\/]){0,2}(?:(?:bb|b|#|x|m)(?!x))?[1-9rxyi]){0,32})\])|(?:((?:[+-\/]){0,2}(?:(?:bb|b|#|x|m)(?!x))?[1-9rxyi])(__|[ldwhqestuv_]))|((?:[+-\/]){0,2}(?:(?:bb|b|#|x|m)(?!x))?[1-9rxyi]))([\.]*)(=)?([\)]*)?/g;
@@ -228,6 +232,7 @@ export class BodyParser {
 		if (items[BodyMatch.LYRICS]) data.lyrics = items[BodyMatch.LYRICS];
 		if (items[BodyMatch.SOLFA]) data.solfa = items[BodyMatch.SOLFA];
 		if (items[BodyMatch.FUNCTION]) data.function = items[BodyMatch.FUNCTION];
+		if (items[BodyMatch.GRACE]) data.grace = items[BodyMatch.GRACE];
 		if (items[BodyMatch.DOTS]) data.dots = items[BodyMatch.DOTS].length;
 		if (items[BodyMatch.TIE]) data.tie = true;
 		if (numberOrChord.substring(-1) === 'r') data.rest = true;
@@ -559,6 +564,7 @@ export class BodyParser {
 				}
 				this.addData(item.item as Note, data);
 				if (data.notations) this.processNotation(item.item as Note | Spacer, data.notations);
+				if (data.grace) this.processGrace(item.item as Note, data.grace, info);
 				// TODO: make this change automatic when isRest is set
 				//if (note.isRest) note.velocity = 0;
 
@@ -717,5 +723,14 @@ export class BodyParser {
 				return null;
 			}
 		}
+	}
+
+	processGrace(note: Note, graceData: string, info: InformationItem) {
+		const data = GraceProcessor.process(graceData, info.octave!, info.scale!);
+		note.graceType = data.type;
+		note.graceNotes = [];
+		data.notes.forEach((graceNote) => {
+			note.graceNotes!.push(graceNote);
+		});
 	}
 }

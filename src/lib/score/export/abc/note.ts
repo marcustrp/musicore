@@ -16,6 +16,7 @@ export class NoteGenerator {
 		let abc = this.getNoteBeam(note);
 
 		if (note.slurs) abc += this.getSlurs('start', note.slurs);
+		abc += this.getGraceNotes(note, scaleNotes);
 		abc += this.getTriplet(note, timeSignature);
 		abc += this.getNoteDecorations(note);
 		abc += this.getChordSymbols(note);
@@ -54,6 +55,25 @@ export class NoteGenerator {
 							:	')'
 						:	''),
 			);
+		}
+		return abc;
+	}
+
+	/**
+	 * Returns grace notes if any
+	 * @param note
+	 * @returns
+	 */
+	private getGraceNotes(note: Note, scaleNotes: string[]) {
+		let abc = '';
+		if (note.graceNotes && note.graceNotes.length > 0) {
+			abc += '{' + (note.graceType === 'acc' ? '/' : '');
+			note.graceNotes.forEach((graceNote) => {
+				abc += this.getNoteAccidental(graceNote, scaleNotes);
+				abc += this.getNoteNameAndOctave(graceNote);
+				abc += this.getNoteLength(graceNote, new Fraction(1, 16));
+			});
+			abc += '}';
 		}
 		return abc;
 	}

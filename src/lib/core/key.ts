@@ -94,6 +94,15 @@ export class Key {
 		// underlying functions...
 	}
 
+	getAccidental(column: number) {
+		const accidentals =
+			this.#customAccidentals && this.#customAccidentals.length > 0 ?
+				this.#customAccidentals
+			:	this.keyToCustomAccidentals();
+		if (column >= accidentals.length) return undefined;
+		return accidentals[column];
+	}
+
 	/**
 	 * Toggle accidental. If custom accidentals are valid
 	 * for (any) key, updates key and removes custom

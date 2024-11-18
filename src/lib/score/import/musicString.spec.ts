@@ -96,7 +96,7 @@ describe('parse', () => {
 		expect(score.bars.bars[0].key).toMatchObject(key);
 		expect(score.parts.getPart(0).getVoice(0).getNotes()).toMatchObject(notes);
 		expect(score.scale?.root.natural).toBe('f');
-		expect(score.scale?.root.acciental).toBe('#');
+		expect(score.scale?.root.accidental).toBe('#');
 	});
 	it('should import music string in minor key using minor mode', () => {
 		// m accidental is used in minor key to get major version of 3, 6 and 7
@@ -111,7 +111,7 @@ describe('parse', () => {
 		expect(score.bars.bars[0].key).toMatchObject(key);
 		expect(score.parts.getPart(0).getVoice(0).getNotes()).toMatchObject(notes);
 		expect(score.scale?.root.natural).toBe('f');
-		expect(score.scale?.root.acciental).toBe('#');
+		expect(score.scale?.root.accidental).toBe('#');
 	});
 	it('should import music string with m accidental in minor key using minor mode', () => {
 		// m accidental is used in minor key to get major version of 3, 6 and 7
@@ -126,7 +126,7 @@ describe('parse', () => {
 		expect(score.bars.bars[0].key).toMatchObject(key);
 		expect(score.parts.getPart(0).getVoice(0).getNotes()).toMatchObject(notes);
 		expect(score.scale?.root.natural).toBe('f');
-		expect(score.scale?.root.acciental).toBe('#');
+		expect(score.scale?.root.accidental).toBe('#');
 	});
 	it('should import simple music string with changed octave', () => {
 		const musicString = '@O3 1. 2e 3h';

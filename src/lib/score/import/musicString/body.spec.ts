@@ -122,6 +122,73 @@ describe('parse()', () => {
 		note1['id'] = result![0].item.id;
 		expect(result).toStrictEqual(expectedResult);
 	});
+	it('should parse note with grace note', () => {
+		const musicstring = '<1>2';
+		const result = parser.parse(
+			musicstring,
+			info,
+			new Bar(new TimeSignature(), new Key('c', 'major')),
+		);
+		expect(result).toMatchObject([
+			{
+				item: {
+					_root: 'd',
+					graceType: 'unacc',
+					graceNotes: [{ _root: 'c', _octave: 5, _type: '16' }],
+					_octave: 5,
+					_type: 'q',
+				},
+			},
+		]);
+	});
+	it('should parse note with two grace notes', () => {
+		const musicstring = '<12>3';
+		const result = parser.parse(
+			musicstring,
+			info,
+			new Bar(new TimeSignature(), new Key('c', 'major')),
+		);
+		expect((result![0].item as Note).graceNotes).toHaveLength(2);
+		expect(result).toMatchObject([
+			{
+				item: {
+					_root: 'e',
+					graceType: 'unacc',
+					graceNotes: [
+						{ _root: 'c', _octave: 5, _type: '16' },
+						{ _root: 'd', _octave: 5, _type: '16' },
+					],
+					_octave: 5,
+					_type: 'q',
+				},
+			},
+		]);
+	});
+	it('should parse note with style size', () => {
+		const musicstring = '1{size:small}2';
+		const result = parser.parse(
+			musicstring,
+			info,
+			new Bar(new TimeSignature(), new Key('c', 'major')),
+		);
+		expect(result).toMatchObject([
+			{
+				item: {
+					_root: 'c',
+					size: 'small',
+					_octave: 5,
+					_type: '8',
+				},
+			},
+			{
+				item: {
+					_root: 'd',
+					_octave: 5,
+					_type: '8',
+				},
+			},
+		]);
+	});
 });
 
 describe('match()', () => {
@@ -350,6 +417,17 @@ describe('match()', () => {
 			const data = [
 				{
 					items: '1{color:red}',
+					type: 'q',
+				},
+			];
+			const result = parser.match(musicString, new Bar(new TimeSignature(), new Key('c', 'major')));
+			expect(result).toEqual(data);
+		});
+		it('should return size style for note', () => {
+			const musicString = '1{size:small}q';
+			const data = [
+				{
+					items: '1{size:small}',
 					type: 'q',
 				},
 			];

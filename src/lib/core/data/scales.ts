@@ -1,6 +1,6 @@
 import { type ScaleNumber } from '../note.js';
 
-export const ScaleTypes: {
+export const scaleTypes: {
 	[key: string]: {
 		steps: number[];
 		scaleNumbers: ScaleNumber[];
@@ -31,7 +31,7 @@ export const ScaleTypes: {
 		steps: [0, 2, 3, 5, 7, 9, 11],
 		scaleNumbers: ['1', '2', 'b3', '4', '5', '6', '7'],
 		stepsDescending: [0, 2, 3, 5, 7, 8, 10],
-		scaleNumbersDescending: ['1', '2', 'b3', '4', '5', 'b6', 'b7'],
+		scaleNumbersDescending: ['b7', 'b6', '5', '4', 'b3', '2', '1'],
 		name: 'Melodisk moll',
 	},
 	ionian: {
@@ -85,7 +85,7 @@ export const ScaleTypes: {
 		steps: [0, 3, 5, 6, 7, 10],
 		scaleNumbers: ['1', 'b3', '4', '#4', '5', 'b7'],
 		stepsDescending: [0, 3, 5, 6, 7, 10],
-		scaleNumbersDescending: ['1', 'b3', '4', 'b5', '5', 'b7'],
+		scaleNumbersDescending: ['b7', '5', 'b5', '4', 'b3', '1'],
 		name: 'Blues',
 	},
 	chromatic: {
