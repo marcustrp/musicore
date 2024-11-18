@@ -23,7 +23,7 @@
 			bars: true,
 			barlines: false,
 			notes: {
-				editorAccidental: { types: ['b', '#'] },
+				editorAccidental: true,
 				editorNote: { positionFrom: -2, positionTo: 12 },
 			},
 		},

@@ -109,7 +109,7 @@
 				/>
 			{/if}
 		{/if}
-		{#if notehead.editor && note.y !== undefined}
+		{#if notehead.editor && note.y !== undefined && (engraver.settings.renderEditorsOnHover !== true || engraver.settings.hoverState === true)}
 			<EColumnEditor
 				editorIndex={index}
 				columnEditor={notehead.editor}

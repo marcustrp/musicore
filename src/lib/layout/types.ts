@@ -17,6 +17,7 @@ export type LedgerLineLayout = {
 
 import { type NoteAccidentals, type KeyAccidental } from '$lib/index.js';
 import { type Font } from '../fonts/types.js';
+import type { PrintedNoteAccidental } from '$lib/core/note.js';
 
 export type LayoutSettings = {
 	staffSize?: number;
@@ -24,7 +25,7 @@ export type LayoutSettings = {
 		type: 'fixed' | 'proportional' | 'standard'; // proportional is proportional to note length, standard reduces space of longer notes
 		value: number; // in stave-space units, used for fixed and proportional. For standard, value is ratio where default is 1.0
 	};
-	defaultAccidental?: NoteAccidentals;
+	defaultAccidental?: PrintedNoteAccidental;
 	render?: {
 		stafflines?: boolean;
 		clef?: boolean;
@@ -34,7 +35,7 @@ export type LayoutSettings = {
 		notes?: {
 			render?: boolean;
 			editorNote?: { positionFrom: number; positionTo: number; showNoteName?: boolean };
-			editorAccidental?: { types: NoteAccidentals[] };
+			editorAccidental?: boolean; //{ types: NoteAccidentals[] };
 		};
 		barlines?: boolean;
 	};
@@ -42,7 +43,7 @@ export type LayoutSettings = {
 export type LayoutSettingsInternal = LayoutSettings & {
 	staffSize: number;
 	staveSpace: number;
-	defaultAccidental: NoteAccidentals;
+	defaultAccidental: PrintedNoteAccidental;
 	defaultKeyAccidential: KeyAccidental;
 	defaultAccidentalEditorWidth?: number; // only set if an accidental editor is present
 	font: Font;

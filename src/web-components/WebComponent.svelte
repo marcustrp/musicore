@@ -6,6 +6,13 @@
 			musicString: { reflect: true, type: 'String', attribute: 'music-string' },
 			staffSizeProp: { reflect: true, type: 'String', attribute: 'staff-size' },
 			exercise: { reflect: false, type: 'String' },
+			/**
+			 * accidentals:#,b,x,bb,n
+			 * editorNote:[positionFrom,positionTo,mode[first|all]]
+			 * - editorNote:-3,10,first
+			 * editorNoteAccidental:true|false (default: true)
+			 * editorKeySignature:true|false (default: false)
+			 */
 			exerciseSettings: { reflect: false, type: 'String', attribute: 'exercise-settings' },
 			editorFrom: { reflect: false, type: 'String', attribute: 'editor-from' },
 			editorTo: { reflect: false, type: 'String', attribute: 'editor-to' },
@@ -33,7 +40,7 @@
 
 	import NoteExercise from '$lib/exercises/NoteExercise.svelte';
 	import KeySignatureExercise from '$lib/exercises/KeySignatureExercise.svelte';
-	import ScaleExercise from '$lib/exercises/ScaleExercise.svelte';
+	import ScaleExercise, { type ScaleExerciseEditors } from '$lib/exercises/ScaleExercise.svelte';
 	import WebComponentScore from './WebComponentScore.svelte';
 
 	const dispatch = createEventDispatcher();
@@ -73,7 +80,10 @@
 			editorStyleProps
 		:	undefined;
 
-	const exerciseSettings: { accidentals?: NoteAccidentals[] } = {};
+	const exerciseSettings: {
+		accidentals?: NoteAccidentals[];
+		editors?: ScaleExerciseEditors;
+	} = {};
 	const exItems = exerciseSettingsProp?.split(';');
 	exItems?.forEach((item: string) => {
 		const setting = item.split(':');
@@ -84,6 +94,31 @@
 					setting[1].split(',').forEach((accidental) => {
 						exerciseSettings.accidentals!.push(accidental as NoteAccidentals);
 					});
+					break;
+				case 'editorNote':
+					const values = setting[1].split(',');
+					const positionFrom = parseInt(values[0]);
+					const positionTo = parseInt(values[1]);
+					if (!exerciseSettings.editors) exerciseSettings.editors = {};
+					exerciseSettings.editors.note = { positionFrom, positionTo };
+					switch (values[2]) {
+						case 'first':
+							exerciseSettings.editors.note.mode = 'first';
+							break;
+						case 'all':
+							exerciseSettings.editors.note.mode = 'all';
+							break;
+						default:
+							console.error('Invalid editorNote.mode ' + values[2]);
+					}
+					break;
+				case 'editorNoteAccidental':
+					if (!exerciseSettings.editors) exerciseSettings.editors = {};
+					if (setting[1] === 'true') exerciseSettings.editors.noteAccidentals = true;
+					break;
+				case 'editorKeySignature':
+					if (!exerciseSettings.editors) exerciseSettings.editors = {};
+					if (setting[1] === 'true') exerciseSettings.editors.keySignature = true;
 					break;
 			}
 		}
@@ -110,6 +145,10 @@
 
 	export const disableEdit = (disable = true) => {
 		editDisabled = disable;
+	};
+
+	export const getScale = () => {
+		if (scoreComponent && 'getScale' in scoreComponent) return scoreComponent.getScale();
 	};
 
 	let editDisabled = $state(false);
@@ -168,6 +207,9 @@
 {:else if exercise === 'ScaleExercise'}
 	<ScaleExercise
 		{score}
+		{editDisabled}
+		{editorStyle}
+		editors={exerciseSettings.editors ? exerciseSettings.editors : {}}
 		accidentals={exerciseSettings.accidentals || ['#', 'b']}
 		onevent={(event) => handleEvent(event)}
 		bind:this={scoreComponent}

@@ -48,7 +48,8 @@ export type Accidentals = '#' | 'b' | 'x' | 'bb';
 /** n is natural
  * @todo Support accidentals for microtones
  */
-export type NoteAccidentals = Accidentals | 'n' | 'n#' | 'nb';
+export type NoteAccidentals = Accidentals | 'n#' | 'nb';
+export type PrintedNoteAccidental = NoteAccidentals | 'n';
 
 /** "Continue" means there is a tie both to and from this note */
 export type TieType = 'start' | 'end' | 'continue';
@@ -58,6 +59,7 @@ export class Note extends RhythmElement {
 	get root() {
 		return this._root;
 	}
+	// Note: Accidental can never be natural: this is only possible with printedNoteAccidental
 	private _accidental?: NoteAccidentals;
 	get accidental() {
 		return this._accidental;
@@ -65,7 +67,7 @@ export class Note extends RhythmElement {
 
 	/** name consists of root and optional accidental */
 	get name() {
-		return this.root + (this.accidental && this.accidental !== 'n' ? this.accidental : '');
+		return this.root + (this.accidental ? this.accidental : '');
 	}
 	/** Note and accidential, like f#. Defaults to root name of note, but when in context of a bar, should
 	 * be set to the note name in the scale.
@@ -81,7 +83,7 @@ export class Note extends RhythmElement {
 
 	/** @todo Should multiple printedAccidentals be supported? */
 	printedAccidental?: {
-		value: NoteAccidentals;
+		value: PrintedNoteAccidental;
 		bracket?: boolean;
 		cautionary?: boolean;
 		editorial?: boolean;
@@ -170,7 +172,7 @@ export class Note extends RhythmElement {
 	) {
 		super(type, dots, id);
 		this._root = root;
-		if (accidental) this._accidental = accidental;
+		if (accidental) this.setAccidental(accidental);
 		this.octave = octave;
 		this._staffIndex = staffIndex;
 		this.setMidiNumberFromName();
@@ -339,10 +341,11 @@ export class Note extends RhythmElement {
 	 * diatonic note name, otherwise set to accidental.
 	 * @param accidental
 	 */
-	setAccidental(accidental: NoteAccidentals | undefined) {
-		if (accidental) {
+	setAccidental(accidental: PrintedNoteAccidental | undefined) {
+		if (accidental && accidental !== 'n') {
 			this._accidental = accidental;
 		} else {
+			// if no accidental or if natural and diatonicNoteName doesn't have accidental, do not set accidental
 			delete this._accidental;
 		}
 		if (this.name === this.diatonicNoteName) {
@@ -352,19 +355,28 @@ export class Note extends RhythmElement {
 		}
 		this.setMidiNumberFromName();
 	}
-	setPrintedAccidental(accidental: NoteAccidentals | undefined) {
-		this._accidental = accidental;
-		this.printedAccidental = { value: accidental as NoteAccidentals };
+
+	setPrintedAccidental(accidental: PrintedNoteAccidental | undefined) {
+		if (!accidental || accidental === 'n') {
+			delete this._accidental;
+		} else {
+			this._accidental = accidental;
+		}
+		if (accidental) {
+			this.printedAccidental = { value: accidental };
+		} else {
+			delete this.printedAccidental;
+		}
 		this.setMidiNumberFromName();
-		// TODO also update accidental if needed
 	}
+
 	removePrintedAccidental() {
-		this.printedAccidental = undefined;
+		delete this.printedAccidental;
 		if (this.name !== this.diatonicNoteName) {
 			this.setAccidental(
 				this.diatonicNoteName.length === 1 ?
 					undefined
-				:	(this.diatonicNoteName.substr(1) as NoteAccidentals),
+				:	(this.diatonicNoteName.substring(1) as NoteAccidentals),
 			);
 		}
 		this.setMidiNumberFromName();

@@ -19,7 +19,7 @@
 			barlines: false,
 			timeSignature: false,
 			notes: {
-				editorAccidental: { types: ['b', '#'] },
+				editorAccidental: true,
 			},
 		},
 	});

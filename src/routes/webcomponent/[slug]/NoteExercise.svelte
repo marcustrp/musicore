@@ -60,7 +60,7 @@
 			<music-score
 				id="musicore"
 				exercise="NoteExercise"
-				exerciseSettings="accidentals:#,b,x,bb,n"
+				exercise-settings="accidentals:#,b,x,bb,n"
 				music-string="iw 1ILw"
 				editor-from="c5"
 				editor-to="g6"

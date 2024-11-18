@@ -1,12 +1,6 @@
 import type { LayoutSettings } from '$lib/layout/types.js';
-import {
-	Key,
-	Note,
-	Score,
-	type ClefType,
-	type KeyAccidental,
-	type NoteAccidentals,
-} from '$lib/index.js';
+import { Key, Note, Score, type ClefType, type KeyAccidental } from '$lib/index.js';
+import type { PrintedNoteAccidental } from '$lib/core/note.js';
 
 type BaseEvent = {
 	eventType: string;
@@ -20,7 +14,7 @@ export type KeySignatureAccidentalEvent = BaseEvent & {
 	eventType: 'keySignatureAccidental';
 	position: number;
 	column: number;
-	accidental: KeyAccidental;
+	accidental: PrintedNoteAccidental;
 	clef: ClefType;
 	key: Key;
 };
@@ -40,7 +34,7 @@ export type NoteAccidentalEvent = BaseEvent & {
 	index: number;
 	barIndex: number;
 	clef: ClefType;
-	accidental: NoteAccidentals | undefined;
+	accidental: PrintedNoteAccidental | undefined;
 	note: Note;
 };
 export type ScoreEvent = KeySignatureAccidentalEvent | NoteEvent | NoteAccidentalEvent;

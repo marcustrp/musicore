@@ -335,7 +335,7 @@ describe('Note.fromScaleNumber', () => {
 		const resultFn = () =>
 			Note.fromScaleNumber('none' as ScaleNumber, 5, new Scale('c', 'major'), 'h');
 
-		expect(resultFn).toThrowError(/Invalid scaleNumber/);
+		expect(resultFn).toThrowError(/Invalid scaleNumber: none/);
 	});
 });
 
@@ -726,11 +726,69 @@ describe('Note.noteIndexToNameInScale', () => {
 	});
 });
 
+describe('Note.setAccidental', () => {
+	it('should set accidental', () => {
+		const noteObj = { _accidental: '#' };
+		const note = new Note('w', 'c');
+		note.setAccidental('#');
+		expect(note).toMatchObject(noteObj);
+	});
+	it('should update printed accidental', () => {
+		const noteObj = { printedAccidental: { value: '#' } };
+		const note = new Note('w', 'c');
+		note.setAccidental('#');
+		expect(note).toMatchObject(noteObj);
+	});
+	it('should ignore natural if diatonicNoteName has no accidental', () => {
+		const note = new Note('w', 'c');
+		note.setAccidental('n');
+		expect(note.accidental).toBeUndefined();
+		expect(note.printedAccidental).toBeUndefined();
+	});
+});
+
 describe('Note.setPrintedAccidental', () => {
-	it('Should update midinumber when accidental is changed', () => {
+	it('Should set printedAccidental (#, non-diatonic)', () => {
+		const noteObj = { printedAccidental: { value: '#' } };
+		const note = new Note('w', 'c', undefined, 5);
+		note.setPrintedAccidental('#');
+		expect(note).toMatchObject(noteObj);
+	});
+	it('Should set printedAccidental (#, diatonic)', () => {
+		const noteObj = { printedAccidental: { value: '#' } };
+		const note = new Note('w', 'c', undefined, 5);
+		note.setPrintedAccidental('#');
+		expect(note).toMatchObject(noteObj);
+	});
+	it('Should update accidental (#, non-diatonic)', () => {
+		const noteObj = { _accidental: '#' };
+		const note = new Note('w', 'c', undefined, 5);
+		note.setPrintedAccidental('#');
+		expect(note).toMatchObject(noteObj);
+	});
+	it('Should not set accidental if accidental is natural', () => {
+		const noteObj = { printedAccidental: { value: 'n' } };
+		const note = new Note('w', 'c', undefined, 5);
+		note.setPrintedAccidental('n');
+		expect(note.accidental).toBeUndefined();
+		expect(note).toMatchObject(noteObj);
+	});
+	it('Should update midinumber when printedAccidental is changed', () => {
 		const noteObj = { _midiNumber: 61 };
 		const note = new Note('w', 'c', undefined, 5);
 		note.setPrintedAccidental('#');
+		expect(note).toMatchObject(noteObj);
+	});
+});
+
+describe('removePrintedAccidental', () => {
+	it('should remove both printed accidental and accidental if same as key (#)', () => {
+		const noteObj = { _midiNumber: 65 };
+		const note = new Note('w', 'f', '#', 5);
+		note['printedAccidental'] = { value: '#' };
+		note.removePrintedAccidental();
+		expect(note['_accidental']).toBeUndefined();
+		expect(note['printedAccidental']).toBeUndefined();
 		expect(note).toMatchObject(noteObj);
 	});
 });

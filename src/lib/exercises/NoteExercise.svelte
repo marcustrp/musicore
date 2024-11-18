@@ -1,22 +1,3 @@
-<!--
-@component
-
-- Exercise for writing a note on a staff
-
-@example
-
-```svelte
-	<NoteExercise
-		{score}
-		{positionFrom}
-		{positionTo}
-		{editDisabled}
-		editorStyle="hover"
-		onevent={(event) => handleEvent(event)}
-		bind:this={scoreComponent}
-	/>
-```
--->
 <script lang="ts">
 	import { noteAccidentalEventHandler, noteEventHandler } from '$lib/engraver/events/note.js';
 	import type { NoteAccidentalEvent, NoteEvent } from '$lib/engraver/events/types.js';
@@ -85,7 +66,7 @@
 			notes:
 				editorStyle !== 'off' ?
 					{
-						editorAccidental: accidentals ? { types: accidentals } : undefined,
+						editorAccidental: accidentals ? true : undefined,
 						editorNote: {
 							positionFrom: positionFrom !== undefined ? positionFrom : -4,
 							positionTo: positionTo !== undefined ? positionTo : 12,
@@ -111,6 +92,26 @@
 		layoutSettings.defaultAccidental = accidental;
 	}
 </script>
+
+<!--
+@component
+
+- Exercise for writing a note on a staff
+
+@example
+
+```svelte
+	<NoteExercise
+		{score}
+		{positionFrom}
+		{positionTo}
+		{editDisabled}
+		editorStyle="hover"
+		onevent={(event) => handleEvent(event)}
+		bind:this={scoreComponent}
+	/>
+```
+-->
 
 <div>
 	{#if accidentals}

@@ -26,10 +26,10 @@ export const noteEventHandler = (
 	if (action.action === 'update') {
 		const scale = event.score.bars.bars[event.barIndex].key.scale;
 		action.note.setPitch(scale, newNote.root, undefined, newNote.octave);
+		delete action.note.invisible;
 	} else {
 		note.toggleNote(newNote, 'invisible');
 	}
-	note.invisible = false;
 	if (dispatchEvent) dispatchEvent(event);
 	return true;
 };
@@ -99,8 +99,10 @@ export const noteAccidentalEventHandler = (
 
 	if (
 		(note.accidental || note.printedAccidental) &&
-		note.accidental === note.printedAccidental?.value &&
-		note.accidental === event.settings.defaultAccidental
+		(note.accidental === note.printedAccidental?.value ||
+			(!note.accidental && note.printedAccidental?.value === 'n')) &&
+		(note.accidental === event.settings.defaultAccidental ||
+			(!note.accidental && event.settings.defaultAccidental === 'n'))
 	) {
 		// if printed accidental is same as the added one, remove accidental
 		note.removePrintedAccidental();

@@ -1,5 +1,6 @@
 <script lang="ts">
-	let editorsOnHover = $state(true);
+	let editorStyles = ['off', 'hover', 'on'];
+	let editorStyleIndex = $state(1);
 
 	const methods: string[] = []; //['showAnswer', 'showNoteName', 'disableEdit'];
 </script>
@@ -36,8 +37,8 @@
 		</div>
 		<div style="text-align: center">
 			<b>Properties (note: toggling doesn't work at the moment...):<br /></b>
-			<button id="showAnswer" onclick={() => (editorsOnHover = !editorsOnHover)}
-				>editorsOnHover={editorsOnHover ? 'true' : 'false'}
+			<button id="showAnswer" onclick={() => (editorStyleIndex = (editorStyleIndex + 1) % 3)}
+				>editorStyle={editorStyles[editorStyleIndex]}
 			</button>
 		</div>
 		<div>
@@ -45,7 +46,8 @@
 				id="musicore"
 				exercise="ScaleExercise"
 				music-string="1w 2w 3w 4w 5w 6w 7w 8w"
-				editors-on-hover={editorsOnHover ? 'true' : 'false'}
+				exercise-settings="accidentals:#,b,x,bb,n;editorNoteAccidental:true;editorKeySignature:true;editorNote:-5,13,all"
+				editor-style={editorStyles[editorStyleIndex]}
 				style="display: flex; justify-content: center"
 			></music-score>
 		</div>

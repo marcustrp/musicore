@@ -30,7 +30,9 @@ describe('updateNotes', () => {
 			accidental: '#',
 			clef: 'g',
 		} as unknown as KeySignatureAccidentalEvent;
-		helpers.updateNotes(true, event, { updateNotes: true });
+		helpers.updateNotes(event.score, event.position, event.clef, event.accidental, true, {
+			updateNotes: true,
+		});
 		expect(event.score.parts._parts[0].voices[0].getNotes()).toMatchObject([
 			{ accidental: '#', _diatonicNoteName: 'c#' },
 			{ _diatonicNoteName: 'd' },
@@ -46,7 +48,9 @@ describe('updateNotes', () => {
 			accidental: '#',
 			clef: 'g',
 		} as unknown as KeySignatureAccidentalEvent;
-		helpers.updateNotes(false, event, { updateNotes: true });
+		helpers.updateNotes(event.score, event.position, event.clef, event.accidental, false, {
+			updateNotes: true,
+		});
 		expect(event.score.parts._parts[0].voices[0].getNotes()).toMatchObject([
 			{ _diatonicNoteName: 'c' },
 			{ _diatonicNoteName: 'd' },
@@ -63,7 +67,9 @@ describe('updateNotes', () => {
 			accidental: '#',
 			clef: 'g',
 		} as unknown as KeySignatureAccidentalEvent;
-		helpers.updateNotes(false, event, { updateNotes: true });
+		helpers.updateNotes(event.score, event.position, event.clef, event.accidental, false, {
+			updateNotes: true,
+		});
 		expect(event.score.parts._parts[0].voices[0].getNotes()).toMatchObject([
 			{ _diatonicNoteName: 'c', accidental: '#', printedAccidental: { value: '#' } },
 			{ _diatonicNoteName: 'd' },
