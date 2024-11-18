@@ -6,11 +6,9 @@ import ChordSymbol from './chordSymbol.js';
 // MEI: 1, 2, 4 ... 1024, breve, long
 export type NoteType = 'b' | 'l' | 'w' | 'h' | 'q' | '8' | '16' | '32' | '64' | '128' | '256';
 
+export type NoteSize = 'tiny' | 'small' | 'normal' | 'large';
 export class RhythmElement {
-	/** @todo uncomment id (requires rewrites of tests)
-	 * Also, would like to have as readonly, but causes
-	 * tests to fail
-	 */
+	/** should be readonly, but (at least) musicstring importer needs a fix for that */
 	id: string;
 	private _type: NoteType;
 	get type() {
@@ -19,6 +17,9 @@ export class RhythmElement {
 	set type(type: NoteType) {
 		this._type = type;
 	}
+
+	/** Size of note. Defaults to normal */
+	size?: NoteSize;
 
 	private _dots?: number;
 	get dots() {
@@ -67,6 +68,7 @@ export class RhythmElement {
 	];
 
 	invisible?: boolean;
+	/** @todo rewrite to lockedProperties, enable editors to lock any property using string keys? */
 	locked?: boolean;
 
 	constructor(type: NoteType, dots?: number, id?: string) {

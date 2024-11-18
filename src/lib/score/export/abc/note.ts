@@ -25,6 +25,7 @@ export class NoteGenerator {
 		abc += this.getNoteLength(note, new Fraction(1, 4));
 		if (note.tie === 'start') abc += '-';
 		if (note.slurs) abc += this.getSlurs('end', note.slurs);
+		if (note.size && note.size !== 'normal') console.warn('Note size not supported in ABC');
 		return abc;
 	}
 

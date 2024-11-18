@@ -535,6 +535,7 @@ export class BodyParser {
 						if (pitch[4]) {
 							const styles = Styles.processStyles(pitch[4]);
 							if (styles.color) (item.item as Note).color = { notehead: styles.color };
+							if (styles.size) (item.item as Note).size = styles.size;
 						}
 					}
 				} else {
@@ -553,6 +554,7 @@ export class BodyParser {
 					if (pitch[4]) {
 						const styles = Styles.processStyles(pitch[4]);
 						if (styles.color) (chordNote as Note).color = { notehead: styles.color };
+						if (styles.size) (chordNote as Note).size = styles.size;
 					}
 				}
 				this.addData(item.item as Note, data);

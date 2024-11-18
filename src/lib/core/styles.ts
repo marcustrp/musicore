@@ -1,5 +1,8 @@
+import type { NoteSize } from './rhythmElement.js';
+
 export type Style = {
 	color?: string;
+	size?: NoteSize;
 };
 
 export class Styles {
@@ -18,6 +21,11 @@ export class Styles {
 			case 'c':
 			case 'color':
 				style.color = Styles.getColor(value);
+				break;
+			case 's':
+			case 'size':
+				style.size = Styles.getSize(value);
+				break;
 		}
 	}
 
@@ -53,6 +61,27 @@ export class Styles {
 				return 'navy';
 			default:
 				return value;
+		}
+	}
+
+	static getSize(value: string) {
+		switch (value) {
+			case 't':
+			case 'tiny':
+			case 'tiny':
+				return 'tiny';
+			case 's':
+			case 'small':
+				return 'small';
+			case 'n':
+			case 'normal':
+				return 'normal';
+			case 'l':
+			case 'large':
+				return 'large';
+			default:
+				console.warn(`Unknown size: ${value}`);
+				return 'normal';
 		}
 	}
 }
