@@ -4,26 +4,24 @@ import { Scale } from '../../core/scale.js';
 import { Score } from '../score.js';
 import { FormAnalyser } from '../../tools/formAnalyser.js';
 
-export class ExportSettings {
-	constructor(
-		public type:
-			| 'natural'
-			| 'name'
-			| 'scaleNumber'
-			| 'diffClosest'
-			| 'diffClosestPositive'
-			| 'diffClosest-ignoreRepeating'
-			| 'diffClosestPositive-ignoreRepeating' = 'scaleNumber',
-		public part: number = 0,
-		public voice: number = 0,
-		public returnType: 'string' | 'array' = 'string',
-	) {}
-}
+export type ExportSettingsType = {
+	type:
+		| 'natural'
+		| 'name'
+		| 'scaleNumber'
+		| 'diffClosest'
+		| 'diffClosestPositive'
+		| 'diffClosest-ignoreRepeating'
+		| 'diffClosestPositive-ignoreRepeating';
+	part: number;
+	voice: number;
+	returnType?: 'string' | 'array';
+	/** Ignore will return just numbers, no accidentials */
+	scaleNumberRelativeTo?: 'major' | 'scale' | 'ignore';
+};
 
 export class PitchStreamExporter {
-	export(score: Score, settings?: ExportSettings) {
-		if (!settings) settings = new ExportSettings();
-
+	export(score: Score, settings: ExportSettingsType) {
 		const formAnalyzer = new FormAnalyser();
 		const formData = formAnalyzer.parse(score);
 		let pitchStream: string[] | number[];
@@ -47,10 +45,11 @@ export class PitchStreamExporter {
 				throw new Error('Unknown type ' + settings.type);
 		}
 		switch (settings?.returnType) {
-			case 'string':
-				return pitchStream.join('');
 			case 'array':
 				return pitchStream;
+			case 'string':
+			default:
+				return pitchStream.join('');
 		}
 	}
 
@@ -58,7 +57,7 @@ export class PitchStreamExporter {
 		return note instanceof Note && note.tie !== 'end' && note.tie !== 'continue';
 	}
 
-	getNames(score: Score, barIndexSequence: number[], settings: ExportSettings) {
+	getNames(score: Score, barIndexSequence: number[], settings: ExportSettingsType) {
 		const pitchStream: string[] = [];
 		barIndexSequence.forEach((barIndex) => {
 			const notes = score.parts.getPart(settings.part).getVoice(settings.voice).getNotes(barIndex);
@@ -69,7 +68,7 @@ export class PitchStreamExporter {
 		return pitchStream;
 	}
 
-	getNaturals(score: Score, barIndexSequence: number[], settings: ExportSettings) {
+	getNaturals(score: Score, barIndexSequence: number[], settings: ExportSettingsType) {
 		const pitchStream: string[] = [];
 		barIndexSequence.forEach((barIndex) => {
 			const notes = score.parts.getPart(settings.part).getVoice(settings.voice).getNotes(barIndex);
@@ -80,7 +79,7 @@ export class PitchStreamExporter {
 		return pitchStream;
 	}
 
-	getScaleNumbers(score: Score, barIndexSequence: number[], settings: ExportSettings) {
+	getScaleNumbers(score: Score, barIndexSequence: number[], settings: ExportSettingsType) {
 		const pitchStream: string[] = [];
 		const scaleRoot = score.bars.bars[0].key.root;
 		const scaleType = score.bars.bars[0].key.mode;
@@ -88,10 +87,16 @@ export class PitchStreamExporter {
 		barIndexSequence.forEach((barIndex) => {
 			const notes = score.parts.getPart(settings.part).getVoice(settings.voice).getNotes(barIndex);
 			notes.forEach((note) => {
-				if (this.includeNote(note))
-					pitchStream.push(
-						scale.getScaleNumberFromNote((note as Note).root, (note as Note).accidental),
+				if (this.includeNote(note)) {
+					let scaleNumber = scale.getScaleNumberFromNote(
+						(note as Note).root,
+						(note as Note).accidental,
+						settings.scaleNumberRelativeTo !== 'scale',
 					);
+					if (settings.scaleNumberRelativeTo === 'ignore')
+						scaleNumber = scaleNumber.substring(scaleNumber.length - 1);
+					pitchStream.push(scaleNumber);
+				}
 			});
 		});
 		return pitchStream;
@@ -101,7 +106,11 @@ export class PitchStreamExporter {
 	 * returns -3 to 3, where 0 is no change (positive adds 3 to all values).
 	 * Ignores octave, so a fifth up is regarded as (the smaller) fourth down
 	 */
-	getScaleNumberChangeClosest(score: Score, barIndexSequence: number[], settings: ExportSettings) {
+	getScaleNumberChangeClosest(
+		score: Score,
+		barIndexSequence: number[],
+		settings: ExportSettingsType,
+	) {
 		const pitchStream: number[] = [];
 		const nameToNumber: { [key: string]: number } = { c: 0, d: 1, e: 2, f: 3, g: 4, a: 5, b: 6 };
 		let firstIndex = 0;

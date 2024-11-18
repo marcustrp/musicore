@@ -21,6 +21,7 @@ export { TimeSignature, type TimeSignatureSymbol } from './core/timeSignature.js
 export { type HarmonyKind } from './core/harmony.js';
 
 export { AbcExporter } from './score/export/abc.js';
+export { PitchStreamExporter } from './score/export/pitchStream.js';
 
 export { MusicStringImporter } from './score/import/musicString.js';
 

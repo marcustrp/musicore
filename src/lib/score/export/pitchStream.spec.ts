@@ -2,7 +2,7 @@ import { beforeAll, beforeEach, describe, expect, it } from 'vitest';
 import { Key } from '../../core/key.js';
 import { Note } from '../../core/note.js';
 import { Score } from '../score.js';
-import { ExportSettings, PitchStreamExporter } from './pitchStream.js';
+import { type ExportSettingsType, PitchStreamExporter } from './pitchStream.js';
 
 let exporter: PitchStreamExporter;
 
@@ -19,7 +19,39 @@ describe('different types', () => {
 		voice.addNote(new Note('q', 'd'));
 		voice.addNote(new Note('h', 'e'));
 		voice.addNote(new Note('w', 'g'));
-		const result = exporter.export(score);
+		const result = exporter.export(score, { type: 'scaleNumber', part: 0, voice: 0 });
+		expect(result).toBe(expecedResult);
+	});
+	it('should export scaleNumber stream (relative to minor)', () => {
+		const expecedResult = '1235';
+		const score = new Score(new Key('c', 'minor'));
+		const voice = score.parts.addPart().getVoice(0);
+		voice.addNote(new Note('q', 'c'));
+		voice.addNote(new Note('q', 'd'));
+		voice.addNote(new Note('h', 'e', 'b'));
+		voice.addNote(new Note('w', 'g'));
+		const result = exporter.export(score, {
+			type: 'scaleNumber',
+			part: 0,
+			voice: 0,
+			scaleNumberRelativeTo: 'scale',
+		});
+		expect(result).toBe(expecedResult);
+	});
+	it('should export scaleNumber stream (ignore accidentals)', () => {
+		const expecedResult = '1235';
+		const score = new Score(new Key('c', 'minor'));
+		const voice = score.parts.addPart().getVoice(0);
+		voice.addNote(new Note('q', 'c'));
+		voice.addNote(new Note('q', 'd'));
+		voice.addNote(new Note('h', 'e', 'b'));
+		voice.addNote(new Note('w', 'g', '#'));
+		const result = exporter.export(score, {
+			type: 'scaleNumber',
+			part: 0,
+			voice: 0,
+			scaleNumberRelativeTo: 'ignore',
+		});
 		expect(result).toBe(expecedResult);
 	});
 	it('should export noteName stream', () => {
@@ -30,7 +62,7 @@ describe('different types', () => {
 		voice.addNote(new Note('q', 'e'));
 		voice.addNote(new Note('h', 'f', '#'));
 		voice.addNote(new Note('w', 'a'));
-		const result = exporter.export(score, new ExportSettings('name'));
+		const result = exporter.export(score, { type: 'name', part: 0, voice: 0 });
 		expect(result).toBe(expecedResult);
 	});
 	it('should export natural stream', () => {
@@ -41,7 +73,7 @@ describe('different types', () => {
 		voice.addNote(new Note('q', 'b', 'b'));
 		voice.addNote(new Note('h', 'c'));
 		voice.addNote(new Note('w', 'e', 'b'));
-		const result = exporter.export(score, new ExportSettings('natural'));
+		const result = exporter.export(score, { type: 'natural', part: 0, voice: 0 });
 		expect(result).toBe(expecedResult);
 	});
 	it('should export natural stream as array', () => {
@@ -52,7 +84,12 @@ describe('different types', () => {
 		voice.addNote(new Note('q', 'b', 'b'));
 		voice.addNote(new Note('h', 'c'));
 		voice.addNote(new Note('w', 'e', 'b'));
-		const result = exporter.export(score, new ExportSettings('natural', 0, 0, 'array'));
+		const result = exporter.export(score, {
+			type: 'natural',
+			part: 0,
+			voice: 0,
+			returnType: 'array',
+		});
 		expect(result).toEqual(expecedResult);
 	});
 	describe('diffClosest', () => {
@@ -73,7 +110,7 @@ describe('different types', () => {
 		});
 		it('should export diffClosest stream', () => {
 			const expecedResult = '1-12-23-3-330';
-			const result = exporter.export(score, new ExportSettings('diffClosest'));
+			const result = exporter.export(score, { type: 'diffClosest', part: 0, voice: 0 });
 			expect(result).toBe(expecedResult);
 		});
 		/*it('should export diffClosestPositive stream', () => {
