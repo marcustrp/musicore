@@ -36,6 +36,41 @@ describe('appendBar', () => {
 	});
 });
 
+describe('removeBars', () => {
+	it('should remove bar from indexFrom to last bar when indexTo is undefined', () => {
+		barArray.appendBar();
+		barArray.appendBar();
+		barArray.appendBar();
+		barArray.appendBar();
+		barArray.removeBars(1);
+		expect(barArray.bars.length).toBe(1);
+	});
+	it('should remove bar from indexFrom to last bar when indexTo is index of last bar', () => {
+		barArray.appendBar();
+		barArray.appendBar();
+		barArray.appendBar();
+		barArray.appendBar();
+		barArray.removeBars(1, 4);
+		expect(barArray.bars.length).toBe(1);
+	});
+	it('should remove bar from indexFrom to second last bar when indexTo is index of second last bar', () => {
+		barArray.appendBar();
+		barArray.appendBar();
+		barArray.appendBar();
+		barArray.appendBar();
+		barArray.removeBars(1, 3);
+		expect(barArray.bars.length).toBe(2);
+	});
+	it('should remove bar from indexFrom to indexTo', () => {
+		barArray.appendBar();
+		barArray.appendBar();
+		barArray.appendBar();
+		barArray.appendBar();
+		barArray.removeBars(1, 2);
+		expect(barArray.bars.length).toBe(3);
+	});
+});
+
 describe('setKey', () => {
 	const key = new Key('e', 'major');
 	const spies: MockInstance[] = [];

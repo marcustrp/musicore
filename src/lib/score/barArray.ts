@@ -43,6 +43,12 @@ export class BarArray {
 		this.duration = this.duration.add(new Fraction(timeSignature!.duration));
 	}
 
+	removeBars(indexFrom: number, indexTo?: number) {
+		const deleteCount =
+			indexTo === undefined ? this.bars.length - indexFrom : indexTo - indexFrom + 1;
+		this.bars.splice(indexFrom, deleteCount);
+	}
+
 	/**
 	 * Sets the key of all bars from indexFrom to indexTo. If indexTo is undefined,
 	 * sets the key of all bars from indexFrom to last bar. If bar prior to indexFrom has
