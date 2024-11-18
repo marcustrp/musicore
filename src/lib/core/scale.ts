@@ -1,5 +1,5 @@
 import { type ScaleType } from './data/modes.js';
-import { ScaleTypes } from './data/scales.js';
+import { scaleTypes } from './data/scales.js';
 import {
 	type NoteAccidentals,
 	Note,
@@ -10,18 +10,18 @@ import {
 
 export class Scale {
 	//root: { name: string; number: number };
-	private _root: { natural: NoteName; acciental?: NoteAccidentals; number: number };
+	private _root: { natural: NoteName; accidental?: NoteAccidentals; number: number };
 	get root() {
 		return this._root;
 	}
 	get rootAccidental() {
-		return this._root.acciental;
+		return this._root.accidental;
 	}
 	get rootNumber() {
 		return this._root.number;
 	}
 	get rootName() {
-		return this._root.natural + (this._root.acciental || '');
+		return this._root.natural + (this._root.accidental || '');
 	}
 
 	/**
@@ -29,13 +29,13 @@ export class Scale {
 	 * @example major: [0, 2, 4, 5, 7, 9, 11]
 	 * @example minor: [0, 2, 3, 5, 7, 8, 10]
 	 */
-	steps: number[];
+	steps: number[] = [];
 	/**
 	 * Scale numbers for each note in scale.
 	 * @example major: ['1', '2', '3', '4', '5', '6', '7']
 	 * @example minor: ['1', '2', 'b3', '4', '5', 'b6', 'b7']
 	 */
-	scaleNumbers: ScaleNumber[];
+	scaleNumbers: ScaleNumber[] = [];
 	/**
 	 * Name of scale in swedish, like 'dur' or 'mixolydisk'.
 	 * @todo Create a system for internationalization
@@ -59,7 +59,10 @@ export class Scale {
 	/**
 	 *
 	 * @param root name and accidental, like 'c#' or 'eb'
-	 * @param type
+	 * @param type ScaleType or 'custom' (requires customnoteNames)
+	 * @param customNoteNames array of notenames (root+accidential) for custom scale, from c to b
+	 *
+	 * @example new Note('f','custom',['c','d#','e','f','gb','a','b'])
 	 *
 	 * @throws Error if root is invalid
 	 * @throws Error if type is invalid
@@ -67,22 +70,44 @@ export class Scale {
 	constructor(
 		root: string,
 		public type: ScaleType,
+		customNoteNames?: string[],
 	) {
 		if (!Note.validateName(root)) throw new Error('Invalid root name');
 
 		// if type is none, which might be used for key signatures with
 		// no key, use chromatic in its place. See KeyModes
 		this.type = type === 'none' ? 'chromatic' : type;
-
-		const scaleType = Scale.getScaleType(type);
-		this.steps = scaleType.steps;
-		this.scaleNumbers = scaleType.scaleNumbers;
-		this.name = scaleType.name;
-		this.stepsDescending = scaleType.stepsDescending;
-		this.scaleNumbersDescending = scaleType.scaleNumbersDescending;
+		if (type === 'custom') {
+			if (!customNoteNames) throw new Error('No customNoteNames provided for custom scale.');
+			this.name = 'Egendefinierad';
+			const major = new Scale(root, 'major');
+			//const rootNote = new Note('w',customNoteNames[0].substring(0, 1) as NoteName,
+			customNoteNames[0].length > 1 ?
+				(customNoteNames[0].substring(1) as NoteAccidentals)
+			:	undefined;
+			// TODO: loop customNoteNames from provided root, calling getScaleNumberFromNote...
+			customNoteNames.forEach((notename) => {
+				this.scaleNumbers.push(
+					major.getScaleNumberFromNote(
+						notename.substring(0, 1) as NoteName,
+						notename.length > 1 ? (notename.substring(1) as NoteAccidentals) : undefined,
+					) as ScaleNumber,
+				);
+				const pitchDiff = Note.pitchDiff(notename, customNoteNames[0]);
+				if (pitchDiff === undefined) throw new Error('Invalid customNotes');
+				this.steps.push((pitchDiff + 12) % 12);
+			});
+		} else {
+			const scaleType = Scale.getScaleType(type);
+			this.steps = scaleType.steps;
+			this.scaleNumbers = scaleType.scaleNumbers;
+			this.name = scaleType.name;
+			this.stepsDescending = scaleType.stepsDescending;
+			this.scaleNumbersDescending = scaleType.scaleNumbersDescending;
+		}
 		this._root = {
 			natural: Note.nameToNatural(root),
-			acciental: Note.nameToAccidental(root),
+			accidental: Note.nameToAccidental(root),
 			number: Note.nameToNoteIndex(root),
 		};
 	}
@@ -166,14 +191,64 @@ export class Scale {
 	 */
 	static getScaleType(type: string) {
 		if (Scale.validateScaleType(type)) {
-			return ScaleTypes[type];
+			return scaleTypes[type];
 		} else {
 			throw new Error(`Invalid scale type '${type}'`);
 		}
 	}
 
 	static validateScaleType(type: string) {
-		return type in ScaleTypes;
+		return type in scaleTypes;
+	}
+
+	static modeFromNotes(notes: Note[], requireDescending = true) {
+		const rootScale = new Scale(notes[0].name, 'major');
+		const scaleNumbers = notes.map((note) =>
+			rootScale.getScaleNumberFromNote(note.root, note.accidental),
+		);
+		const mode = Scale.modeFromScaleNumbers(scaleNumbers, requireDescending);
+		return mode;
+	}
+
+	static modeFromScaleNumbers(scaleNumbers: string[], requireDescending = true) {
+		let mode: string | undefined = undefined;
+		const { ascending, descending } = Scale.parseScaleNumberArray(scaleNumbers);
+		console.log('asc/desc', ascending, descending, scaleNumbers);
+		Object.keys(scaleTypes).forEach((key) => {
+			if (!mode && Scale.validateScaleNumbersToMode(scaleTypes[key].scaleNumbers, ascending))
+				mode = key;
+		});
+		if (mode && requireDescending && scaleTypes[mode].scaleNumbersDescending) {
+			if (descending) {
+				if (!Scale.validateScaleNumbersToMode(scaleTypes[mode].scaleNumbersDescending!, descending))
+					mode = undefined;
+			} else {
+				mode = undefined;
+			}
+		}
+		return mode;
+	}
+
+	private static validateScaleNumbersToMode(modeScaleNumbers: string[], scaleNumbers: string[]) {
+		let isValid = true;
+		modeScaleNumbers.forEach((scaleNumber, i) => (isValid &&= scaleNumber === scaleNumbers[i]));
+		return isValid;
+	}
+
+	private static parseScaleNumberArray(scaleNumbers: string[]) {
+		const ascending: string[] = [];
+		const descending: string[] = [];
+		let isDescending = false;
+		scaleNumbers.forEach((scaleNumber) => {
+			if (!isDescending && ascending.length > 0 && scaleNumber === '1') {
+				isDescending = true;
+			} else if (isDescending) {
+				descending.push(scaleNumber);
+			} else {
+				ascending.push(scaleNumber);
+			}
+		});
+		return { ascending, descending: descending.length > 1 ? descending : undefined };
 	}
 
 	/**
@@ -194,20 +269,23 @@ export class Scale {
 	}
 
 	/**
-	 * f in d major returns b3, f in d minor returns 3.
-	 */
-	/**
 	 * Returns scale number for note in this scale. If note is not in scale,
 	 * returns empty string.
 	 * @param root
 	 * @param accidental
+	 * @param relativeToMajor Default true. If true, always return ScaleNumber relative to major scale
 	 * @returns
-	 * @example f in d major returns b3, f in d minor returns 3.
+	 * @example (relativeToMajor = true) f in d major returns b3, f in d minor returns b3.
+	 * @example (relativeToMajor = false) f in d major returns b3, f in d minor returns 3.
 	 * @todo this should be moved, see Note.fromScalenumber regarding useScaleMode. It's more of a extended musicString thing.
 	 */
-	getScaleNumberFromNote(root: NoteName, accidental?: NoteAccidentals) {
-		const scaleNumber = this.getDiatonicScaleNumberFromNote(root);
-		const pitchDiff = this.getNotePitchDiffFromScale(root, accidental);
+	getScaleNumberFromNote(root: NoteName, accidental?: NoteAccidentals, relativeToMajor = true) {
+		const scale =
+			relativeToMajor ?
+				new Scale(this.root.natural + (this.root.accidental ? this.root.accidental : ''), 'major')
+			:	this;
+		const scaleNumber = scale.getDiatonicScaleNumberFromNote(root);
+		const pitchDiff = scale.getNotePitchDiffFromScale(root, accidental);
 		switch (pitchDiff) {
 			case -2:
 				return 'bb' + scaleNumber;

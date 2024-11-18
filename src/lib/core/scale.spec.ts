@@ -9,6 +9,15 @@ describe('Scale', () => {
 		expect(scale.type).toBe('minor');
 		expect(scale.steps).toEqual([0, 2, 3, 5, 7, 8, 10]);
 	});
+	it('should create a custom scale', () => {
+		const expectedScaleNumbers = ['1', '2', '#3', '#4', '#5', '6', 'b7'];
+		const expectedSteps = [0, 2, 5, 6, 8, 9, 10];
+		const result = new Scale('eb', 'custom', ['eb', 'f', 'g#', 'a', 'b', 'c', 'db']);
+		expect(result.type).toBe('custom');
+		expect(result.root).toEqual({ natural: 'e', accidental: 'b', number: 3 });
+		expect(result.scaleNumbers).toEqual(expectedScaleNumbers);
+		expect(result.steps).toEqual(expectedSteps);
+	});
 });
 
 describe('fromString()', () => {
@@ -68,6 +77,96 @@ describe('fromString()', () => {
 
 		const resultFn = () => Scale.fromString(scaleString);
 		expect(resultFn).toThrowError(/Invalid rootAndMode/);
+	});
+});
+
+describe('parseScaleNumberArray', () => {
+	it('should parse ascending only not ending with 1', () => {
+		const expectedResult = {
+			ascending: ['1', '2', '3', '4', '5', '6', '7'],
+			descending: undefined,
+		};
+		const result = Scale['parseScaleNumberArray'](['1', '2', '3', '4', '5', '6', '7']);
+		expect(result).toEqual(expectedResult);
+	});
+	it('should parse ascending only with ending 1', () => {
+		const expectedResult = {
+			ascending: ['1', '2', '3', '4', '5', '6', '7'],
+			descending: undefined,
+		};
+		const result = Scale['parseScaleNumberArray'](['1', '2', '3', '4', '5', '6', '7', '1']);
+		expect(result).toEqual(expectedResult);
+	});
+	it('should parse ascending and descending', () => {
+		const expectedResult = {
+			ascending: ['1', '2', 'b3', '4', '5', '6', '7'],
+			descending: ['b7', 'b6', '5', '4', 'b3', '2', '1'],
+		};
+		const result = Scale['parseScaleNumberArray']([
+			'1',
+			'2',
+			'b3',
+			'4',
+			'5',
+			'6',
+			'7',
+			'1',
+			'b7',
+			'b6',
+			'5',
+			'4',
+			'b3',
+			'2',
+			'1',
+		]);
+		expect(result).toEqual(expectedResult);
+	});
+});
+
+describe('modeFromScaleNumbers', () => {
+	it('Should return major (ending with 1)', () => {
+		const result = Scale.modeFromScaleNumbers(['1', '2', '3', '4', '5', '6', '7', '1']);
+		expect(result).toEqual('major');
+	});
+	it('Should return major (not ending with 1)', () => {
+		const result = Scale.modeFromScaleNumbers(['1', '2', '3', '4', '5', '6', '7']);
+		expect(result).toEqual('major');
+	});
+	it('Should return minor', () => {
+		const result = Scale.modeFromScaleNumbers(['1', '2', 'b3', '4', '5', 'b6', 'b7', '1']);
+		expect(result).toEqual('minor');
+	});
+	it('Should return harmonic minor', () => {
+		const result = Scale.modeFromScaleNumbers(['1', '2', 'b3', '4', '5', 'b6', '7', '1']);
+		expect(result).toEqual('harmonic_minor');
+	});
+	it('Should return melodic minor (ascending and descending)', () => {
+		const result = Scale.modeFromScaleNumbers([
+			'1',
+			'2',
+			'b3',
+			'4',
+			'5',
+			'6',
+			'7',
+			'1',
+			'b7',
+			'b6',
+			'5',
+			'4',
+			'b3',
+			'2',
+			'1',
+		]);
+		expect(result).toEqual('melodic_minor');
+	});
+	it('Should return melodic minor (ascending only)', () => {
+		const result = Scale.modeFromScaleNumbers(['1', '2', 'b3', '4', '5', '6', '7', '1'], false);
+		expect(result).toEqual('melodic_minor');
+	});
+	it('Should return undefined with valid ascending only melodic minor when descending is required', () => {
+		const result = Scale.modeFromScaleNumbers(['1', '2', 'b3', '4', '5', '6', '7', '1']);
+		expect(result).toBeUndefined();
 	});
 });
 
@@ -154,6 +253,21 @@ describe('getScaleNumberFromNote', () => {
 		const scale = new Scale('ab', 'major');
 		const result = scale.getScaleNumberFromNote('e', 'b');
 		expect(result).toBe('5');
+	});
+	it('should return correct value (6 in c minor, relativeToMajor = false)', () => {
+		const scale = new Scale('c', 'minor');
+		const result = scale.getScaleNumberFromNote('a', 'b', false);
+		expect(result).toBe('6');
+	});
+	it('should return correct value (#6, major 6 in c minor, relativeToMajor = false)', () => {
+		const scale = new Scale('c', 'minor');
+		const result = scale.getScaleNumberFromNote('a', undefined, false);
+		expect(result).toBe('#6');
+	});
+	it('should return correct value (6, major 6 in c minor)', () => {
+		const scale = new Scale('c', 'minor');
+		const result = scale.getScaleNumberFromNote('a');
+		expect(result).toBe('6');
 	});
 	it('should return correct value (#5, e in ab)', () => {
 		const scale = new Scale('ab', 'major');
