@@ -39,4 +39,27 @@ describe('getBody()', () => {
 		const result = generator.getBody(score);
 		expect(result).toEqual(expectedResult);
 	});
+	describe('line count', () => {
+		beforeEach(() => {
+			const note = new Note('h', 'c');
+			const note2 = new Note('h', 'd');
+			const note3 = new Note('h', 'e');
+			const note4 = new Note('h', 'f');
+			const voice = score.parts.getPart(0).getVoice(0);
+			voice.addNotes([note, note2, note3, note4]);
+			score.bars.setBarline('light-heavy', 1);
+			score.bars.bars[0].lineBreak = true;
+		});
+
+		it('should handle line breaks', () => {
+			const expectedResult = 'C2 D2 |\nE2 F2 |]';
+			const result = generator.getBody(score);
+			expect(result).toEqual(expectedResult);
+		});
+		it('should export one line only', () => {
+			const expectedResult = 'C2 D2 |';
+			const result = generator.getBody(score, { lineCount: 1 });
+			expect(result).toEqual(expectedResult);
+		});
+	});
 });

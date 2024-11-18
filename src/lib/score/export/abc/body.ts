@@ -2,7 +2,7 @@ import { Note } from '../../../core/note.js';
 import { Rest } from '../../../core/rest.js';
 import { Scale } from '../../../core/scale.js';
 import { Score } from '../../score.js';
-import { type ReportFunction } from '../abc.js';
+import { type AbcExporterSettings, type ReportFunction } from '../abc.js';
 import { BarGenerator } from './bar.js';
 import { NoteGenerator } from './note.js';
 
@@ -24,12 +24,13 @@ export class BodyGenerator {
 	 * @returns
 	 *
 	 */
-	getBody(score: Score) {
+	getBody(score: Score, settings?: AbcExporterSettings) {
 		const body: string[] = [''];
 		let bodyIndex = 0;
 		const scale = new Scale(score.bars.bars[0].key.root, score.bars.bars[0].key.mode);
 		const scaleNotes = scale.getDiatonicNoteNames();
 		score.bars.bars.forEach((bar, index) => {
+			if (settings && settings.lineCount && bodyIndex >= settings.lineCount) return;
 			const barItems = this.barGenerator.getBarAbc(bar, index);
 			if (barItems.start) body[bodyIndex] += barItems.start;
 			bar.notes['P1']['V1'].forEach((note) => {

@@ -103,6 +103,18 @@ K:G`;
 		const result = generator.getHeader(score);
 		expect(result).toEqual(header);
 	});
+	it('should return minimal header', () => {
+		score.addInformation('discography', 'disc');
+		score.addInformation('notes', 'note');
+		score.addInformation('origin', 'origin');
+		score.addInformation('type', 'rhythm');
+		score.addInformation('transcription', 'transcription1');
+		score.addInformation('source', 'source');
+		score.addWorkInformation('composer', 'composers2');
+		score.addInformation('books', 'book');
+		const result = generator.getHeader(score, { header: 'minimal' });
+		expect(result).toEqual(header);
+	});
 });
 
 describe('getTimeSignature()', () => {

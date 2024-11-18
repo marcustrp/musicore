@@ -1,6 +1,6 @@
 import { capitalizeFirstChar } from '../../../utils/string.js';
 import { type Creator, Score } from '../../score.js';
-import { type ReportFunction } from '../abc.js';
+import { type AbcExporterSettings, type ReportFunction } from '../abc.js';
 import { Bar } from '../../../core/bar.js';
 
 const supportedClefNames = [
@@ -27,7 +27,7 @@ export class HeaderGenerator {
 	 * @param score
 	 * @returns
 	 */
-	getHeader(score: Score) {
+	getHeader(score: Score, settings?: AbcExporterSettings) {
 		const abcKey = this.getKey(score);
 		const abcClef = this.getClef(score);
 		const abcTimeSignature = this.getTimeSignature(score);
@@ -36,34 +36,36 @@ export class HeaderGenerator {
 I:abc-charset utf-8
 I:abc-creator musicore-0.0.1
 X:1`;
-		const work = score.work;
-		if (work) {
-			if (work.title) header += this.getString('T', work.title);
-			if (work.subtitle) header += this.getString('T', work.subtitle);
-			if (work.creator) header += this.getComposers(work.creator);
-		}
-		const information = score.information;
-		if (information) {
-			if (information.books) header += this.getArray('B', information.books);
-			if (information.discography) header += this.getArray('D', information.discography);
-			if (information.notes) header += this.getString('N', information.notes);
-			if (information.origin) header += this.getString('O', information.origin);
-			if (information.type) header += this.getString('R', information.type);
-			if (information.source) header += this.getString('S', information.source);
-			if (information.transcription) {
-				if (information.transcription.creator)
-					header += this.getString('Z', information.transcription.creator, 'abc-transcription');
-				if (information.transcription.editedBy)
-					header += this.getString('Z', information.transcription.editedBy, 'abc-edited-by');
-				if (information.transcription.copyright)
-					header += this.getString('Z', information.transcription.copyright, 'abc-copyright');
+		if (!settings || settings.header !== 'minimal') {
+			const work = score.work;
+			if (work) {
+				if (work.title) header += this.getString('T', work.title);
+				if (work.subtitle) header += this.getString('T', work.subtitle);
+				if (work.creator) header += this.getComposers(work.creator);
 			}
+			const information = score.information;
+			if (information) {
+				if (information.books) header += this.getArray('B', information.books);
+				if (information.discography) header += this.getArray('D', information.discography);
+				if (information.notes) header += this.getString('N', information.notes);
+				if (information.origin) header += this.getString('O', information.origin);
+				if (information.type) header += this.getString('R', information.type);
+				if (information.source) header += this.getString('S', information.source);
+				if (information.transcription) {
+					if (information.transcription.creator)
+						header += this.getString('Z', information.transcription.creator, 'abc-transcription');
+					if (information.transcription.editedBy)
+						header += this.getString('Z', information.transcription.editedBy, 'abc-edited-by');
+					if (information.transcription.copyright)
+						header += this.getString('Z', information.transcription.copyright, 'abc-copyright');
+				}
+			}
+			header += this.getTempo(score.bars.bars[0]);
 		}
 		header += `
 M:${abcTimeSignature}
 L:${abcLengthUnit}`;
 
-		header += this.getTempo(score.bars.bars[0]);
 		// key must be last field in header per abc spec.
 		header += `\nK:${abcKey}`;
 		if (abcClef !== 'treble') header += `clef=${abcClef}`;

@@ -8,6 +8,7 @@ import HeaderParser from './abc/header.js';
 import { NoteParser } from './abc/note.js';
 import { BarParser } from './abc/bar.js';
 import { MetaTextParser } from './abc/metatext.js';
+import Fraction from 'fraction.js';
 
 export class AbcImportState {
 	constructor(
@@ -96,6 +97,8 @@ export class AbcImporter {
 		const key = this.headerParser.getKey(tune.getKeySignature());
 		const timeSignature = this.headerParser.getTimeSignature(tune.getMeter());
 		this.score = new Score(key, timeSignature);
+		const pickupLength = tune.getPickupLength();
+		if (pickupLength > 0) this.score.bars.convertToPickup(new Fraction(pickupLength));
 
 		const scale = new Scale(key.root, key.mode);
 		this.state.currentScale = scale;
