@@ -4,7 +4,8 @@ Library for manipulating music scores, render sheet music, music theory exercise
 
 Importer for musicstring and ABC (using abcjs). Would like to support both MEI and MusicXML in the future.
 
-Project is in alpha phase. Focus currently is implementing things required for music theory exercises.
+Project is in alpha phase. Focus currently is implementing things required for music theory exercises and
+usage in [FindTune](https://github.com/marcustrp/findtune) and related folk music projects.
 
 _musicstring is a single-line music notation with some inspiration from ABC notation. Musicstring syntax specification can be found [here](https://github.com/marcustrp/musicstring)._
 
@@ -18,6 +19,9 @@ Core music concepts: clef, key, time signature, note, rest, scale...
 
 The main part of musicore, the Score uses Core elements to create a music score representation. Includes
 importers & exporters for different music formats, analyse tools...
+
+Currently available importers are musicstring and ABC (using abcjs). Exporters are musicstring, ABC and PitchStream
+(stream of note names or note numbers). Support for MusicXML and MEI might be added later.
 
 ### Layout
 
