@@ -7,7 +7,15 @@ Importer for musicstring and ABC (using abcjs). Would like to support both MEI a
 Project is in alpha phase. Focus currently is implementing things required for music theory exercises and
 usage in [FindTune](https://github.com/marcustrp/findtune) and related folk music projects.
 
-_musicstring is a single-line music notation with some inspiration from ABC notation. Musicstring syntax specification can be found [here](https://github.com/marcustrp/musicstring)._
+_musicstring is a single-line music notation with some inspiration from ABC notation.
+Musicstring syntax specification [can be found here](https://github.com/marcustrp/musicstring)._
+
+## Developing
+
+Using pnpm instead of npm.
+
+To use a local copy of MusiCore when including it in other projects, use 'pnpm link --global' in
+this project and 'pnpm link musicore' in other project.
 
 ## Content
 
