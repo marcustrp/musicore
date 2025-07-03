@@ -137,4 +137,9 @@ describe('parse()', () => {
 		expect(parser.score.bars.bars[0].notes['P1']['V1']).toMatchObject([note1]);
 		expect(parser.score.bars.bars[0].notes['P1']['V2']).toMatchObject([note2]);
 	});
+	it('should import linebreaks', () => {
+		const abc = `%abc-2.2\nX:1\nL: 1/4\nC4 |\nD4 |]`;
+		parser.parse(abc);
+		expect(parser.score.bars.bars[1].lineBreak).toBeTruthy();
+	});
 });

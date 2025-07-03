@@ -70,6 +70,7 @@ export class AbcImporter {
 							voice.forEach((item) => {
 								this.parseElement(item); //), 0, staffIndex, voiceIndex);
 							});
+							this.score.bars.bars[this.score.bars.bars.length - 1].lineBreak = true;
 						});
 					});
 				}

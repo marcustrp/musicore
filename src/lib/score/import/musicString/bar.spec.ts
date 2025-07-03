@@ -228,8 +228,8 @@ describe('processData()', () => {
 		expect(errors.length).toBe(0);
 		expect(result).toStrictEqual(expecedResult);
 	});
-	it('should process \\|:', () => {
-		const data = '\\|:';
+	it('should process |:\\', () => {
+		const data = '|:\\';
 		const expecedResult: BarItem = { barline: 'heavy-light', lineBreak: true, repeatStart: 1 };
 		const result = parser.processData(data);
 		expect(errors.length).toBe(0);

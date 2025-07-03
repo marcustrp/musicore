@@ -202,6 +202,24 @@ describe('getBarAbc()', () => {
 		checkWarning(warnings);
 		expect(result).toEqual(expectedResult);
 	});
+	it('should handle repeat after line break', () => {
+		const bar = {
+			barline: 'heavy-light',
+			_duration: new Fraction(1),
+			timeSignature: new TimeSignature(4, 4),
+			startRepeat: 1,
+			lineBreak: false,
+		} as unknown as Bar;
+		const expectedResult = {
+			end: '|]',
+			lineBreak: false,
+			start: '|:',
+		};
+		vi.spyOn(BarGenerator.prototype as any, 'getBarline').mockReturnValueOnce('|]');
+		const result = generator.getBarAbc(bar, 1, true);
+		checkWarning(warnings);
+		expect(result).toEqual(expectedResult);
+	});
 	it('should handle line break without any other options', () => {
 		const bar = {
 			barline: 'regular',
