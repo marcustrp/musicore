@@ -132,27 +132,6 @@ describe('getTimeSignature()', () => {
 	});
 });
 
-describe('getKey()', () => {
-	it('should return correct key', () => {
-		const data = [
-			{ root: 'f', mode: 'major', result: 'F' },
-			{ root: 'c#', mode: 'minor', result: 'C#m' },
-			{ root: 'eb', mode: 'dorian', result: 'Eb dorian' },
-			{ root: 'c', mode: 'none', result: 'none' },
-		];
-		data.forEach((item) => {
-			score.bars.setKey({ root: item.root, mode: item.mode } as unknown as Key);
-			const result = generator['getKey'](score);
-			expect(result).toBe(item.result);
-		});
-	});
-	it('should throw if unsupported mode is set', () => {
-		score.bars.bars[0].setKey({ root: 'C', mode: 'what' } as unknown as Key);
-		const resultFn = () => generator['getKey'](score);
-		expect(resultFn).toThrowError(/Unsupported mode/);
-	});
-});
-
 describe('getClef()', () => {
 	describe('should return correct clef for given input', () => {
 		const clefs: { clef: ClefType; line?: number; expect: string }[] = [

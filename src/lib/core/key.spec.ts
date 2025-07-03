@@ -325,3 +325,24 @@ describe('getNoteNames', () => {
 		expect(result).toEqual(['c', 'd', 'eb', 'f', 'g', 'a', 'bb']);
 	});
 });
+
+describe('getKey()', () => {
+	it('should return correct key', () => {
+		const data = [
+			{ root: 'f', mode: 'major', result: 'F' },
+			{ root: 'c#', mode: 'minor', result: 'C#m' },
+			{ root: 'eb', mode: 'dorian', result: 'Eb dorian' },
+			{ root: 'c', mode: 'none', result: 'none' },
+		];
+		data.forEach((item) => {
+			const key = new Key(item.root, item.mode as KeyMode);
+			const result = key.toString();
+			expect(result).toBe(item.result);
+		});
+	});
+	it('should throw if unsupported mode is set', () => {
+		const key = new Key('c', 'what' as KeyMode);
+		const resultFn = () => key.toString();
+		expect(resultFn).toThrowError(/Unsupported mode/);
+	});
+});

@@ -1,4 +1,3 @@
-import { capitalizeFirstChar } from '../../../utils/string.js';
 import { type Creator, Score } from '../../score.js';
 import { type AbcExporterSettings, type ReportFunction } from '../abc.js';
 import { Bar } from '../../../core/bar.js';
@@ -28,7 +27,7 @@ export class HeaderGenerator {
 	 * @returns
 	 */
 	getHeader(score: Score, settings?: AbcExporterSettings) {
-		const abcKey = this.getKey(score);
+		const abcKey = score.bars.bars[0].key.toString('short');
 		const abcClef = this.getClef(score);
 		const abcTimeSignature = this.getTimeSignature(score);
 		const abcLengthUnit = this.getLengthUnit(score);
@@ -89,35 +88,6 @@ L:${abcLengthUnit}`;
 			return 'C|';
 		} else {
 			return abcTimeSignature;
-		}
-	}
-
-	/**
-	 * Get the key (mode) of the score in ABC format
-	 * @param score
-	 * @returns
-	 */
-	private getKey(score: Score) {
-		const key = score.bars.bars[0].key;
-		const root = capitalizeFirstChar(key.root);
-		const mode = key.mode;
-		switch (mode) {
-			case 'major':
-			case 'ionian':
-				return root;
-			case 'minor':
-			case 'aeolian':
-				return root + 'm';
-			case 'dorian':
-			case 'locrian':
-			case 'lydian':
-			case 'mixolydian':
-			case 'phrygian':
-				return root + ' ' + mode;
-			case 'none':
-				return 'none';
-			default:
-				throw new Error('Unsupported mode');
 		}
 	}
 

@@ -1,3 +1,4 @@
+import { capitalizeFirstChar } from '../utils/string.js';
 import { Clef, type ClefType } from './clef.js';
 import { majorKeyAccidentals, modeOffsets, keySignaturePosition } from './data/keys.js';
 import { type KeyMode } from './data/modes.js';
@@ -322,5 +323,32 @@ export class Key {
 		if (key1.rootAccidental !== key2.rootAccidental) return false;
 		if (key1.mode !== key2.mode) return false;
 		return true;
+	}
+
+	/**
+	 * Returns key as string (style:short conformes to ABC format)
+	 * @returns string
+	 */
+	toString(style = 'short') {
+		const root = capitalizeFirstChar(this.root);
+		const mode = this.mode;
+		switch (mode) {
+			case 'major':
+			case 'ionian':
+				return root;
+			case 'minor':
+			case 'aeolian':
+				return root + 'm';
+			case 'dorian':
+			case 'locrian':
+			case 'lydian':
+			case 'mixolydian':
+			case 'phrygian':
+				return root + ' ' + mode;
+			case 'none':
+				return 'none';
+			default:
+				throw new Error('Unsupported mode');
+		}
 	}
 }
