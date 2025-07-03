@@ -122,9 +122,9 @@ export class BarlineParser {
 							} else {
 								if (!data.repeatStart) data.repeatStart = 0;
 								data.repeatStart++;
-								if (data.barline === 'light-heavy') {
+								if (!data.lineBreak && data.barline === 'light-heavy') {
 									data.barline = 'heavy-heavy';
-								} else {
+								} else if (!data.lineBreak) {
 									data.barline = 'heavy-light';
 								}
 							}

@@ -76,6 +76,7 @@ export class BarParser {
 				break;
 			case 'bar_dbl_repeat':
 			case 'bar_right_repeat':
+				/** @todo: check if repeat is in middle of bar */
 				score.bars.setBarline('light-heavy', item.barNumber);
 				score.bars.setRepeatEnd(1);
 				if (type === 'bar_right_repeat') break;

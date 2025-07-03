@@ -29,9 +29,10 @@ export class BodyGenerator {
 		let bodyIndex = 0;
 		const scale = new Scale(score.bars.bars[0].key.root, score.bars.bars[0].key.mode);
 		const scaleNotes = scale.getDiatonicNoteNames();
+		let onNewLine = true;
 		score.bars.bars.forEach((bar, index) => {
 			if (settings && settings.lineCount && bodyIndex >= settings.lineCount) return;
-			const barItems = this.barGenerator.getBarAbc(bar, index);
+			const barItems = this.barGenerator.getBarAbc(bar, index, onNewLine);
 			if (barItems.start) body[bodyIndex] += barItems.start;
 			bar.notes['P1']['V1'].forEach((note) => {
 				if (note instanceof Note) {
@@ -41,9 +42,11 @@ export class BodyGenerator {
 				}
 			});
 			if (barItems.end) body[bodyIndex] += ' ' + barItems.end;
+			onNewLine = false;
 			if (barItems.lineBreak) {
 				body.push('');
 				bodyIndex++;
+				onNewLine = true;
 			}
 		});
 		return body

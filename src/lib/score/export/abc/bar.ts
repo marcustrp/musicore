@@ -14,12 +14,12 @@ export class BarGenerator {
 	 * @param index
 	 * @returns
 	 */
-	getBarAbc(bar: Bar, index: number) {
+	getBarAbc(bar: Bar, index: number, onNewLine = false) {
 		const abc = { start: '', end: '', lineBreak: false };
 		if (index !== 0) {
 			if (bar.directions) abc.end += this.getBarDirections(bar.directions);
 			if (bar.ending && bar.ending.start) abc.start += '[' + bar.ending.number;
-			if (bar.startRepeat) abc.start += ':';
+			if (bar.startRepeat) abc.start += (onNewLine ? '|' : '') + ':';
 			if (bar.endRepeat) abc.end += ':';
 		}
 		abc.end += this.getBarline(bar.barline);

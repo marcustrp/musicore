@@ -41,6 +41,13 @@ export type BarlineEnding = {
 	number: number | string;
 };
 
+export type MiddleBarline = {
+	/** Location of barline (using duration, 1/4 is a quarter note) */
+	position: Fraction;
+	style: BarlineStyle;
+	isRepeat?: boolean;
+};
+
 export type SetKeyOptions = {
 	/**
 	 * Change accidentals to keep pitch of notes after key change.
@@ -57,9 +64,13 @@ export type SetTimeSignatureOptions = object;
 export class Bar {
 	/** The barline at the *end* of this bar */
 	barline: BarlineStyle = 'regular';
-	/** at beginning of bar, # of times or string (like 'open', 'continue on cue') */
+	/** todo: implement + add to abc import (test with http://www.folkwiki.se/Musik/1) */
+	barlines: MiddleBarline[] | undefined;
+	/** at *beginning* of bar, unless there is a MiddleBarline with isRepeat=true
+	 * # of times or string (like 'open', 'continue on cue') */
 	startRepeat?: number | string;
-	/** at end of bar, # of times or string (like 'open', 'continue on cue') */
+	/** at *end* of bar, unless there is a MiddleBarline with isRepeat=true
+	 * # of times or string (like 'open', 'continue on cue') */
 	endRepeat?: number | string;
 	/** at beginning of bar */
 	ending?: BarlineEnding;
