@@ -94,7 +94,7 @@ describe('parse()', () => {
 		expect((parser.score.bars.bars[0].notes['P1']['V1'][2] as Note).beam?.value).toBe('continue');
 		expect((parser.score.bars.bars[0].notes['P1']['V1'][3] as Note).beam?.value).toBe('end');
 	});
-	it('should import triplet', () => {
+	it('should import eight triplet', () => {
 		const note1: NoteObject = {
 			beam: { value: 'start' },
 			triplet: {
@@ -126,6 +126,74 @@ describe('parse()', () => {
 		};
 		const expectedResult = [note1, note2, note3];
 		const abc = `%abc-2.2\nX:1\nL: 1/8\n(3CDE |]`;
+		parser.parse(abc);
+		expect(parser.score.bars.bars[0].notes['P1']['V1']).toMatchObject(expectedResult);
+	});
+	it('should import eight with sexteen triplet', () => {
+		const note1: NoteObject = { type: '8', beam: { value: 'start' } };
+		const note2: NoteObject = {
+			type: '16',
+			beam: { value: 'continue' },
+			triplet: {
+				start: true,
+				numerator: 3,
+				denominator: 2,
+				totalDuration: new Fraction(1, 8),
+				noteCount: 3,
+			},
+		};
+		const note3: NoteObject = {
+			type: '16',
+			beam: { value: 'continue' },
+			triplet: { numerator: 3, denominator: 2, totalDuration: new Fraction(1, 8), noteCount: 3 },
+		};
+		const note4: NoteObject = {
+			type: '16',
+			beam: { value: 'end' },
+			triplet: {
+				end: true,
+				numerator: 3,
+				denominator: 2,
+				totalDuration: new Fraction(1, 8),
+				noteCount: 3,
+			},
+		};
+		const expectedResult = [note1, note2, note3, note4];
+		const abc = `%abc-2.2\nX:1\nL: 1/16\nC2(3DEF |]`;
+		parser.parse(abc);
+		expect(parser.score.bars.bars[0].notes['P1']['V1']).toMatchObject(expectedResult);
+	});
+	it('should import dotted eight with 1/32 triplet', () => {
+		const note1: NoteObject = { type: '8', dots: 1, beam: { value: 'start' } };
+		const note2: NoteObject = {
+			type: '32',
+			beam: { value: 'continue' },
+			triplet: {
+				start: true,
+				numerator: 3,
+				denominator: 2,
+				totalDuration: new Fraction(1, 16),
+				noteCount: 3,
+			},
+		};
+		const note3: NoteObject = {
+			type: '32',
+			beam: { value: 'continue' },
+			triplet: { numerator: 3, denominator: 2, totalDuration: new Fraction(1, 16), noteCount: 3 },
+		};
+		const note4: NoteObject = {
+			type: '32',
+			beam: { value: 'end' },
+			triplet: {
+				end: true,
+				numerator: 3,
+				denominator: 2,
+				totalDuration: new Fraction(1, 16),
+				noteCount: 3,
+			},
+		};
+		const expectedResult = [note1, note2, note3, note4];
+		const abc = `%abc-2.2\nX:1\nL: 1/16\nC3(3D/2E/2F/2 |]`;
 		parser.parse(abc);
 		expect(parser.score.bars.bars[0].notes['P1']['V1']).toMatchObject(expectedResult);
 	});
