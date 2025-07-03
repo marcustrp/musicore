@@ -5,6 +5,7 @@ import { Note } from '../../core/note.js';
 import { Clef } from '../../core/clef.js';
 import Fraction from 'fraction.js';
 import type { NoteObject } from '$lib/test-types.js';
+import { Rest } from '../../core/rest';
 
 /**
  * @vitest-environment happy-dom
@@ -20,6 +21,17 @@ describe('parseElement()', () => {
 		it('should add note', () => {
 			const abc = `%abc-2.2\nX:1\nM:3/4\nL: 1/4\nK:Bb\nB c d | e3 |]`;
 			const expectedResult: NoteObject[] = [{ type: 'q', root: 'b', accidental: 'b', octave: 5 }];
+			delete expectedResult[0]['id'];
+			const tune = abcjs.renderAbc('*', abc)[0];
+			parser.initScore(tune);
+			parser.score.parts.addPart(new Clef('treble'));
+			parser.parseElement(tune.lines[0].staff![0].voices![0]![0], 0, 0, 0);
+			expect(parser.score.parts.getPart(0).getVoice(0).getNotes()).toMatchObject(expectedResult);
+		});
+		it('should add rest', () => {
+			const abc = `%abc-2.2\nX:1\nM:3/4\nL: 1/4\nK:Bb\nz1 c d | e3 |]`;
+			const expectedResult = [new Rest('q')];
+			delete expectedResult[0]['id'];
 			const tune = abcjs.renderAbc('*', abc)[0];
 			parser.initScore(tune);
 			parser.score.parts.addPart(new Clef('treble'));

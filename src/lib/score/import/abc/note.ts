@@ -7,6 +7,7 @@ import { Score } from '../../score.js';
 import { AbcImportState } from '../abc.js';
 import * as mappers from './data/mappers.js';
 import ChordSymbol from '../../../core/chordSymbol.js';
+import { Rest } from '../../../core/rest.js';
 
 export class NoteParser {
 	private tripletState?: {
@@ -14,13 +15,35 @@ export class NoteParser {
 		denominator: number;
 		noteCount: number;
 		currentCount: number;
-		notes: Note[];
+		notes: (Note | Rest)[];
 	};
 	private beamActive = false;
 
 	constructor(private state: AbcImportState) {}
 
 	parse(item: abcjsTypes.VoiceItemNote_FIX, score: Score) {
+		let note: Note | Rest = item.rest ? this.getRest(item) : this.getNote(item);
+
+		if (item.startTriplet) {
+			this.tripletStart(item, note);
+		} else if (this.tripletState) {
+			if (this.tripletContinue(item, note)) {
+				score.parts
+					.getPart(this.state.partIndex)
+					.getVoice(this.state.voiceIndex)
+					.addTriplet(
+						this.tripletState.notes,
+						this.tripletState.numerator,
+						this.tripletState.denominator,
+					);
+				this.tripletState = undefined;
+			}
+		} else {
+			score.parts.getPart(this.state.partIndex).getVoice(this.state.voiceIndex).addNote(note);
+		}
+	}
+
+	private getNote(item: abcjsTypes.VoiceItemNote_FIX) {
 		const noteType = Duration.getTypeAndDotsFromFraction(new Fraction(item.duration));
 		let notes: Note[] = [];
 		/** @abcjs incomplete type */
@@ -69,24 +92,13 @@ export class NoteParser {
 		} else if (this.beamActive) {
 			note.beam = { value: 'continue' };
 		}
+		return note;
+	}
 
-		if (item.startTriplet) {
-			this.tripletStart(item, note);
-		} else if (this.tripletState) {
-			if (this.tripletContinue(item, note)) {
-				score.parts
-					.getPart(this.state.partIndex)
-					.getVoice(this.state.voiceIndex)
-					.addTriplet(
-						this.tripletState.notes,
-						this.tripletState.numerator,
-						this.tripletState.denominator,
-					);
-				this.tripletState = undefined;
-			}
-		} else {
-			score.parts.getPart(this.state.partIndex).getVoice(this.state.voiceIndex).addNote(note);
-		}
+	private getRest(item: abcjsTypes.VoiceItemNote_FIX) {
+		const noteType = Duration.getTypeAndDotsFromFraction(new Fraction(item.duration));
+		const rest = new Rest(noteType.type, noteType.dots);
+		return rest;
 	}
 
 	private createChordSymbol(name: string) {
@@ -95,7 +107,7 @@ export class NoteParser {
 		return new ChordSymbol(name);
 	}
 
-	private tripletStart(item: abcjs.VoiceItemNote, note: Note) {
+	private tripletStart(item: abcjsTypes.VoiceItemNote_FIX, note: Note | Rest) {
 		this.tripletState = {
 			numerator: item.startTriplet!,
 			denominator: Math.round(item.tripletMultiplier! * item.startTriplet!),
@@ -105,7 +117,7 @@ export class NoteParser {
 		};
 	}
 
-	private tripletContinue(item: abcjs.VoiceItemNote, note: Note) {
+	private tripletContinue(item: abcjsTypes.VoiceItemNote_FIX, note: Note | Rest) {
 		if (!this.tripletState) throw new Error('Not in triplet!');
 		this.tripletState.notes.push(note);
 		this.tripletState.currentCount++;
