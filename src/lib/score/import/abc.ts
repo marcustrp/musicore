@@ -30,6 +30,7 @@ export class AbcImporter {
 	metaTextParser = new MetaTextParser(this.state);
 
 	parse(abc: string) {
+		abc = this.cleanAbc(abc);
 		const tunes = abcjs.renderAbc('*', abc);
 		/** @abcjs incomplete type */
 		if (!tunes || (tunes.length as number) === 0) {
@@ -92,6 +93,12 @@ export class AbcImporter {
 			});
 		}
 		return this.score;
+	}
+
+	cleanAbc(abc: string) {
+		const regEx = /^%%begin.*(.|\n)*%%end.*$\n/m;
+		abc = abc.replace(regEx, '');
+		return abc;
 	}
 
 	initScore(tune: abcjs.TuneObject) {
