@@ -22,6 +22,8 @@ export class NoteParser {
 	constructor(private state: AbcImportState) {}
 
 	parse(item: abcjsTypes.VoiceItemNote_FIX, score: Score) {
+		/** @todo support inivisible rests */
+		if (item.rest && item.rest.type === 'invisible') return;
 		let note: Note | Rest = item.rest ? this.getRest(item) : this.getNote(item);
 
 		if (item.startTriplet) {

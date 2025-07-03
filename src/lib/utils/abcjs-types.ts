@@ -6,7 +6,7 @@ import * as abcjs from 'abcjs';
 
 export type VoiceItemNote_FIX = {
 	// marcustrp
-	rest?: object;
+	rest?: { type: 'rest' | 'invisible' };
 	averagePitch: number;
 	chord?: { name: string; position: string }[];
 	duration: number;

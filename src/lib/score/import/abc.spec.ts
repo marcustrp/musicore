@@ -5,7 +5,7 @@ import { Note } from '../../core/note.js';
 import { Clef } from '../../core/clef.js';
 import Fraction from 'fraction.js';
 import type { NoteObject } from '$lib/test-types.js';
-import { Rest } from '../../core/rest';
+import { Rest } from '../../core/rest.js';
 
 /**
  * @vitest-environment happy-dom
