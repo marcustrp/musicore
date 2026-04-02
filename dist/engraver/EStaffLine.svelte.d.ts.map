@@ -1,0 +1,1 @@
+{"version":3,"file":"EStaffLine.svelte.d.ts","sourceRoot":"","sources":["../../src/lib/engraver/EStaffLine.svelte.ts"],"names":[],"mappings":"AAGA,OAAO,KAAK,EAAE,eAAe,EAAE,MAAM,2BAA2B,CAAC;AAGhE,KAAK,OAAO,GAAG;IACd,SAAS,EAAE,eAAe,CAAC;CAC3B,CAAC;AAaH,QAAA,MAAM,UAAU,6CAAwC,CAAC;AACzD,KAAK,UAAU,GAAG,UAAU,CAAC,OAAO,UAAU,CAAC,CAAC;AAChD,eAAe,UAAU,CAAC"}

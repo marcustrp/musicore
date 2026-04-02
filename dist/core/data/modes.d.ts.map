@@ -1,0 +1,1 @@
+{"version":3,"file":"modes.d.ts","sourceRoot":"","sources":["../../../src/lib/core/data/modes.ts"],"names":[],"mappings":"AAAA,MAAM,MAAM,SAAS,GAClB,OAAO,GACP,WAAW,GACX,gBAAgB,GAChB,eAAe,GACf,kBAAkB,GAClB,kBAAkB,GAClB,OAAO,CAAC;AAEX,MAAM,MAAM,OAAO,GAChB,OAAO,GACP,OAAO,GACP,QAAQ,GACR,QAAQ,GACR,UAAU,GACV,QAAQ,GACR,YAAY,GACZ,SAAS,GACT,SAAS,GACT,QAAQ,GACR,MAAM,CAAC"}

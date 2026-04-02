@@ -1,0 +1,1 @@
+{"version":3,"file":"LayoutObject.d.ts","sourceRoot":"","sources":["../../src/lib/layout/LayoutObject.ts"],"names":[],"mappings":"AAAA,MAAM,WAAW,YAAY;IAC5B,CAAC,EAAE,MAAM,CAAC;IACV,CAAC,EAAE,MAAM,CAAC;IACV,IAAI,EAAE;QACL,CAAC,EAAE,MAAM,CAAC;QACV,CAAC,EAAE,MAAM,CAAC;QACV,KAAK,EAAE,MAAM,CAAC;QACd,MAAM,EAAE,MAAM,CAAC;KACf,CAAC;CACF"}

@@ -11950,3 +11950,4 @@ export declare const glyphNames: {
         description: string;
     };
 };
+//# sourceMappingURL=glyphnames.d.ts.map

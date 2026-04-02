@@ -1,0 +1,1 @@
+{"version":3,"file":"musicString.d.ts","sourceRoot":"","sources":["../../../src/lib/score/export/musicString.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,KAAK,EAAE,MAAM,aAAa,CAAC;AAGpC,MAAM,MAAM,cAAc,GAAG;IAC5B,CAAC,OAAO,EAAE,MAAM,GAAG,IAAI,CAAC;CACxB,CAAC;AAEF,qBAAa,mBAAmB;IAC/B,MAAM,CAAC,KAAK,EAAE,KAAK;CAMnB"}

@@ -1,0 +1,1 @@
+{"version":3,"file":"rest.d.ts","sourceRoot":"","sources":["../../src/lib/core/rest.ts"],"names":[],"mappings":"AAAA,OAAO,QAAQ,MAAM,aAAa,CAAC;AACnC,OAAO,EAAE,KAAK,QAAQ,EAAE,aAAa,EAAE,MAAM,oBAAoB,CAAC;AAElE,qBAAa,IAAK,SAAQ,aAAa;IACtC;yCACqC;IACrC,cAAc,CAAC,EAAE,QAAQ,CAAC;IAE1B,KAAK,CAAC,IAAI,CAAC,EAAE,QAAQ,EAAE,IAAI,CAAC,EAAE,MAAM,EAAE,EAAE,CAAC,EAAE,MAAM;CAIjD"}

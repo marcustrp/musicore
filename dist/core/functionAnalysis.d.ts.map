@@ -1,0 +1,1 @@
+{"version":3,"file":"functionAnalysis.d.ts","sourceRoot":"","sources":["../../src/lib/core/functionAnalysis.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,GAAG,EAAE,MAAM,UAAU,CAAC;AAE/B,sBAAsB;AACtB,MAAM,CAAC,OAAO,OAAO,gBAAgB;IACpC,QAAQ,EAAE,MAAM,CAAC;IACjB,IAAI,CAAC,EAAE,MAAM,CAAC;IACd,SAAS,CAAC,EAAE,GAAG,CAAC;IAChB,KAAK,CAAC,EAAE,MAAM,CAAC;gBAEH,IAAI,EAAE,MAAM;IAIxB,KAAK;CAOL"}

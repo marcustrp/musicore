@@ -4,3 +4,4 @@ export declare const bravura: {
     horizAdvX?: string;
     d?: string;
 }[];
+//# sourceMappingURL=bravura.d.ts.map

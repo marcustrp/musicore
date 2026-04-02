@@ -1,0 +1,59 @@
+import { Note } from '../../../core/note.js';
+import { Rest } from '../../../core/rest.js';
+import { Scale } from '../../../core/scale.js';
+import { Score } from '../../score.js';
+import {} from '../abc.js';
+import { BarGenerator } from './bar.js';
+import { NoteGenerator } from './note.js';
+export class BodyGenerator {
+    addWarning;
+    addError;
+    barGenerator;
+    noteGenerator;
+    constructor(addWarning, addError) {
+        this.addWarning = addWarning;
+        this.addError = addError;
+        this.barGenerator = new BarGenerator(addWarning, addError);
+        this.noteGenerator = new NoteGenerator(addWarning, addError);
+    }
+    /**
+     * Generate the body of the ABC score (notes, bars, etc.)
+     * @param score
+     * @returns
+     *
+     */
+    getBody(score, settings) {
+        const body = [''];
+        let bodyIndex = 0;
+        const scale = new Scale(score.bars.bars[0].key.root, score.bars.bars[0].key.mode);
+        const scaleNotes = scale.getDiatonicNoteNames();
+        let onNewLine = true;
+        score.bars.bars.forEach((bar, index) => {
+            if (settings && settings.lineCount && bodyIndex >= settings.lineCount)
+                return;
+            const barItems = this.barGenerator.getBarAbc(bar, index, onNewLine);
+            if (barItems.start)
+                body[bodyIndex] += barItems.start;
+            bar.notes['P1']['V1'].forEach((note) => {
+                if (note instanceof Note) {
+                    body[bodyIndex] += this.noteGenerator.getNote(note, scaleNotes, bar.timeSignature);
+                }
+                else {
+                    body[bodyIndex] += this.noteGenerator.getRest(note);
+                }
+            });
+            if (barItems.end)
+                body[bodyIndex] += ' ' + barItems.end;
+            onNewLine = false;
+            if (barItems.lineBreak) {
+                body.push('');
+                bodyIndex++;
+                onNewLine = true;
+            }
+        });
+        return body
+            .map((item) => item.trim())
+            .join('\n')
+            .trim();
+    }
+}

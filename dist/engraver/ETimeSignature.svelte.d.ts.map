@@ -1,0 +1,1 @@
+{"version":3,"file":"ETimeSignature.svelte.d.ts","sourceRoot":"","sources":["../../src/lib/engraver/ETimeSignature.svelte.ts"],"names":[],"mappings":"AAGA,OAAO,KAAK,EAAE,mBAAmB,EAAE,MAAM,+BAA+B,CAAC;AAWxE,KAAK,OAAO,GAAG;IACd,aAAa,EAAE,mBAAmB,CAAC;CACnC,CAAC;AAuBH,QAAA,MAAM,cAAc,6CAAwC,CAAC;AAC7D,KAAK,cAAc,GAAG,UAAU,CAAC,OAAO,cAAc,CAAC,CAAC;AACxD,eAAe,cAAc,CAAC"}

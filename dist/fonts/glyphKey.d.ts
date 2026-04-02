@@ -1,0 +1,2 @@
+export type GlyphKey = 'accidentalFlat' | 'accidentalNatural' | 'accidentalSharp' | 'cClef' | 'fClef' | 'gClef' | 'noteheadBlack' | 'noteheadHalf' | 'noteheadWhole' | 'timeSigCommon';
+//# sourceMappingURL=glyphKey.d.ts.map

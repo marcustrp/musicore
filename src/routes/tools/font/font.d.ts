@@ -10536,3 +10536,4 @@ export declare class Font {
         tupletBracketThickness: number;
     };
 }
+//# sourceMappingURL=font.d.ts.map
